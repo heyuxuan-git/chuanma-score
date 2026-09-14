@@ -1,0 +1,2500 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
+  <meta name="theme-color" content="#0c3a2c" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>川麻记分 · 血战到底</title>
+  <style>
+/* ========== tokens ========== */
+:root {
+  --felt-900: #071f18;
+  --felt-800: #0c3a2c;
+  --felt-700: #124a38;
+  --felt-600: #1a5c46;
+  --felt-500: #247056;
+  --cream: #f3ead8;
+  --cream-dim: #d9cfba;
+  --cream-faint: #a89b82;
+  --gold: #d4a84b;
+  --gold-bright: #f0c75e;
+  --jade: #3d9b78;
+  --jade-soft: #2d6b55;
+  --red: #c45c4a;
+  --red-soft: #8b3a30;
+  --line: rgba(243, 234, 216, 0.12);
+  --glass: rgba(7, 31, 24, 0.72);
+  --shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  --radius: 18px;
+  --radius-sm: 12px;
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-t: env(safe-area-inset-top, 0px);
+  --font: "PingFang SC", "SF Pro Display", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background: var(--felt-900);
+  color: var(--cream);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  overflow-x: hidden;
+  background:
+    radial-gradient(ellipse 120% 80% at 50% -10%, rgba(36, 112, 86, 0.45), transparent 55%),
+    radial-gradient(ellipse 90% 50% at 80% 100%, rgba(212, 168, 75, 0.08), transparent 50%),
+    var(--felt-900);
+  background-attachment: fixed;
+}
+
+#app {
+  min-height: 100dvh;
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  overflow-x: hidden;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  background: none;
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ========== screens ========== */
+.screen {
+  display: none;
+  min-height: 100dvh;
+  padding: calc(16px + var(--safe-t)) 18px calc(24px + var(--safe-b));
+  flex-direction: column;
+}
+
+.screen.active {
+  display: flex;
+}
+
+/* ========== setup ========== */
+.setup-hero {
+  text-align: center;
+  padding: 36px 0 28px;
+}
+
+.tile-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.tile {
+  width: 42px;
+  height: 54px;
+  border-radius: 8px;
+  background: linear-gradient(160deg, #fffdf6 0%, #e8dcc4 100%);
+  color: var(--felt-800);
+  font-weight: 700;
+  font-size: 18px;
+  display: grid;
+  place-items: center;
+  box-shadow:
+    0 2px 0 #b8a98a,
+    0 6px 14px rgba(0, 0, 0, 0.28);
+  transform: rotate(-4deg);
+}
+
+.tile:nth-child(2) { transform: rotate(2deg); color: #b4232a; }
+.tile:nth-child(3) { transform: rotate(-1deg); }
+.tile:nth-child(4) { transform: rotate(3deg); color: #1f6b3a; }
+
+.setup-hero h1 {
+  margin: 0;
+  font-size: 34px;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+}
+
+.tagline {
+  margin: 8px 0 0;
+  color: var(--cream-faint);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+
+.setup-card {
+  background: rgba(18, 74, 56, 0.55);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px 16px 18px;
+  box-shadow: var(--shadow);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.field-label {
+  display: block;
+  font-size: 12px;
+  color: var(--cream-faint);
+  letter-spacing: 0.12em;
+  margin: 18px 0 10px;
+}
+
+.field-label:first-child {
+  margin-top: 0;
+}
+
+.name-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  min-width: 0;
+}
+
+.name-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(7, 31, 24, 0.55);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  width: 100%;
+}
+
+.seat-tag {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--jade-soft);
+  color: var(--cream);
+  font-size: 12px;
+  font-weight: 600;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.name-cell input {
+  flex: 1 1 0;
+  min-width: 0;
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--cream);
+  font-size: 15px;
+  padding: 4px 0;
+}
+
+.name-cell input::placeholder {
+  color: var(--cream-faint);
+  opacity: 0.7;
+}
+
+.seg-control {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.seg-control.full {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+#rule-control {
+  grid-template-columns: 1fr 1fr;
+}
+
+.seg {
+  padding: 12px 8px;
+  border-radius: var(--radius-sm);
+  background: rgba(7, 31, 24, 0.55);
+  border: 1px solid var(--line);
+  color: var(--cream-dim);
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.15s ease;
+}
+
+.seg.active {
+  background: linear-gradient(160deg, var(--gold), #b8892f);
+  border-color: transparent;
+  color: #1a1206;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(212, 168, 75, 0.28);
+}
+
+.field-hint {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: var(--cream-faint);
+}
+
+.btn-primary {
+  width: 100%;
+  margin-top: 24px;
+  padding: 16px;
+  border-radius: 14px;
+  background: linear-gradient(160deg, var(--gold-bright), #c9922e);
+  color: #1a1206;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  box-shadow: 0 8px 22px rgba(212, 168, 75, 0.3);
+  transition: transform 0.12s ease, filter 0.12s ease;
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: scale(0.98);
+  filter: brightness(0.96);
+}
+
+.btn-ghost {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  color: var(--cream-dim);
+  font-size: 14px;
+  background: rgba(7, 31, 24, 0.35);
+}
+
+.btn-ghost.danger {
+  color: #e8a090;
+  border-color: rgba(196, 92, 74, 0.35);
+}
+
+.btn-xl {
+  padding: 18px;
+  font-size: 18px;
+  margin-top: 0;
+}
+
+/* ========== board ========== */
+.board-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 18px;
+}
+
+.board-kicker {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+}
+
+.board-title {
+  margin: 4px 0 0;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.hand-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  background: rgba(7, 31, 24, 0.55);
+  border: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--cream-dim);
+  line-height: 1.45;
+}
+
+.hand-banner strong {
+  color: var(--cream);
+}
+
+.hand-banner .hand-dot {
+  width: 8px;
+  height: 8px;
+  margin-top: 5px;
+  border-radius: 50%;
+  background: var(--jade);
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px rgba(61, 155, 120, 0.2);
+}
+
+.hand-banner.done {
+  border-color: rgba(212, 168, 75, 0.45);
+  background: rgba(212, 168, 75, 0.1);
+}
+
+.hand-banner.done .hand-dot {
+  background: var(--gold);
+  box-shadow: 0 0 0 3px rgba(212, 168, 75, 0.22);
+}
+
+.score-card.already-won {
+  opacity: 0.72;
+  border-style: dashed;
+}
+
+.won-badge {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: linear-gradient(160deg, var(--gold-bright), #c9922e);
+  color: #1a1206;
+  font-size: 11px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.hand-progress {
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: rgba(7, 31, 24, 0.45);
+  border: 1px solid rgba(61, 155, 120, 0.35);
+  color: var(--cream-dim);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.cap-locked {
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: rgba(212, 168, 75, 0.12);
+  border: 1px solid rgba(212, 168, 75, 0.35);
+  color: var(--gold-bright);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.end-info {
+  margin-bottom: 16px;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  background: rgba(7, 31, 24, 0.45);
+  border: 1px solid var(--line);
+  font-size: 14px;
+  color: var(--cream-dim);
+  line-height: 1.6;
+}
+
+.end-info p {
+  margin: 0;
+}
+
+.end-info strong {
+  color: var(--cream);
+}
+
+.hist-badge {
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  margin-right: 4px;
+  border-radius: 5px;
+  background: var(--jade-soft);
+  color: var(--cream);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.history-item.is-end {
+  border-color: rgba(212, 168, 75, 0.3);
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(7, 31, 24, 0.5);
+  color: var(--cream-dim);
+  font-size: 16px;
+  display: grid;
+  place-items: center;
+}
+
+.text-btn {
+  color: var(--gold);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 4px;
+}
+
+.score-board {
+  display: grid;
+  gap: 10px;
+}
+
+.score-card {
+  display: grid;
+  grid-template-columns: 12px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 16px 16px 16px 12px;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(18, 74, 56, 0.75), rgba(7, 31, 24, 0.65));
+  border: 1px solid var(--line);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.score-card.is-top {
+  border-color: rgba(212, 168, 75, 0.45);
+  box-shadow: 0 8px 24px rgba(212, 168, 75, 0.12);
+}
+
+.score-card.just-won {
+  animation: pulse-gold 0.7s ease;
+}
+
+@keyframes pulse-gold {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.02); box-shadow: 0 0 0 0 rgba(212, 168, 75, 0.45); }
+  100% { transform: scale(1); }
+}
+
+.score-bar {
+  width: 4px;
+  height: 42px;
+  border-radius: 4px;
+  background: var(--jade);
+}
+
+.score-card.is-top .score-bar {
+  background: var(--gold);
+}
+
+.score-meta {
+  min-width: 0;
+}
+
+.score-name {
+  font-size: 17px;
+  font-weight: 650;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.score-seat {
+  font-size: 11px;
+  color: var(--cream-faint);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 1px 6px;
+  font-weight: 500;
+}
+
+.score-sub {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--cream-faint);
+}
+
+.score-delta {
+  text-align: right;
+}
+
+.score-val {
+  font-size: 28px;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.score-val.pos { color: var(--gold-bright); }
+.score-val.neg { color: #e08a78; }
+.score-val.zero { color: var(--cream-dim); }
+
+.score-last {
+  margin-top: 4px;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--cream-faint);
+}
+
+.recent-strip {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  background: rgba(7, 31, 24, 0.45);
+  border: 1px dashed var(--line);
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  min-height: 48px;
+}
+
+.recent-label {
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  flex-shrink: 0;
+}
+
+.recent-text {
+  color: var(--cream-dim);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.board-actions {
+  margin-top: auto;
+  padding-top: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.secondary-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.secondary-row .btn-ghost {
+  margin-top: 0;
+}
+
+.primary-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.primary-row.is-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.primary-row .btn-primary {
+  margin-top: 0;
+}
+
+.primary-row .btn-end {
+  margin-top: 0;
+  padding: 18px 12px;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--cream);
+  border: 1px solid rgba(243, 234, 216, 0.28);
+  background: rgba(7, 31, 24, 0.55);
+}
+
+.primary-row .btn-end.is-emphasis {
+  border-color: rgba(212, 168, 75, 0.55);
+  color: var(--gold-bright);
+  background: rgba(212, 168, 75, 0.12);
+}
+
+/* ========== sheets ========== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 40;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.sheet {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: min(480px, 100%);
+  max-height: min(92dvh, 820px);
+  background: linear-gradient(180deg, #14523e 0%, #0c3a2c 40%, #0a3226 100%);
+  border-radius: 22px 22px 0 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(243, 234, 216, 0.1);
+  border-bottom: none;
+  animation: sheet-in 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.sheet-tall {
+  max-height: min(92dvh, 860px);
+}
+
+@keyframes sheet-in {
+  from { transform: translateX(-50%) translateY(24px); opacity: 0.6; }
+  to { transform: translateX(-50%) translateY(0); opacity: 1; }
+}
+
+.sheet-handle {
+  width: 36px;
+  height: 4px;
+  border-radius: 4px;
+  background: rgba(243, 234, 216, 0.22);
+  margin: 10px auto 4px;
+}
+
+.sheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px 8px;
+  flex-shrink: 0;
+}
+
+.sheet-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.sheet-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 16px 16px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.sheet-footer {
+  flex-shrink: 0;
+  padding: 12px 16px calc(14px + var(--safe-b));
+  border-top: 1px solid var(--line);
+  background: rgba(7, 31, 24, 0.35);
+}
+
+.sheet-footer .btn-primary {
+  margin-top: 0;
+}
+
+.step-block {
+  margin-bottom: 18px;
+}
+
+.step-label {
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--cream);
+  margin-bottom: 10px;
+  letter-spacing: 0.04em;
+}
+
+.step-label.sub {
+  color: var(--cream-dim);
+  font-size: 12px;
+  margin-top: 12px;
+}
+
+.step-note {
+  margin-left: 8px;
+  font-weight: 400;
+  color: var(--cream-faint);
+  font-size: 12px;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  padding: 12px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(7, 31, 24, 0.55);
+  color: var(--cream-dim);
+  font-size: 15px;
+  font-weight: 600;
+  min-height: 44px;
+  transition: 0.15s ease;
+}
+
+.chip.active {
+  background: linear-gradient(160deg, var(--jade), #1f6b52);
+  border-color: rgba(243, 234, 216, 0.18);
+  color: var(--cream);
+  box-shadow: 0 4px 12px rgba(29, 107, 82, 0.35);
+}
+
+.chip.danger.active {
+  background: linear-gradient(160deg, var(--red), #8f3d32);
+  box-shadow: 0 4px 12px rgba(196, 92, 74, 0.3);
+}
+
+.fan-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: rgba(7, 31, 24, 0.45);
+  border: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--cream-dim);
+}
+
+.fan-summary strong {
+  color: var(--gold-bright);
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.fan-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.fan-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: rgba(7, 31, 24, 0.45);
+  color: var(--cream-dim);
+  text-align: left;
+  min-height: 48px;
+  transition: 0.15s ease;
+}
+
+.fan-item.active {
+  border-color: rgba(212, 168, 75, 0.5);
+  background: rgba(212, 168, 75, 0.14);
+  color: var(--cream);
+}
+
+.fan-item:disabled {
+  opacity: 0.35;
+}
+
+.fan-item .fan-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.fan-item .fan-val {
+  font-size: 12px;
+  color: var(--gold);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.root-row {
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: rgba(7, 31, 24, 0.45);
+  border: 1px solid var(--line);
+}
+
+.root-label {
+  font-size: 13px;
+  color: var(--cream-dim);
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.step-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: rgba(7, 31, 24, 0.6);
+  color: var(--cream);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.step-val {
+  min-width: 24px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--gold-bright);
+}
+
+.preview-box {
+  margin-top: 4px;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  background: rgba(7, 31, 24, 0.55);
+  border: 1px solid rgba(212, 168, 75, 0.25);
+}
+
+.preview-title {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.preview-lines {
+  font-size: 14px;
+  color: var(--cream-dim);
+  line-height: 1.7;
+  font-variant-numeric: tabular-nums;
+}
+
+.preview-lines .hl {
+  color: var(--gold-bright);
+  font-weight: 650;
+}
+
+/* ========== history ========== */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.history-item {
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  background: rgba(7, 31, 24, 0.5);
+  border: 1px solid var(--line);
+}
+
+.history-item-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.history-round {
+  font-size: 12px;
+  color: var(--cream-faint);
+  letter-spacing: 0.08em;
+}
+
+.history-fan {
+  font-size: 12px;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.history-line {
+  font-size: 14px;
+  color: var(--cream-dim);
+  line-height: 1.55;
+}
+
+.history-line strong {
+  color: var(--cream);
+  font-weight: 650;
+}
+
+.history-empty {
+  text-align: center;
+  color: var(--cream-faint);
+  font-size: 14px;
+  padding: 40px 0;
+}
+
+/* ========== rules ========== */
+.rules-content {
+  color: var(--cream-dim);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.rules-content h4 {
+  margin: 18px 0 8px;
+  color: var(--cream);
+  font-size: 15px;
+}
+
+.rules-content h4:first-child {
+  margin-top: 0;
+}
+
+.rules-content p {
+  margin: 0 0 10px;
+}
+
+.rules-content .rule-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+}
+
+.rules-content .rule-row span:last-child {
+  color: var(--gold);
+  font-weight: 700;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ========== toast ========== */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(28px + var(--safe-b));
+  transform: translateX(-50%);
+  background: rgba(7, 31, 24, 0.95);
+  border: 1px solid rgba(212, 168, 75, 0.4);
+  color: var(--cream);
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  z-index: 80;
+  box-shadow: var(--shadow);
+  animation: toast-in 0.25s ease;
+  max-width: calc(100% - 40px);
+  text-align: center;
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* ========== desktop tweak ========== */
+@media (min-width: 481px) {
+  #app {
+    padding-bottom: 20px;
+  }
+
+  .sheet {
+    border-radius: 22px;
+    bottom: 24px;
+    border-bottom: 1px solid rgba(243, 234, 216, 0.1);
+  }
+}
+
+</style>
+</head>
+<body>
+  <div id="app">
+    <!-- ========== 设置 ========== -->
+    <section id="screen-setup" class="screen active">
+      <header class="setup-hero">
+        <div class="tile-row" aria-hidden="true">
+          <span class="tile">中</span>
+          <span class="tile">發</span>
+          <span class="tile">一</span>
+          <span class="tile">筒</span>
+        </div>
+        <h1>川麻记分</h1>
+        <p class="tagline">血战到底 · 番数结算 · 手机现场记</p>
+      </header>
+
+      <div class="setup-card">
+        <label class="field-label">四位牌友</label>
+        <div class="name-grid" id="name-grid">
+          <div class="name-cell" data-seat="0">
+            <span class="seat-tag">东</span>
+            <input id="name-0" type="text" maxlength="6" size="4" placeholder="玩家1" autocomplete="off" />
+          </div>
+          <div class="name-cell" data-seat="1">
+            <span class="seat-tag">南</span>
+            <input id="name-1" type="text" maxlength="6" size="4" placeholder="玩家2" autocomplete="off" />
+          </div>
+          <div class="name-cell" data-seat="2">
+            <span class="seat-tag">西</span>
+            <input id="name-2" type="text" maxlength="6" size="4" placeholder="玩家3" autocomplete="off" />
+          </div>
+          <div class="name-cell" data-seat="3">
+            <span class="seat-tag">北</span>
+            <input id="name-3" type="text" maxlength="6" size="4" placeholder="玩家4" autocomplete="off" />
+          </div>
+        </div>
+
+        <label class="field-label">底分</label>
+        <div class="seg-control" id="base-control" role="radiogroup" aria-label="底分">
+          <button type="button" class="seg" data-base="1">1</button>
+          <button type="button" class="seg active" data-base="2">2</button>
+          <button type="button" class="seg" data-base="5">5</button>
+          <button type="button" class="seg" data-base="10">10</button>
+        </div>
+
+        <label class="field-label">结算方式</label>
+        <div class="seg-control" id="rule-control" role="radiogroup" aria-label="结算方式">
+          <button type="button" class="seg active" data-rule="pow">倍番制 2ⁿ</button>
+          <button type="button" class="seg" data-rule="mul">线性 n×底分</button>
+        </div>
+        <p class="field-hint" id="rule-hint">1番=底分×2，2番=底分×4，番越高涨得越快</p>
+
+        <label class="field-label">默认封顶（单份最高）</label>
+        <div class="seg-control" id="cap-control" role="radiogroup" aria-label="默认封顶">
+          <button type="button" class="seg active" data-cap="0">不封顶</button>
+          <button type="button" class="seg" data-cap="8">8</button>
+          <button type="button" class="seg" data-cap="16">16</button>
+          <button type="button" class="seg" data-cap="32">32</button>
+        </div>
+        <p class="field-hint">每局第一笔前还能改；本局记下后锁定</p>
+
+        <button type="button" id="btn-start" class="btn-primary">开始记分</button>
+        <button type="button" id="btn-restore" class="btn-ghost hidden">恢复上次牌局</button>
+      </div>
+    </section>
+
+    <!-- ========== 主牌桌 ========== -->
+    <section id="screen-board" class="screen">
+      <header class="board-header">
+        <div>
+          <p class="board-kicker">血战到底</p>
+          <h2 class="board-title" id="round-label">第 0 局</h2>
+        </div>
+        <div class="header-actions">
+          <button type="button" id="btn-settings" class="icon-btn" aria-label="设置">⚙</button>
+          <button type="button" id="btn-history" class="icon-btn" aria-label="历史">☰</button>
+        </div>
+      </header>
+
+      <div id="hand-banner" class="hand-banner"></div>
+      <div class="score-board" id="score-board" aria-live="polite"></div>
+
+      <div class="recent-strip" id="recent-strip">
+        <span class="recent-label">最近</span>
+        <span class="recent-text" id="recent-text">还没开局，点下面开始</span>
+      </div>
+
+      <div class="board-actions">
+        <div class="primary-row" id="primary-row">
+          <button type="button" id="btn-record" class="btn-primary btn-xl">开一局 · 有人胡了</button>
+          <button type="button" id="btn-end-hand" class="btn-ghost btn-xl btn-end hidden">结束本局</button>
+        </div>
+        <div class="secondary-row">
+          <button type="button" id="btn-undo" class="btn-ghost" disabled>撤销</button>
+          <button type="button" id="btn-reset" class="btn-ghost danger">重置</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 记一局 底部面板 ========== -->
+    <div id="sheet-overlay" class="overlay hidden" hidden></div>
+    <section id="sheet-record" class="sheet hidden" hidden aria-modal="true" role="dialog" aria-label="记一局">
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <header class="sheet-header">
+        <h3>记一笔胡牌</h3>
+        <button type="button" class="icon-btn" data-close-sheet aria-label="关闭">✕</button>
+      </header>
+
+      <div class="sheet-body">
+        <div class="hand-progress" id="hand-progress">本局还没有人胡，打到三家胡完为止</div>
+
+        <div class="step-block" id="cap-block">
+          <div class="step-label">本局封顶 <span class="step-note">单份最高，记下第一笔后锁定</span></div>
+          <div class="seg-control" id="hand-cap-control" role="radiogroup" aria-label="本局封顶">
+            <button type="button" class="seg active" data-cap="0">不封顶</button>
+            <button type="button" class="seg" data-cap="8">8</button>
+            <button type="button" class="seg" data-cap="16">16</button>
+            <button type="button" class="seg" data-cap="32">32</button>
+          </div>
+        </div>
+        <div class="cap-locked hidden" id="cap-locked">
+          <span id="cap-locked-text"></span>
+        </div>
+
+        <div class="step-block">
+          <div class="step-label">1 · 谁胡了？<span class="step-note" id="winner-note">点炮可多选（一炮多响）</span></div>
+          <div class="chip-row" id="winner-chips"></div>
+        </div>
+
+        <div id="win-detail" class="win-detail hidden">
+          <div class="step-block" id="pattern-block">
+            <div class="step-label">2 · 胡型与番数</div>
+            <div class="fan-summary">
+              <span id="fan-summary-text">未选胡型</span>
+              <strong id="fan-total">0 番</strong>
+            </div>
+            <div class="fan-grid" id="fan-grid"></div>
+            <div class="root-row">
+              <span class="root-label">根（每张相同牌）</span>
+              <div class="stepper">
+                <button type="button" id="root-minus" class="step-btn">−</button>
+                <span id="root-count" class="step-val">0</span>
+                <button type="button" id="root-plus" class="step-btn">＋</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-block" id="pay-block">
+            <div class="step-label">3 · 出法</div>
+            <div class="seg-control full" id="pay-mode" role="radiogroup">
+              <button type="button" class="seg active" data-mode="self">自摸</button>
+              <button type="button" class="seg" data-mode="deal">点炮</button>
+              <button type="button" class="seg" data-mode="gang">杠上花</button>
+            </div>
+            <div id="dealer-picker" class="dealer-picker hidden">
+              <div class="step-label sub">谁放的炮？</div>
+              <div class="chip-row" id="dealer-chips"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-box" id="preview-box">
+          <div class="preview-title">本局预估</div>
+          <div class="preview-lines" id="preview-lines">先选胡家</div>
+        </div>
+      </div>
+
+      <footer class="sheet-footer">
+        <button type="button" id="btn-save-hand" class="btn-primary" disabled>记下这一笔</button>
+      </footer>
+    </section>
+
+    <!-- ========== 历史 ========== -->
+    <div id="history-overlay" class="overlay hidden" hidden></div>
+    <section id="sheet-history" class="sheet sheet-tall hidden" hidden aria-modal="true" role="dialog" aria-label="历史">
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <header class="sheet-header">
+        <h3>牌局历史</h3>
+        <div class="header-actions">
+          <button type="button" id="btn-export" class="text-btn">复制战报</button>
+          <button type="button" class="icon-btn" data-close-history aria-label="关闭">✕</button>
+        </div>
+      </header>
+      <div class="sheet-body">
+        <div id="history-list" class="history-list"></div>
+        <p class="history-empty" id="history-empty">还没有记录</p>
+      </div>
+    </section>
+
+    <!-- ========== 规则说明 ========== -->
+    <div id="rules-overlay" class="overlay hidden" hidden></div>
+    <section id="sheet-rules" class="sheet sheet-tall hidden" hidden aria-modal="true" role="dialog" aria-label="规则">
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <header class="sheet-header">
+        <h3>番种说明</h3>
+        <button type="button" class="icon-btn" data-close-rules aria-label="关闭">✕</button>
+      </header>
+      <div class="sheet-body">
+        <div id="rules-content" class="rules-content"></div>
+      </div>
+    </section>
+
+    <!-- ========== 查大叫 / 结束本局 ========== -->
+    <div id="end-overlay" class="overlay hidden" hidden></div>
+    <section id="sheet-end" class="sheet hidden" hidden aria-modal="true" role="dialog" aria-label="结束本局">
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <header class="sheet-header">
+        <h3 id="end-sheet-title">结束本局</h3>
+        <button type="button" class="icon-btn" data-close-end aria-label="关闭">✕</button>
+      </header>
+      <div class="sheet-body">
+        <div class="end-info">
+          <p>已胡离场：<strong id="end-winner-names"></strong></p>
+          <p>未胡仍在场：<strong id="end-last-name"></strong></p>
+        </div>
+        <div class="step-label" id="end-check-label">查大叫（未胡的家）</div>
+        <div class="seg-control full" id="check-mode">
+          <button type="button" class="seg active" data-check="skip">不查</button>
+          <button type="button" class="seg" data-check="ting">听牌</button>
+          <button type="button" class="seg" data-check="huazhu">花猪/未听</button>
+        </div>
+        <div class="preview-box">
+          <div class="preview-title">结束预估</div>
+          <div class="preview-lines" id="end-preview"></div>
+        </div>
+        <p class="field-hint" id="end-hint">可随时结束（剩 1～3 家没胡都行）。听牌：各已胡家向未胡家付 1 番；花猪：未胡家向各已胡家付 1 番。</p>
+      </div>
+      <footer class="sheet-footer">
+        <button type="button" id="btn-end-confirm" class="btn-primary">结束本局，开下一局</button>
+      </footer>
+    </section>
+
+    <div id="toast" class="toast hidden" role="status"></div>
+  </div>
+
+  <script>
+/* 川麻记分 · 血战到底（一局打到底） */
+(function () {
+  "use strict";
+
+  const STORAGE_KEY = "chuanma-score-v2";
+  const SEATS = ["东", "南", "西", "北"];
+
+  const FAN_TYPES = [
+    { id: "ping", name: "平胡", fan: 1, exclusive: ["duidui", "qidui", "longqi", "qingdui", "qingqi", "jiangdui", "shiba"] },
+    { id: "duidui", name: "碰碰胡", fan: 3, exclusive: ["ping", "qidui", "longqi", "jiangdui", "qingdui", "qingqi", "shiba"] },
+    { id: "qing", name: "清一色", fan: 4, exclusive: [] },
+    { id: "qidui", name: "七对", fan: 4, exclusive: ["ping", "duidui", "longqi", "jiangdui", "qingdui", "shiba"] },
+    { id: "longqi", name: "龙七对", fan: 6, exclusive: ["ping", "duidui", "qidui", "jiangdui", "qingdui", "shiba"] },
+    { id: "qingdui", name: "清对", fan: 8, exclusive: ["ping", "duidui", "qing", "qidui", "longqi", "jiangdui", "qingqi", "shiba"] },
+    { id: "qingqi", name: "清七对", fan: 10, exclusive: ["ping", "qidui", "longqi", "qing", "qingdui", "jiangdui", "shiba"] },
+    { id: "jiangdui", name: "将对", fan: 6, exclusive: ["ping", "duidui", "qidui", "longqi", "qingdui", "qingqi", "shiba"] },
+    { id: "jin", name: "金钩钓", fan: 4, exclusive: ["ping"] },
+    { id: "shiba", name: "十八罗汉", fan: 12, exclusive: ["ping", "duidui", "qing", "qidui", "longqi", "qingdui", "qingqi", "jiangdui"] },
+  ];
+
+  const BONUS_TYPES = [
+    { id: "gangshanghua", name: "杠上花", fan: 1 },
+    { id: "gangshangpao", name: "杠上炮", fan: 1 },
+    { id: "qianggang", name: "抢杠胡", fan: 1 },
+    { id: "haidi", name: "海底捞月", fan: 1 },
+    { id: "tianhu", name: "天胡", fan: 8 },
+    { id: "dihu", name: "地胡", fan: 6 },
+  ];
+
+  const ALL_FANS = [...FAN_TYPES, ...BONUS_TYPES];
+
+  /** 当前进行中的一局（血战打到底） */
+  function emptyHand(no) {
+    return {
+      no: no || 1,
+      active: false,
+      winners: [], // 已胡离场的座位
+      cap: 0, // 本局封顶：0=不封顶；>0 表示单份最高分
+    };
+  }
+
+  const state = {
+    players: [],
+    base: 2,
+    rule: "pow",
+    defaultCap: 0, // 新局默认封顶
+    hand: emptyHand(1),
+    rounds: [],
+    draft: null,
+  };
+
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+
+  /* ---------- utils ---------- */
+  function clampInt(n, min, max) {
+    const v = parseInt(n, 10);
+    if (Number.isNaN(v)) return min;
+    return Math.max(min, Math.min(max, v));
+  }
+
+  function handCap() {
+    const c = state.hand && state.hand.cap != null ? state.hand.cap : state.defaultCap;
+    return c > 0 ? c : 0;
+  }
+
+  function capLabel(cap) {
+    if (!cap) return "不封顶";
+    return "封顶 " + cap;
+  }
+
+  function calcScore(fan) {
+    if (fan <= 0) return 0;
+    let amount = state.rule === "pow" ? state.base * Math.pow(2, fan) : state.base * fan;
+    const cap = handCap();
+    if (cap > 0 && amount > cap) amount = cap;
+    return amount;
+  }
+
+  function totalFan(fanIds, rootCount, mode) {
+    let fan = 0;
+    for (const id of fanIds) {
+      const t = ALL_FANS.find((x) => x.id === id);
+      if (t) fan += t.fan;
+    }
+    fan += clampInt(rootCount, 0, 6);
+    if (mode === "gang" && !fanIds.includes("gangshanghua")) fan += 1;
+    return fan;
+  }
+
+  function formatNum(n) {
+    return (n > 0 ? "+" : "") + n;
+  }
+
+  function seatClass(n) {
+    if (n > 0) return "pos";
+    if (n < 0) return "neg";
+    return "zero";
+  }
+
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function toast(msg) {
+    const el = $("#toast");
+    el.textContent = msg;
+    el.classList.remove("hidden");
+    clearTimeout(toast._t);
+    toast._t = setTimeout(() => el.classList.add("hidden"), 2200);
+  }
+
+  /** 仍在场上（未胡离场）的座位 */
+  function activeSeats() {
+    const won = new Set(state.hand.winners);
+    return [0, 1, 2, 3].filter((i) => !won.has(i));
+  }
+
+  function handComplete() {
+    return state.hand.active && state.hand.winners.length >= 3;
+  }
+
+  function remainingSeat() {
+    if (!handComplete()) return null;
+    return activeSeats()[0];
+  }
+
+  /* ---------- persist ---------- */
+  function save() {
+    try {
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({
+          players: state.players,
+          base: state.base,
+          rule: state.rule,
+          defaultCap: state.defaultCap,
+          hand: state.hand,
+          rounds: state.rounds,
+        })
+      );
+    } catch (_) {}
+  }
+
+  function load() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return false;
+      const data = JSON.parse(raw);
+      if (!data || !Array.isArray(data.players) || data.players.length !== 4) return false;
+      state.players = data.players;
+      state.base = data.base || 2;
+      state.rule = data.rule || "pow";
+      state.defaultCap = data.defaultCap || 0;
+      state.rounds = Array.isArray(data.rounds) ? data.rounds : [];
+      if (data.hand && Array.isArray(data.hand.winners)) {
+        state.hand = {
+          no: data.hand.no || 1,
+          active: !!data.hand.active,
+          winners: data.hand.winners.slice(),
+          cap: data.hand.cap != null ? data.hand.cap : data.defaultCap || 0,
+        };
+      } else {
+        state.hand = emptyHand(1);
+        state.hand.cap = state.defaultCap || 0;
+      }
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function totals() {
+    const t = [0, 0, 0, 0];
+    for (const r of state.rounds) {
+      r.deltas.forEach((d, i) => {
+        t[i] += d;
+      });
+    }
+    return t;
+  }
+
+  function lastDeltas() {
+    if (!state.rounds.length) return [0, 0, 0, 0];
+    return state.rounds[state.rounds.length - 1].deltas;
+  }
+
+  /* ---------- setup ---------- */
+  function bindSetup() {
+    $$("#base-control .seg").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        $$("#base-control .seg").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        state.base = parseInt(btn.dataset.base, 10);
+      });
+    });
+
+    $$("#rule-control .seg").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        $$("#rule-control .seg").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        state.rule = btn.dataset.rule;
+        $("#rule-hint").textContent =
+          state.rule === "pow"
+            ? "1番=底分×2，2番=底分×4，番越高涨得越快"
+            : "分数 = 底分 × 番数，节奏更平缓";
+      });
+    });
+
+    $$("#cap-control .seg").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        $$("#cap-control .seg").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        state.defaultCap = parseInt(btn.dataset.cap, 10) || 0;
+        // 未开局时，新局预设同步
+        if (!state.hand.active) state.hand.cap = state.defaultCap;
+      });
+    });
+
+    $("#btn-start").addEventListener("click", () => {
+      const names = [0, 1, 2, 3].map((i) => {
+        const input = $("#name-" + i);
+        return (input.value || "").trim() || input.placeholder || "玩家" + (i + 1);
+      });
+      const seen = new Set();
+      state.players = names.map((n, i) => {
+        let name = n;
+        if (seen.has(name)) name = n + "·" + SEATS[i];
+        seen.add(name);
+        return { name, seat: SEATS[i] };
+      });
+      save();
+      showBoard();
+    });
+
+    $("#btn-restore").addEventListener("click", () => {
+      showBoard();
+      toast("已恢复上次牌局");
+    });
+  }
+
+  /* ---------- board ---------- */
+  function showSetup(hasSaved) {
+    $("#screen-setup").classList.add("active");
+    $("#screen-board").classList.remove("active");
+    $("#btn-restore").classList.toggle("hidden", !hasSaved);
+  }
+
+  function showBoard() {
+    $("#screen-setup").classList.remove("active");
+    $("#screen-board").classList.add("active");
+    renderBoard();
+  }
+
+  function renderBoard(justWonSeats = []) {
+    const t = totals();
+    const last = lastDeltas();
+    const max = Math.max(...t);
+    const won = new Set(state.hand.winners);
+
+    $("#round-label").textContent = "第 " + state.hand.no + " 局";
+    renderHandBanner();
+
+    const board = $("#score-board");
+    board.innerHTML = "";
+    state.players.forEach((p, i) => {
+      const card = document.createElement("article");
+      card.className = "score-card";
+      if (t[i] === max && max !== 0) card.classList.add("is-top");
+      if (justWonSeats.includes(i)) card.classList.add("just-won");
+      if (won.has(i)) card.classList.add("already-won");
+
+      let sub;
+      if (won.has(i)) sub = "已胡 · 离场";
+      else if (t[i] === max && max !== 0) sub = "目前领先";
+      else if (t[i] < 0) sub = "暂时落后";
+      else sub = "在打";
+
+      card.innerHTML =
+        '<div class="score-bar"></div>' +
+        '<div class="score-meta">' +
+        '<div class="score-name">' +
+        (won.has(i) ? '<span class="won-badge">胡</span>' : "") +
+        '<span class="score-seat">' +
+        p.seat +
+        "</span>" +
+        escapeHtml(p.name) +
+        "</div>" +
+        '<div class="score-sub">' +
+        sub +
+        "</div>" +
+        "</div>" +
+        '<div class="score-delta">' +
+        '<div class="score-val ' +
+        seatClass(t[i]) +
+        '">' +
+        formatNum(t[i]) +
+        "</div>" +
+        '<div class="score-last">上笔 ' +
+        formatNum(last[i]) +
+        "</div>" +
+        "</div>";
+      board.appendChild(card);
+    });
+
+    $("#btn-undo").disabled = state.rounds.length === 0;
+    updateActionButtons();
+    renderRecent();
+  }
+
+  function renderHandBanner() {
+    let banner = $("#hand-banner");
+    if (!banner) {
+      banner = document.createElement("div");
+      banner.id = "hand-banner";
+      banner.className = "hand-banner";
+      $("#score-board").parentNode.insertBefore(banner, $("#score-board"));
+    }
+
+    const capTxt = capLabel(handCap());
+
+    if (!state.hand.active) {
+      banner.innerHTML =
+        '<span class="hand-dot"></span><span>准备开新一局 · 血战打到底 · ' +
+        capTxt +
+        "（可在记第一笔时改）</span>";
+      banner.classList.remove("warn", "done");
+      return;
+    }
+
+    if (handComplete()) {
+      const lastP = state.players[remainingSeat()];
+      banner.innerHTML =
+        '<span class="hand-dot"></span><span>本局三家已胡，剩 <strong>' +
+        escapeHtml(lastP.name) +
+        "</strong> · " +
+        capTxt +
+        " · 可查大叫后结束</span>";
+      banner.classList.add("done");
+      banner.classList.remove("warn");
+      return;
+    }
+
+    const wonNames = state.hand.winners.map((i) => state.players[i].name).join("、");
+    banner.innerHTML =
+      '<span class="hand-dot"></span><span>本局进行中 · 已胡 ' +
+      state.hand.winners.length +
+      "/3 · " +
+      escapeHtml(activeSeats().map((i) => state.players[i].name).join("、")) +
+      " 还在打 · " +
+      capTxt +
+      (wonNames ? "（已离场：" + escapeHtml(wonNames) + "）" : "") +
+      "</span>";
+    banner.classList.remove("warn", "done");
+  }
+
+  function updateActionButtons() {
+    const rec = $("#btn-record");
+    const end = $("#btn-end-hand");
+    const row = $("#primary-row");
+    if (!state.hand.active) {
+      rec.classList.remove("hidden");
+      end.classList.add("hidden");
+      rec.textContent = "开一局 · 有人胡了";
+      rec.disabled = false;
+      if (row) row.classList.remove("is-split");
+      return;
+    }
+    // 本局进行中：两个大按钮并排
+    rec.classList.remove("hidden");
+    end.classList.remove("hidden");
+    if (row) row.classList.add("is-split");
+    if (handComplete()) {
+      rec.textContent = "已三家胡";
+      rec.disabled = true;
+      end.textContent = "结束本局";
+      end.classList.add("is-emphasis");
+    } else {
+      rec.textContent = "有人胡了";
+      rec.disabled = false;
+      end.textContent = "结束本局";
+      end.classList.remove("is-emphasis");
+    }
+  }
+
+  function renderRecent() {
+    const el = $("#recent-text");
+    if (!state.rounds.length) {
+      el.textContent = "还没记分，点下面开始";
+      return;
+    }
+    el.textContent = state.rounds[state.rounds.length - 1].summary;
+  }
+
+  /* ---------- record sheet ---------- */
+  function emptyDraft() {
+    return {
+      winners: [],
+      fans: [],
+      root: 0,
+      mode: "self",
+      dealer: null,
+    };
+  }
+
+  /** 可被选为本笔胡家的座位：已在场的人；开局第一笔四人都可选 */
+  function eligibleWinnerSeats() {
+    if (!state.hand.active) return [0, 1, 2, 3];
+    return activeSeats();
+  }
+
+  /** 可放炮的人：仍在场，且不是本笔胡家 */
+  function eligibleDealerSeats() {
+    const active = eligibleWinnerSeats();
+    const w = new Set(state.draft ? state.draft.winners : []);
+    return active.filter((i) => !w.has(i));
+  }
+
+  function openRecord() {
+    if (state.hand.active && handComplete()) {
+      toast("本局已三家胡，请点「结束本局」");
+      return;
+    }
+    if (!state.hand.active) {
+      state.hand.cap = state.defaultCap;
+    }
+    state.draft = emptyDraft();
+    buildWinnerChips();
+    buildFanGrid();
+    buildDealerChips();
+    syncCapUI();
+    syncRecordUI();
+    openSheet("sheet-record", "sheet-overlay");
+  }
+
+  function syncCapUI() {
+    const box = $("#cap-block");
+    const locked = $("#cap-locked");
+    const lockText = $("#cap-locked-text");
+    if (!box) return;
+
+    if (state.hand.active) {
+      box.classList.add("hidden");
+      if (locked) {
+        locked.classList.remove("hidden");
+        lockText.textContent = "本局 " + capLabel(handCap()) + "（开局已锁定，下一局可改）";
+      }
+    } else {
+      box.classList.remove("hidden");
+      if (locked) locked.classList.add("hidden");
+      $$("#hand-cap-control .seg").forEach((b) => {
+        b.classList.toggle("active", parseInt(b.dataset.cap, 10) === handCap());
+      });
+    }
+  }
+
+  function buildWinnerChips() {
+    const box = $("#winner-chips");
+    box.innerHTML = "";
+    const elig = eligibleWinnerSeats();
+    elig.forEach((i) => {
+      const p = state.players[i];
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "chip";
+      b.dataset.seat = String(i);
+      b.textContent = p.name;
+      b.addEventListener("click", () => {
+        const d = state.draft;
+        if (d.winners.includes(i)) {
+          d.winners = d.winners.filter((x) => x !== i);
+          if (d.dealer === i) d.dealer = null;
+        } else if (d.mode === "deal") {
+          d.winners.push(i);
+        } else {
+          d.winners = [i];
+        }
+        if (d.dealer != null && d.winners.includes(d.dealer)) d.dealer = null;
+        buildDealerChips();
+        syncRecordUI();
+      });
+      box.appendChild(b);
+    });
+  }
+
+  function buildDealerChips() {
+    const box = $("#dealer-chips");
+    box.innerHTML = "";
+    if (!state.draft) return;
+    eligibleDealerSeats().forEach((i) => {
+      const p = state.players[i];
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "chip" + (state.draft.dealer === i ? " active" : "");
+      b.textContent = p.name;
+      b.addEventListener("click", () => {
+        state.draft.dealer = state.draft.dealer === i ? null : i;
+        buildDealerChips();
+        syncRecordUI();
+      });
+      box.appendChild(b);
+    });
+  }
+
+  function buildFanGrid() {
+    const grid = $("#fan-grid");
+    grid.innerHTML = "";
+    const section = (title, items) => {
+      const head = document.createElement("div");
+      head.style.gridColumn = "1 / -1";
+      head.style.marginTop = "6px";
+      head.style.fontSize = "12px";
+      head.style.color = "var(--cream-faint)";
+      head.textContent = title;
+      grid.appendChild(head);
+      items.forEach((t) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "fan-item";
+        b.dataset.id = t.id;
+        b.innerHTML =
+          '<span class="fan-name">' + t.name + '</span><span class="fan-val">' + t.fan + "番</span>";
+        b.addEventListener("click", () => toggleFan(t.id));
+        grid.appendChild(b);
+      });
+    };
+    section("胡型", FAN_TYPES);
+    section("加番", BONUS_TYPES);
+  }
+
+  function toggleFan(id) {
+    const d = state.draft;
+    const t = ALL_FANS.find((x) => x.id === id);
+    if (!t) return;
+    if (d.fans.includes(id)) {
+      d.fans = d.fans.filter((x) => x !== id);
+    } else {
+      if (t.exclusive) d.fans = d.fans.filter((x) => !t.exclusive.includes(x));
+      for (const curId of [...d.fans]) {
+        const cur = ALL_FANS.find((x) => x.id === curId);
+        if (cur && cur.exclusive && cur.exclusive.includes(id)) {
+          d.fans = d.fans.filter((x) => x !== curId);
+        }
+      }
+      d.fans.push(id);
+    }
+    syncRecordUI();
+  }
+
+  function syncRecordUI() {
+    const d = state.draft;
+    if (!d) return;
+
+    $$("#winner-chips .chip").forEach((chip) => {
+      const seat = parseInt(chip.dataset.seat, 10);
+      chip.classList.toggle("active", d.winners.includes(seat));
+    });
+
+    $$("#pay-mode .seg").forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.mode === d.mode);
+    });
+
+    $("#win-detail").classList.toggle("hidden", d.winners.length === 0);
+
+    $$("#fan-grid .fan-item").forEach((el) => {
+      const id = el.dataset.id;
+      const t = ALL_FANS.find((x) => x.id === id);
+      el.classList.toggle("active", d.fans.includes(id));
+      let disabled = false;
+      if (t && t.exclusive) disabled = t.exclusive.some((x) => d.fans.includes(x));
+      for (const fid of d.fans) {
+        const sel = FAN_TYPES.find((x) => x.id === fid);
+        if (sel && sel.exclusive && sel.exclusive.includes(id)) disabled = true;
+      }
+      el.disabled = disabled && !d.fans.includes(id);
+    });
+
+    const rawFan = totalFan(d.fans, d.root, d.mode);
+    const fan = d.winners.length ? Math.max(rawFan, 1) : rawFan;
+    const names = d.fans.map((id) => (ALL_FANS.find((x) => x.id === id) || {}).name).filter(Boolean);
+    if (d.root > 0) names.push("根×" + d.root);
+    $("#fan-summary-text").textContent = names.length ? names.join(" + ") : "平胡（默认）";
+    $("#fan-total").textContent = fan + " 番";
+    $("#root-count").textContent = String(d.root);
+
+    $("#dealer-picker").classList.toggle("hidden", d.mode !== "deal");
+
+    const note = $("#winner-note");
+    if (note) {
+      if (d.mode === "deal") note.textContent = "可多选（一炮多响）";
+      else note.textContent = "自摸/杠上花一次只能一家";
+    }
+
+    // 本局进度提示
+    const prog = $("#hand-progress");
+    if (prog) {
+      if (state.hand.active && state.hand.winners.length) {
+        prog.textContent =
+          "本局已胡：" +
+          state.hand.winners.map((i) => state.players[i].name).join("、") +
+          "（不再付分）";
+      } else {
+        prog.textContent = "本局还没有人胡，打到三家胡完为止";
+      }
+    }
+
+    const result = computeHand(d);
+    $("#preview-lines").innerHTML = result.lines;
+    $("#btn-save-hand").disabled = !result.valid;
+  }
+
+  /**
+   * 血战到底支付：
+   * - 点炮：只有放炮者（且仍在场）向胡家付
+   * - 自摸/杠上花：仍在场的其他人向胡家付（已胡离场的人不付）
+   */
+  function computeHand(d) {
+    if (!d.winners.length) return { valid: false, lines: "先选还在打的人胡了", summary: "" };
+    if (d.mode === "deal" && d.dealer == null) {
+      return { valid: false, lines: "请选放炮的人（须仍在场上）", summary: "" };
+    }
+
+    const elig = eligibleWinnerSeats();
+    for (const w of d.winners) {
+      if (!elig.includes(w)) {
+        return { valid: false, lines: "已胡的人不能再胡", summary: "" };
+      }
+    }
+
+    const fan = Math.max(totalFan(d.fans, d.root, d.mode), 1);
+    const amount = calcScore(fan);
+    const deltas = [0, 0, 0, 0];
+    const winners = d.winners;
+    const alreadyWon = state.hand.winners;
+    // 本笔之后仍可能在场的人（不含本笔赢家）
+    const stillIn = elig.filter((i) => !winners.includes(i));
+
+    if (d.mode === "deal") {
+      if (!stillIn.includes(d.dealer)) {
+        return { valid: false, lines: "放炮的人必须还在场上", summary: "" };
+      }
+      for (const w of winners) {
+        deltas[w] += amount;
+        deltas[d.dealer] -= amount;
+      }
+    } else {
+      // 自摸：仍在场的其他人付（已胡离场 alreadyWon 不参与）
+      for (const w of winners) {
+        for (const o of stillIn) {
+          deltas[w] += amount;
+          deltas[o] -= amount;
+        }
+      }
+    }
+
+    const modeName = d.mode === "self" ? "自摸" : d.mode === "gang" ? "杠上花" : "点炮";
+    const fanName = $("#fan-summary-text").textContent;
+    const wNames = winners.map((i) => state.players[i].name).join("、");
+    let summary;
+    if (d.mode === "deal") {
+      summary =
+        wNames +
+        " " +
+        modeName +
+        "（" +
+        state.players[d.dealer].name +
+        "放炮）· " +
+        fanName +
+        " · " +
+        fan +
+        "番 · 付 " +
+        amount;
+    } else {
+      const payers = stillIn.map((i) => state.players[i].name).join("、");
+      summary =
+        wNames +
+        " " +
+        modeName +
+        " · " +
+        fanName +
+        " · " +
+        fan +
+        "番 · " +
+        (payers
+          ? payers + (stillIn.length > 1 ? " 各付 " : " 付 ") + amount
+          : "无人付分");
+    }
+
+    const lines = [];
+    const raw = state.rule === "pow" ? state.base * Math.pow(2, fan) : state.base * fan;
+    const capped = handCap() > 0 && raw > handCap();
+    lines.push(
+      '<span class="hl">' +
+        fan +
+        " 番</span> · " +
+        (state.rule === "pow" ? "倍番制" : "线性") +
+        ' · 单份 <span class="hl">' +
+        amount +
+        "</span>" +
+        (capped ? ' <em>(已封顶，原 ' + raw + ")</em>" : "") +
+        (handCap() ? " · " + capLabel(handCap()) : "")
+    );
+    winners.forEach((w) => {
+      lines.push(escapeHtml(state.players[w].name) + ' <span class="hl">' + formatNum(deltas[w]) + "</span> <em>离场</em>");
+    });
+    for (let i = 0; i < 4; i++) {
+      if (deltas[i] < 0) lines.push(escapeHtml(state.players[i].name) + " " + formatNum(deltas[i]));
+    }
+    if (alreadyWon.length) {
+      lines.push(
+        '<span style="opacity:.7">已胡 ' +
+          alreadyWon.map((i) => escapeHtml(state.players[i].name)).join("、") +
+          " 不参与本笔</span>"
+      );
+    }
+
+    return { valid: true, lines: lines.join("<br>"), summary, deltas, amount, fan };
+  }
+
+  function saveHand() {
+    const d = state.draft;
+    const result = computeHand(d);
+    if (!result.valid) return;
+
+    if (!state.hand.active) {
+      state.hand.active = true;
+      // 封顶在本局第一笔落定时锁定
+      if (state.hand.cap == null) state.hand.cap = state.defaultCap;
+    }
+
+    const round = {
+      id: Date.now(),
+      handNo: state.hand.no,
+      type: "win",
+      winners: [...d.winners],
+      dealer: d.dealer,
+      mode: d.mode,
+      fans: [...d.fans],
+      root: d.root,
+      fan: result.fan,
+      amount: result.amount,
+      deltas: result.deltas,
+      summary: result.summary,
+      handWinnersBefore: [...state.hand.winners],
+    };
+
+    // 血战：胡家离场
+    for (const w of d.winners) {
+      if (!state.hand.winners.includes(w)) state.hand.winners.push(w);
+    }
+
+    state.rounds.push(round);
+    save();
+    closeSheets();
+    renderBoard(round.winners);
+
+    if (handComplete()) {
+      const lastP = state.players[remainingSeat()];
+      toast("三家已胡，剩 " + lastP.name + "，可查大叫结束");
+    } else {
+      toast("已记入，继续打（剩 " + activeSeats().length + " 家）");
+    }
+  }
+
+  /* ---------- 查大叫 / 结束本局（可中途结束，剩 1～3 家） ---------- */
+  function openEndHand() {
+    if (!state.hand.active) {
+      toast("还没开这一局");
+      return;
+    }
+    const lasts = activeSeats();
+    const winners = state.hand.winners;
+    const title = $("#end-sheet-title");
+    if (title) {
+      title.textContent = handComplete()
+        ? "本局三家已胡"
+        : "结束本局（还可继续打）";
+    }
+    $("#end-winner-names").textContent = winners.length
+      ? winners.map((i) => state.players[i].name).join("、")
+      : "（还没有人胡）";
+    $("#end-last-name").textContent = lasts.map((i) => state.players[i].name).join("、");
+
+    // 无人胡或已无已胡家时，查大叫无意义
+    const canCheck = winners.length > 0 && lasts.length > 0;
+    $$("#check-mode .seg").forEach((b) => {
+      b.classList.toggle("hidden", !canCheck && b.dataset.check !== "skip");
+      b.disabled = !canCheck && b.dataset.check !== "skip";
+    });
+    const checkLabel = $("#end-check-label");
+    if (checkLabel) {
+      checkLabel.textContent = canCheck
+        ? "查大叫（未胡的 " + lasts.length + " 家一并结算）"
+        : "查大叫（本局暂无可查）";
+    }
+
+    $$("#check-mode .seg").forEach((b) => b.classList.remove("active"));
+    const skipBtn = $('#check-mode .seg[data-check="skip"]')[0];
+    if (skipBtn) skipBtn.classList.add("active");
+
+    updateEndPreview();
+    openSheet("sheet-end", "end-overlay");
+  }
+
+  function updateEndPreview() {
+    const lasts = activeSeats();
+    const winners = state.hand.winners;
+    const modeEl = $("#check-mode .seg.active");
+    const mode = modeEl ? modeEl.dataset.check : "skip";
+    const amount = calcScore(1);
+    const lines = [];
+    const canCheck = winners.length > 0 && lasts.length > 0 && mode !== "skip";
+
+    if (!canCheck) {
+      lines.push(
+        lasts.length
+          ? "不查叫，直接结束。未胡：" +
+              escapeHtml(lasts.map((i) => state.players[i].name).join("、"))
+          : "结束本局，开下一局"
+      );
+    } else if (mode === "ting") {
+      lines.push(
+        "未胡家听牌：每位已胡家向每位未胡家付 <span class=\"hl\">" + amount + "</span>"
+      );
+      lasts.forEach((L) => {
+        lines.push(
+          escapeHtml(state.players[L].name) +
+            ' <span class="hl">' +
+            formatNum(amount * winners.length) +
+            "</span>"
+        );
+      });
+      winners.forEach((w) => {
+        lines.push(
+          escapeHtml(state.players[w].name) + " " + formatNum(-amount * lasts.length)
+        );
+      });
+    } else {
+      lines.push(
+        "未胡家花猪/未听：向每位已胡家付 <span class=\"hl\">" + amount + "</span>"
+      );
+      lasts.forEach((L) => {
+        lines.push(
+          escapeHtml(state.players[L].name) + " " + formatNum(-amount * winners.length)
+        );
+      });
+      winners.forEach((w) => {
+        lines.push(
+          escapeHtml(state.players[w].name) +
+            ' <span class="hl">' +
+            formatNum(amount * lasts.length) +
+            "</span>"
+        );
+      });
+    }
+    $("#end-preview").innerHTML = lines.join("<br>");
+  }
+
+  function endHand() {
+    if (!state.hand.active) return;
+    const lasts = activeSeats();
+    const winners = [...state.hand.winners];
+    const modeEl = $("#check-mode .seg.active");
+    const mode = modeEl ? modeEl.dataset.check : "skip";
+    const amount = calcScore(1);
+    const deltas = [0, 0, 0, 0];
+    const canCheck = winners.length > 0 && lasts.length > 0 && mode !== "skip";
+    let summary;
+
+    if (mode === "ting" && canCheck) {
+      for (const w of winners) {
+        for (const L of lasts) {
+          deltas[w] -= amount;
+          deltas[L] += amount;
+        }
+      }
+      summary =
+        "第 " +
+        state.hand.no +
+        " 局结束 · " +
+        lasts.map((i) => state.players[i].name).join("、") +
+        " 查叫听牌，各已胡家付 " +
+        amount;
+    } else if (mode === "huazhu" && canCheck) {
+      for (const w of winners) {
+        for (const L of lasts) {
+          deltas[w] += amount;
+          deltas[L] -= amount;
+        }
+      }
+      summary =
+        "第 " +
+        state.hand.no +
+        " 局结束 · " +
+        lasts.map((i) => state.players[i].name).join("、") +
+        " 花猪/未听，向各已胡家付 " +
+        amount;
+    } else {
+      const wonTxt = winners.length
+        ? winners.map((i) => state.players[i].name).join("、") + " 已胡；"
+        : "";
+      summary =
+        "第 " +
+        state.hand.no +
+        " 局结束 · " +
+        wonTxt +
+        (lasts.length
+          ? lasts.map((i) => state.players[i].name).join("、") + " 未胡"
+          : "三家胡完");
+    }
+
+    const round = {
+      id: Date.now(),
+      handNo: state.hand.no,
+      type: "end",
+      winners,
+      lasts,
+      check: canCheck ? mode : "skip",
+      deltas,
+      summary,
+      amount: canCheck ? amount : 0,
+      handBefore: {
+        no: state.hand.no,
+        active: true,
+        winners: [...state.hand.winners],
+        cap: state.hand.cap,
+      },
+    };
+    state.rounds.push(round);
+
+    // 开下一局（沿用默认封顶，可在第一笔前改）
+    const next = emptyHand(state.hand.no + 1);
+    next.cap = state.defaultCap;
+    state.hand = next;
+    save();
+    closeSheets();
+    renderBoard();
+    toast("本局结束，可以开下一局了");
+  }
+
+  /* ---------- history ---------- */
+  function renderHistory() {
+    const list = $("#history-list");
+    const empty = $("#history-empty");
+    list.innerHTML = "";
+    if (!state.rounds.length) {
+      empty.classList.remove("hidden");
+      return;
+    }
+    empty.classList.add("hidden");
+
+    [...state.rounds].reverse().forEach((r) => {
+      const item = document.createElement("div");
+      item.className = "history-item" + (r.type === "end" ? " is-end" : "");
+      const badge = r.type === "end" ? "结" : "胡";
+      const parts = [escapeHtml(r.summary)];
+      r.deltas.forEach((d, i) => {
+        if (d !== 0) parts.push(escapeHtml(state.players[i].name) + " " + formatNum(d));
+      });
+      item.innerHTML =
+        '<div class="history-item-head">' +
+        '<span class="history-round"><span class="hist-badge">' +
+        badge +
+        "</span> 第 " +
+        (r.handNo || 1) +
+        " 局</span>" +
+        '<span class="history-fan">' +
+        (r.type === "end"
+          ? r.amount
+            ? "查叫"
+            : "结束"
+          : r.fan + " 番 · " + r.amount) +
+        "</span></div>" +
+        '<div class="history-line">' +
+        parts.join("　") +
+        "</div>";
+      list.appendChild(item);
+    });
+  }
+
+  function exportReport() {
+    if (!state.rounds.length) {
+      toast("还没有可复制的战报");
+      return;
+    }
+    const t = totals();
+    const lines = [];
+    lines.push(
+      "【川麻血战到底 · 记分战报】底分 " +
+        state.base +
+        " · " +
+        (state.rule === "pow" ? "倍番制" : "线性") +
+        " · " +
+        (state.defaultCap ? "默认封顶 " + state.defaultCap : "不封顶")
+    );
+    lines.push("");
+    state.players.forEach((p, i) => {
+      lines.push(p.seat + " " + p.name + "　" + formatNum(t[i]));
+    });
+    lines.push("");
+    lines.push("—— 明细 ——");
+    state.rounds.forEach((r) => {
+      lines.push("第" + (r.handNo || 1) + "局 · " + r.summary);
+    });
+    const text = lines.join("\n");
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(
+        () => toast("战报已复制"),
+        () => fallbackCopy(text)
+      );
+    } else {
+      fallbackCopy(text);
+    }
+  }
+
+  function fallbackCopy(text) {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.left = "-9999px";
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand("copy");
+      toast("战报已复制");
+    } catch (_) {
+      toast("复制失败，请手动截图");
+    }
+    document.body.removeChild(ta);
+  }
+
+  /* ---------- sheets ---------- */
+  function openSheet(sheetId, overlayId) {
+    $("#" + overlayId).hidden = false;
+    $("#" + overlayId).classList.remove("hidden");
+    $("#" + sheetId).hidden = false;
+    $("#" + sheetId).classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeSheets() {
+    ["sheet-record", "sheet-history", "sheet-rules", "sheet-end"].forEach((id) => {
+      const el = $("#" + id);
+      if (el) {
+        el.hidden = true;
+        el.classList.add("hidden");
+      }
+    });
+    ["sheet-overlay", "history-overlay", "rules-overlay", "end-overlay"].forEach((id) => {
+      const el = $("#" + id);
+      if (el) {
+        el.hidden = true;
+        el.classList.add("hidden");
+      }
+    });
+    document.body.style.overflow = "";
+  }
+
+  function renderRules() {
+    const el = $("#rules-content");
+    const fanRows = FAN_TYPES.map(
+      (t) =>
+        '<div class="rule-row"><span>' + t.name + "</span><span>" + t.fan + "番</span></div>"
+    ).join("");
+    const bonusRows = BONUS_TYPES.map(
+      (t) =>
+        '<div class="rule-row"><span>' + t.name + "</span><span>" + t.fan + "番</span></div>"
+    ).join("");
+    el.innerHTML =
+      "<h4>血战到底</h4>" +
+      "<p>一局打到三家胡完为止。有人胡了就离场，剩下的人继续；已胡的人<strong>不再付分</strong>，也不能再胡。一炮多响可同时多家胡。</p>" +
+      "<h4>封顶</h4>" +
+      "<p>每局开始前可设单份封顶。计算结果超过封顶时按封顶付；本局第一笔记下后锁定，结束后下一局可再改。</p>" +
+      "<h4>结算公式</h4>" +
+      "<p>倍番制：单份 = 底分 × 2^番数（1番=底分×2）。线性：单份 = 底分 × 番数。根每张 +1 番。</p>" +
+      "<h4>支付</h4>" +
+      "<p><strong>自摸 / 杠上花</strong>：仍在场的每位玩家向胡家付单份。<br><strong>点炮</strong>：仅放炮者（须仍在场）向每位胡家付单份。</p>" +
+      "<h4>查大叫</h4>" +
+      "<p>三家胡完后结束本局。剩家听牌则各胡家向其付 1 番；花猪/未听则其向各胡家付 1 番；也可跳过直接开下一局。</p>" +
+      "<h4>胡型</h4>" +
+      fanRows +
+      "<h4>加番</h4>" +
+      bonusRows;
+  }
+
+  /* ---------- board bindings ---------- */
+  function bindBoard() {
+    $("#btn-record").addEventListener("click", openRecord);
+    $("#btn-end-hand").addEventListener("click", openEndHand);
+
+    $("#btn-history").addEventListener("click", () => {
+      renderHistory();
+      openSheet("sheet-history", "history-overlay");
+    });
+    $("#btn-settings").addEventListener("click", () => {
+      renderRules();
+      openSheet("sheet-rules", "rules-overlay");
+    });
+    $("#btn-export").addEventListener("click", exportReport);
+
+    $("#btn-undo").addEventListener("click", () => {
+      if (!state.rounds.length) return;
+      const r = state.rounds.pop();
+      if (r && r.type === "end" && r.handBefore) {
+        state.hand = {
+          no: r.handBefore.no,
+          active: true,
+          winners: r.handBefore.winners.slice(),
+          cap: r.handBefore.cap != null ? r.handBefore.cap : state.defaultCap,
+        };
+      } else if (r && r.type === "win") {
+        if (r.handNo === state.hand.no || state.hand.no === r.handNo + 1) {
+          // 撤销的是当前局（或刚结束又撤销后回到该局）
+          if (state.hand.no === r.handNo + 1) {
+            // 当时 end 已把局号推进；这里只 pop 了 win，一般不会走到
+          }
+          state.hand.no = r.handNo;
+          state.hand.winners = (r.handWinnersBefore || []).slice();
+          state.hand.active = state.hand.winners.length > 0 || state.rounds.some((x) => x.handNo === r.handNo);
+        }
+      }
+      save();
+      renderBoard();
+      toast("已撤销上一笔");
+    });
+
+    $("#btn-reset").addEventListener("click", () => {
+      if (!confirm("清空所有分数和历史？玩家名单会保留。")) return;
+      state.rounds = [];
+      state.hand = emptyHand(1);
+      state.hand.cap = state.defaultCap;
+      save();
+      renderBoard();
+      toast("已重置");
+    });
+
+    $$("#hand-cap-control .seg").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (state.hand.active) return;
+        $$("#hand-cap-control .seg").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        state.hand.cap = parseInt(btn.dataset.cap, 10) || 0;
+        state.defaultCap = state.hand.cap;
+        // 同步设置页默认
+        $$("#cap-control .seg").forEach((b) => {
+          b.classList.toggle("active", parseInt(b.dataset.cap, 10) === state.defaultCap);
+        });
+        syncRecordUI();
+        renderHandBanner();
+        save();
+      });
+    });
+
+    $$("#pay-mode .seg").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const d = state.draft;
+        d.mode = btn.dataset.mode;
+        if (d.mode !== "deal") {
+          d.dealer = null;
+          if (d.winners.length > 1) d.winners = [d.winners[0]];
+        }
+        buildDealerChips();
+        syncRecordUI();
+      });
+    });
+
+    $("#root-minus").addEventListener("click", () => {
+      state.draft.root = Math.max(0, state.draft.root - 1);
+      syncRecordUI();
+    });
+    $("#root-plus").addEventListener("click", () => {
+      state.draft.root = Math.min(6, state.draft.root + 1);
+      syncRecordUI();
+    });
+
+    $("#btn-save-hand").addEventListener("click", saveHand);
+    $("#btn-end-confirm").addEventListener("click", endHand);
+
+    $$("#check-mode .seg").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        $$("#check-mode .seg").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        updateEndPreview();
+      });
+    });
+
+    $$("[data-close-sheet],[data-close-history],[data-close-rules],[data-close-end]").forEach((b) =>
+      b.addEventListener("click", closeSheets)
+    );
+    $("#sheet-overlay").addEventListener("click", closeSheets);
+    $("#history-overlay").addEventListener("click", closeSheets);
+    $("#rules-overlay").addEventListener("click", closeSheets);
+    $("#end-overlay").addEventListener("click", closeSheets);
+  }
+
+  /* ---------- init ---------- */
+  function init() {
+    bindSetup();
+    bindBoard();
+    renderRules();
+
+    const hasSaved = load();
+    if (hasSaved && state.players.length === 4) {
+      state.players.forEach((p, i) => {
+        const input = $("#name-" + i);
+        if (input && p.name) input.value = p.name;
+      });
+      $$("#base-control .seg").forEach((b) => {
+        b.classList.toggle("active", parseInt(b.dataset.base, 10) === state.base);
+      });
+      $$("#rule-control .seg").forEach((b) => {
+        b.classList.toggle("active", b.dataset.rule === state.rule);
+      });
+      $$("#cap-control .seg").forEach((b) => {
+        b.classList.toggle("active", parseInt(b.dataset.cap, 10) === state.defaultCap);
+      });
+      $("#btn-restore").classList.remove("hidden");
+    }
+
+    showSetup(hasSaved);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+
+</script>
+</body>
+</html>
