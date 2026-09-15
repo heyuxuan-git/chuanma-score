@@ -141,6 +141,25 @@ button:disabled {
   font-size: 34px;
   letter-spacing: 0.12em;
   font-weight: 700;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ver-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(212, 168, 75, 0.45);
+  background: rgba(212, 168, 75, 0.14);
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  vertical-align: middle;
+  transform: translateY(-4px);
 }
 
 .tagline {
@@ -1038,7 +1057,7 @@ button:disabled {
           <span class="tile">一</span>
           <span class="tile">筒</span>
         </div>
-        <h1>川麻记分</h1>
+        <h1>川麻记分 <span class="ver-badge" title="版本 v1.0">v1.0</span></h1>
         <p class="tagline">血战到底 · 番数结算 · 手机现场记</p>
       </header>
 
