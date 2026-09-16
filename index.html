@@ -385,8 +385,15 @@ button:disabled {
 }
 
 .score-card.already-won {
-  opacity: 0.72;
+  opacity: 0.55;
   border-style: dashed;
+  border-color: rgba(212, 168, 75, 0.28);
+  background: linear-gradient(135deg, rgba(7, 31, 24, 0.7), rgba(18, 74, 56, 0.35));
+}
+
+.score-card.already-won .score-bar {
+  background: var(--gold);
+  opacity: 0.7;
 }
 
 .won-badge {
@@ -607,6 +614,7 @@ button:disabled {
 .board-actions {
   margin-top: auto;
   padding-top: 22px;
+  padding-bottom: calc(8px + var(--safe-b));
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -1031,7 +1039,7 @@ button:disabled {
   to { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
-/* ========== desktop tweak ========== */
+/* ========== desktop / tablet ========== */
 @media (min-width: 481px) {
   #app {
     padding-bottom: 20px;
@@ -1042,6 +1050,199 @@ button:disabled {
     bottom: 24px;
     border-bottom: 1px solid rgba(243, 234, 216, 0.1);
   }
+}
+
+@media (min-width: 900px) {
+  #app {
+    max-width: 860px;
+  }
+
+  #screen-board.active {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    grid-template-rows: auto auto 1fr auto;
+    column-gap: 20px;
+    align-content: start;
+  }
+
+  #screen-board .board-header {
+    grid-column: 1 / -1;
+  }
+
+  #screen-board .hand-banner {
+    grid-column: 1 / -1;
+  }
+
+  #screen-board .score-board {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  #screen-board .recent-strip {
+    grid-column: 1;
+    align-self: start;
+  }
+
+  #screen-board .board-actions {
+    grid-column: 2;
+    grid-row: 3 / 5;
+    align-self: end;
+  }
+
+  .fan-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ========== v2 components ========== */
+.fold {
+  margin: 8px 0 4px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: rgba(7, 31, 24, 0.35);
+  padding: 4px 12px 12px;
+}
+
+.fold summary {
+  cursor: pointer;
+  padding: 12px 0 8px;
+  font-size: 14px;
+  font-weight: 650;
+  color: var(--cream-dim);
+  list-style: none;
+}
+
+.fold summary::-webkit-details-marker {
+  display: none;
+}
+
+.fold summary::after {
+  content: " ▾";
+  opacity: 0.6;
+}
+
+.fold[open] summary::after {
+  content: " ▴";
+}
+
+.quick-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.quick-bar .btn-primary {
+  margin-top: 0;
+}
+
+.fan-section-title {
+  grid-column: 1 / -1;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--cream-faint);
+}
+
+.que-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: rgba(196, 92, 74, 0.2);
+  border: 1px solid rgba(196, 92, 74, 0.35);
+  color: #e8a090;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.que-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.que-row .chip-row {
+  margin-top: 6px;
+}
+
+.check-persons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 12px 0 16px;
+}
+
+.check-person-name {
+  font-size: 14px;
+  font-weight: 650;
+  margin-bottom: 8px;
+  color: var(--cream);
+}
+
+.stepper-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: rgba(7, 31, 24, 0.45);
+  border: 1px solid var(--line);
+  margin-bottom: 8px;
+}
+
+.data-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.data-row .btn-ghost {
+  margin-top: 0;
+  font-size: 13px;
+  padding: 10px 6px;
+}
+
+.confirm-text {
+  color: var(--cream-dim);
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 8px 0 16px;
+}
+
+.sheet-footer.dual {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.sheet-footer.dual .btn-primary,
+.sheet-footer.dual .btn-ghost {
+  margin-top: 0;
+}
+
+.btn-primary.danger-fill {
+  background: linear-gradient(160deg, #d46a58, #a84334);
+  color: #fff;
+  box-shadow: 0 8px 22px rgba(196, 92, 74, 0.28);
+}
+
+.recent-strip {
+  cursor: pointer;
+}
+
+.recent-more {
+  margin-left: auto;
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.recent-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 </style>
@@ -1057,7 +1258,7 @@ button:disabled {
           <span class="tile">一</span>
           <span class="tile">筒</span>
         </div>
-        <h1>川麻记分 <span class="ver-badge" title="版本 v1.0">v1.0</span></h1>
+        <h1>川麻记分 <span class="ver-badge" title="版本 v2.0">v2.0</span></h1>
         <p class="tagline">血战到底 · 番数结算 · 手机现场记</p>
       </header>
 
@@ -1090,21 +1291,31 @@ button:disabled {
           <button type="button" class="seg" data-base="10">10</button>
         </div>
 
-        <label class="field-label">结算方式</label>
-        <div class="seg-control" id="rule-control" role="radiogroup" aria-label="结算方式">
-          <button type="button" class="seg active" data-rule="pow">倍番制 2ⁿ</button>
-          <button type="button" class="seg" data-rule="mul">线性 n×底分</button>
-        </div>
-        <p class="field-hint" id="rule-hint">1番=底分×2，2番=底分×4，番越高涨得越快</p>
+        <details class="fold" id="fold-advanced" open>
+          <summary>更多规则</summary>
+          <label class="field-label">结算方式</label>
+          <div class="seg-control" id="rule-control" role="radiogroup" aria-label="结算方式">
+            <button type="button" class="seg active" data-rule="pow">倍番制 2ⁿ</button>
+            <button type="button" class="seg" data-rule="mul">线性 n×底分</button>
+          </div>
+          <p class="field-hint" id="rule-hint">1番=底分×2，2番=底分×4</p>
 
-        <label class="field-label">默认封顶（单份最高）</label>
-        <div class="seg-control" id="cap-control" role="radiogroup" aria-label="默认封顶">
-          <button type="button" class="seg active" data-cap="0">不封顶</button>
-          <button type="button" class="seg" data-cap="8">8</button>
-          <button type="button" class="seg" data-cap="16">16</button>
-          <button type="button" class="seg" data-cap="32">32</button>
-        </div>
-        <p class="field-hint">每局第一笔前还能改；本局记下后锁定</p>
+          <label class="field-label">默认封顶（单份最高）</label>
+          <div class="seg-control" id="cap-control" role="radiogroup" aria-label="默认封顶">
+            <button type="button" class="seg active" data-cap="0">不封顶</button>
+            <button type="button" class="seg" data-cap="8">8</button>
+            <button type="button" class="seg" data-cap="16">16</button>
+            <button type="button" class="seg" data-cap="32">32</button>
+          </div>
+
+          <label class="field-label">查叫默认番</label>
+          <div class="seg-control" id="check-fan-control" role="radiogroup" aria-label="查叫番">
+            <button type="button" class="seg active" data-fan="1">1番</button>
+            <button type="button" class="seg" data-fan="2">2番</button>
+            <button type="button" class="seg" data-fan="4">4番</button>
+          </div>
+          <p class="field-hint">定缺 / 换三张 / 杠 可在开局后记录</p>
+        </details>
 
         <button type="button" id="btn-start" class="btn-primary">开始记分</button>
         <button type="button" id="btn-restore" class="btn-ghost hidden">恢复上次牌局</button>
@@ -1116,10 +1327,10 @@ button:disabled {
       <header class="board-header">
         <div>
           <p class="board-kicker">血战到底</p>
-          <h2 class="board-title" id="round-label">第 0 局</h2>
+          <h2 class="board-title" id="round-label">第 1 局</h2>
         </div>
         <div class="header-actions">
-          <button type="button" id="btn-settings" class="icon-btn" aria-label="设置">⚙</button>
+          <button type="button" id="btn-settings" class="icon-btn" aria-label="规则">?</button>
           <button type="button" id="btn-history" class="icon-btn" aria-label="历史">☰</button>
         </div>
       </header>
@@ -1127,9 +1338,10 @@ button:disabled {
       <div id="hand-banner" class="hand-banner"></div>
       <div class="score-board" id="score-board" aria-live="polite"></div>
 
-      <div class="recent-strip" id="recent-strip">
+      <div class="recent-strip" id="recent-strip" role="button" tabindex="0">
         <span class="recent-label">最近</span>
-        <span class="recent-text" id="recent-text">还没开局，点下面开始</span>
+        <span class="recent-text" id="recent-text">还没记分，点下面开始</span>
+        <span class="recent-more" id="recent-more" hidden>完整 ›</span>
       </div>
 
       <div class="board-actions">
@@ -1138,26 +1350,29 @@ button:disabled {
           <button type="button" id="btn-end-hand" class="btn-ghost btn-xl btn-end hidden">结束本局</button>
         </div>
         <div class="secondary-row">
+          <button type="button" id="btn-gang" class="btn-ghost">记杠</button>
+          <button type="button" id="btn-open-meta" class="btn-ghost">开局设置</button>
+        </div>
+        <div class="secondary-row">
           <button type="button" id="btn-undo" class="btn-ghost" disabled>撤销</button>
           <button type="button" id="btn-reset" class="btn-ghost danger">重置</button>
         </div>
       </div>
     </section>
 
-    <!-- ========== 记一局 底部面板 ========== -->
+    <!-- ========== 记一笔胡牌 ========== -->
     <div id="sheet-overlay" class="overlay hidden" hidden></div>
-    <section id="sheet-record" class="sheet hidden" hidden aria-modal="true" role="dialog" aria-label="记一局">
+    <section id="sheet-record" class="sheet hidden" hidden aria-modal="true" role="dialog" aria-label="记一笔胡牌">
       <div class="sheet-handle" aria-hidden="true"></div>
       <header class="sheet-header">
         <h3>记一笔胡牌</h3>
         <button type="button" class="icon-btn" data-close-sheet aria-label="关闭">✕</button>
       </header>
-
       <div class="sheet-body">
-        <div class="hand-progress" id="hand-progress">本局还没有人胡，打到三家胡完为止</div>
+        <div class="hand-progress" id="hand-progress"></div>
 
         <div class="step-block" id="cap-block">
-          <div class="step-label">本局封顶 <span class="step-note">单份最高，记下第一笔后锁定</span></div>
+          <div class="step-label">本局封顶 <span class="step-note">第一笔记下后锁定</span></div>
           <div class="seg-control" id="hand-cap-control" role="radiogroup" aria-label="本局封顶">
             <button type="button" class="seg active" data-cap="0">不封顶</button>
             <button type="button" class="seg" data-cap="8">8</button>
@@ -1165,21 +1380,24 @@ button:disabled {
             <button type="button" class="seg" data-cap="32">32</button>
           </div>
         </div>
-        <div class="cap-locked hidden" id="cap-locked">
-          <span id="cap-locked-text"></span>
-        </div>
+        <div class="cap-locked hidden" id="cap-locked"><span id="cap-locked-text"></span></div>
 
         <div class="step-block">
-          <div class="step-label">1 · 谁胡了？<span class="step-note" id="winner-note">点炮可多选（一炮多响）</span></div>
+          <div class="step-label">1 · 谁胡了？<span class="step-note" id="winner-note">默认平胡·自摸，点人可直接记</span></div>
           <div class="chip-row" id="winner-chips"></div>
         </div>
 
+        <div id="quick-bar" class="quick-bar hidden">
+          <button type="button" id="btn-quick-save" class="btn-primary">快捷记 · 平胡自摸</button>
+          <button type="button" id="btn-show-detail" class="btn-ghost">改番型 / 点炮…</button>
+        </div>
+
         <div id="win-detail" class="win-detail hidden">
-          <div class="step-block" id="pattern-block">
+          <div class="step-block">
             <div class="step-label">2 · 胡型与番数</div>
             <div class="fan-summary">
-              <span id="fan-summary-text">未选胡型</span>
-              <strong id="fan-total">0 番</strong>
+              <span id="fan-summary-text">平胡（默认）</span>
+              <strong id="fan-total">1 番</strong>
             </div>
             <div class="fan-grid" id="fan-grid"></div>
             <div class="root-row">
@@ -1192,7 +1410,7 @@ button:disabled {
             </div>
           </div>
 
-          <div class="step-block" id="pay-block">
+          <div class="step-block">
             <div class="step-label">3 · 出法</div>
             <div class="seg-control full" id="pay-mode" role="radiogroup">
               <button type="button" class="seg active" data-mode="self">自摸</button>
@@ -1207,17 +1425,113 @@ button:disabled {
         </div>
 
         <div class="preview-box" id="preview-box">
-          <div class="preview-title">本局预估</div>
-          <div class="preview-lines" id="preview-lines">先选胡家</div>
+          <div class="preview-title">本笔预估</div>
+          <div class="preview-lines" id="preview-lines">先选还在打的人胡了</div>
         </div>
       </div>
-
       <footer class="sheet-footer">
         <button type="button" id="btn-save-hand" class="btn-primary" disabled>记下这一笔</button>
       </footer>
     </section>
 
-    <!-- ========== 历史 ========== -->
+    <!-- ========== 开局设置：定缺 / 换三张 ========== -->
+    <div id="meta-overlay" class="overlay hidden" hidden></div>
+    <section id="sheet-meta" class="sheet hidden" hidden aria-modal="true" role="dialog" aria-label="开局设置">
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <header class="sheet-header">
+        <h3>开局设置</h3>
+        <button type="button" class="icon-btn" data-close-meta aria-label="关闭">✕</button>
+      </header>
+      <div class="sheet-body">
+        <div class="step-block">
+          <div class="step-label">换三张 <span class="step-note">仅标记，不影响算分</span></div>
+          <div class="seg-control full" id="huan-mode">
+            <button type="button" class="seg active" data-huan="0">无</button>
+            <button type="button" class="seg" data-huan="1">换三张</button>
+          </div>
+        </div>
+        <div class="step-block">
+          <div class="step-label">定缺（缺一门）</div>
+          <div id="que-list" class="que-list"></div>
+          <p class="field-hint">花猪在结束时按「花猪/未听」查叫处理；这里只做标记方便对账。</p>
+        </div>
+      </div>
+      <footer class="sheet-footer">
+        <button type="button" id="btn-meta-save" class="btn-primary">保存开局设置</button>
+      </footer>
+    </section>
+
+    <!-- ========== 记杠 ========== -->
+    <div id="gang-overlay" class="overlay hidden" hidden></div>
+    <section id="sheet-gang" class="sheet hidden" hidden aria-modal="true" role="dialog" aria-label="记杠">
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <header class="sheet-header">
+        <h3>记杠</h3>
+        <button type="button" class="icon-btn" data-close-gang aria-label="关闭">✕</button>
+      </header>
+      <div class="sheet-body">
+        <div class="hand-progress" id="gang-progress"></div>
+        <div class="step-block">
+          <div class="step-label">谁杠的？</div>
+          <div class="chip-row" id="gang-who"></div>
+        </div>
+        <div class="step-block">
+          <div class="step-label">杠型</div>
+          <div class="seg-control full" id="gang-type">
+            <button type="button" class="seg active" data-gtype="ming">明杠</button>
+            <button type="button" class="seg" data-gtype="an">暗杠</button>
+            <button type="button" class="seg" data-gtype="ba">巴杠</button>
+          </div>
+        </div>
+        <div id="gang-dealer-block" class="step-block hidden">
+          <div class="step-label">点杠是谁点的？</div>
+          <div class="chip-row" id="gang-dealer"></div>
+        </div>
+        <div class="preview-box">
+          <div class="preview-title">杠结算预估</div>
+          <div class="preview-lines" id="gang-preview">先选人</div>
+        </div>
+        <p class="field-hint">明杠：点杠者付 1 份；暗杠：在场每人付 2 份；巴杠：在场每人付 1 份。份 = 底分（不受番数封顶影响，可按封顶限制单份）。</p>
+      </div>
+      <footer class="sheet-footer">
+        <button type="button" id="btn-gang-save" class="btn-primary" disabled>记下这杠</button>
+      </footer>
+    </section>
+
+    <!-- ========== 结束本局 / 查大叫 ========== -->
+    <div id="end-overlay" class="overlay hidden" hidden></div>
+    <section id="sheet-end" class="sheet sheet-tall hidden" hidden aria-modal="true" role="dialog" aria-label="结束本局">
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <header class="sheet-header">
+        <h3 id="end-sheet-title">结束本局</h3>
+        <button type="button" class="icon-btn" data-close-end aria-label="关闭">✕</button>
+      </header>
+      <div class="sheet-body">
+        <div class="end-info">
+          <p>已胡离场：<strong id="end-winner-names"></strong></p>
+          <p>未胡仍在场：<strong id="end-last-name"></strong></p>
+        </div>
+        <div class="step-label">查大叫 · 可按人设置</div>
+        <div class="stepper-row">
+          <span class="root-label">查叫番数</span>
+          <div class="stepper">
+            <button type="button" id="check-fan-minus" class="step-btn">−</button>
+            <span id="check-fan-val" class="step-val">1</span>
+            <button type="button" id="check-fan-plus" class="step-btn">＋</button>
+          </div>
+        </div>
+        <div id="check-persons" class="check-persons"></div>
+        <div class="preview-box">
+          <div class="preview-title">结束预估</div>
+          <div class="preview-lines" id="end-preview"></div>
+        </div>
+      </div>
+      <footer class="sheet-footer">
+        <button type="button" id="btn-end-confirm" class="btn-primary">结束本局，开下一局</button>
+      </footer>
+    </section>
+
+    <!-- ========== 历史 / 数据 ========== -->
     <div id="history-overlay" class="overlay hidden" hidden></div>
     <section id="sheet-history" class="sheet sheet-tall hidden" hidden aria-modal="true" role="dialog" aria-label="历史">
       <div class="sheet-handle" aria-hidden="true"></div>
@@ -1229,6 +1543,12 @@ button:disabled {
         </div>
       </header>
       <div class="sheet-body">
+        <div class="data-row">
+          <button type="button" id="btn-export-json" class="btn-ghost">导出备份</button>
+          <button type="button" id="btn-import-json" class="btn-ghost">导入备份</button>
+          <button type="button" id="btn-export-png" class="btn-ghost">战报图片</button>
+        </div>
+        <input type="file" id="import-file" accept="application/json,.json" class="hidden" />
         <div id="history-list" class="history-list"></div>
         <p class="history-empty" id="history-empty">还没有记录</p>
       </div>
@@ -1239,7 +1559,7 @@ button:disabled {
     <section id="sheet-rules" class="sheet sheet-tall hidden" hidden aria-modal="true" role="dialog" aria-label="规则">
       <div class="sheet-handle" aria-hidden="true"></div>
       <header class="sheet-header">
-        <h3>番种说明</h3>
+        <h3>规则与说明</h3>
         <button type="button" class="icon-btn" data-close-rules aria-label="关闭">✕</button>
       </header>
       <div class="sheet-body">
@@ -1247,58 +1567,44 @@ button:disabled {
       </div>
     </section>
 
-    <!-- ========== 查大叫 / 结束本局 ========== -->
-    <div id="end-overlay" class="overlay hidden" hidden></div>
-    <section id="sheet-end" class="sheet hidden" hidden aria-modal="true" role="dialog" aria-label="结束本局">
+    <!-- ========== 确认重置 ========== -->
+    <div id="confirm-overlay" class="overlay hidden" hidden></div>
+    <section id="sheet-confirm" class="sheet hidden" hidden aria-modal="true" role="dialog" aria-label="确认重置">
       <div class="sheet-handle" aria-hidden="true"></div>
       <header class="sheet-header">
-        <h3 id="end-sheet-title">结束本局</h3>
-        <button type="button" class="icon-btn" data-close-end aria-label="关闭">✕</button>
+        <h3 id="confirm-title">确认操作</h3>
       </header>
       <div class="sheet-body">
-        <div class="end-info">
-          <p>已胡离场：<strong id="end-winner-names"></strong></p>
-          <p>未胡仍在场：<strong id="end-last-name"></strong></p>
-        </div>
-        <div class="step-label" id="end-check-label">查大叫（未胡的家）</div>
-        <div class="seg-control full" id="check-mode">
-          <button type="button" class="seg active" data-check="skip">不查</button>
-          <button type="button" class="seg" data-check="ting">听牌</button>
-          <button type="button" class="seg" data-check="huazhu">花猪/未听</button>
-        </div>
-        <div class="preview-box">
-          <div class="preview-title">结束预估</div>
-          <div class="preview-lines" id="end-preview"></div>
-        </div>
-        <p class="field-hint" id="end-hint">可随时结束（剩 1～3 家没胡都行）。听牌：各已胡家向未胡家付 1 番；花猪：未胡家向各已胡家付 1 番。</p>
+        <p id="confirm-text" class="confirm-text"></p>
       </div>
-      <footer class="sheet-footer">
-        <button type="button" id="btn-end-confirm" class="btn-primary">结束本局，开下一局</button>
+      <footer class="sheet-footer dual">
+        <button type="button" id="btn-confirm-cancel" class="btn-ghost">取消</button>
+        <button type="button" id="btn-confirm-ok" class="btn-primary danger-fill">确认</button>
       </footer>
     </section>
 
     <div id="toast" class="toast hidden" role="status"></div>
   </div>
-
   <script>
-/* 川麻记分 · 血战到底（一局打到底） */
+/* 川麻记分 · 血战到底 v2.0 */
 (function () {
   "use strict";
 
   const STORAGE_KEY = "chuanma-score-v2";
   const SEATS = ["东", "南", "西", "北"];
+  const QUE_MAP = { wan: "万", tong: "筒", tiao: "条" };
 
   const FAN_TYPES = [
-    { id: "ping", name: "平胡", fan: 1, exclusive: ["duidui", "qidui", "longqi", "qingdui", "qingqi", "jiangdui", "shiba"] },
+    { id: "ping", name: "平胡", fan: 1 },
     { id: "duidui", name: "碰碰胡", fan: 3, exclusive: ["ping", "qidui", "longqi", "jiangdui", "qingdui", "qingqi", "shiba"] },
-    { id: "qing", name: "清一色", fan: 4, exclusive: [] },
-    { id: "qidui", name: "七对", fan: 4, exclusive: ["ping", "duidui", "longqi", "jiangdui", "qingdui", "shiba"] },
-    { id: "longqi", name: "龙七对", fan: 6, exclusive: ["ping", "duidui", "qidui", "jiangdui", "qingdui", "shiba"] },
-    { id: "qingdui", name: "清对", fan: 8, exclusive: ["ping", "duidui", "qing", "qidui", "longqi", "jiangdui", "qingqi", "shiba"] },
-    { id: "qingqi", name: "清七对", fan: 10, exclusive: ["ping", "qidui", "longqi", "qing", "qingdui", "jiangdui", "shiba"] },
-    { id: "jiangdui", name: "将对", fan: 6, exclusive: ["ping", "duidui", "qidui", "longqi", "qingdui", "qingqi", "shiba"] },
+    { id: "qing", name: "清一色", fan: 4 },
+    { id: "qidui", name: "七对", fan: 4, exclusive: ["ping", "duidui", "longqi", "jiangdui", "shiba"] },
+    { id: "longqi", name: "龙七对", fan: 6, exclusive: ["ping", "duidui", "qidui", "jiangdui", "shiba"] },
+    { id: "qingdui", name: "清对", fan: 8, exclusive: ["ping", "duidui", "qidui", "longqi", "jiangdui", "qingqi", "shiba"] },
+    { id: "qingqi", name: "清七对", fan: 10, exclusive: ["ping", "qidui", "longqi", "qingdui", "jiangdui", "shiba"] },
+    { id: "jiangdui", name: "将对", fan: 6, exclusive: ["ping", "duidui", "qidui", "longqi", "shiba"] },
     { id: "jin", name: "金钩钓", fan: 4, exclusive: ["ping"] },
-    { id: "shiba", name: "十八罗汉", fan: 12, exclusive: ["ping", "duidui", "qing", "qidui", "longqi", "qingdui", "qingqi", "jiangdui"] },
+    { id: "shiba", name: "十八罗汉", fan: 12, exclusive: ["ping", "duidui", "qidui", "longqi", "qingdui", "qingqi", "jiangdui"] },
   ];
 
   const BONUS_TYPES = [
@@ -1309,16 +1615,16 @@ button:disabled {
     { id: "tianhu", name: "天胡", fan: 8 },
     { id: "dihu", name: "地胡", fan: 6 },
   ];
+  const ALL_FANS = FAN_TYPES.concat(BONUS_TYPES);
 
-  const ALL_FANS = [...FAN_TYPES, ...BONUS_TYPES];
-
-  /** 当前进行中的一局（血战打到底） */
   function emptyHand(no) {
     return {
       no: no || 1,
       active: false,
-      winners: [], // 已胡离场的座位
-      cap: 0, // 本局封顶：0=不封顶；>0 表示单份最高分
+      winners: [],
+      cap: 0,
+      huan: false,
+      que: [null, null, null, null],
     };
   }
 
@@ -1326,19 +1632,21 @@ button:disabled {
     players: [],
     base: 2,
     rule: "pow",
-    defaultCap: 0, // 新局默认封顶
+    defaultCap: 0,
+    checkFan: 1,
     hand: emptyHand(1),
     rounds: [],
     draft: null,
+    gangDraft: null,
+    endDraft: null,
   };
 
-  const $ = (sel, root = document) => root.querySelector(sel);
-  const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+  const $ = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => Array.prototype.slice.call((r || document).querySelectorAll(s));
 
-  /* ---------- utils ---------- */
   function clampInt(n, min, max) {
     const v = parseInt(n, 10);
-    if (Number.isNaN(v)) return min;
+    if (isNaN(v)) return min;
     return Math.max(min, Math.min(max, v));
   }
 
@@ -1348,26 +1656,34 @@ button:disabled {
   }
 
   function capLabel(cap) {
-    if (!cap) return "不封顶";
-    return "封顶 " + cap;
+    return cap ? "封顶 " + cap : "不封顶";
+  }
+
+  function applyCap(amount) {
+    const cap = handCap();
+    return cap > 0 && amount > cap ? cap : amount;
   }
 
   function calcScore(fan) {
     if (fan <= 0) return 0;
-    let amount = state.rule === "pow" ? state.base * Math.pow(2, fan) : state.base * fan;
-    const cap = handCap();
-    if (cap > 0 && amount > cap) amount = cap;
-    return amount;
+    const raw = state.rule === "pow" ? state.base * Math.pow(2, fan) : state.base * fan;
+    return applyCap(raw);
+  }
+
+  function rawScore(fan) {
+    if (fan <= 0) return 0;
+    return state.rule === "pow" ? state.base * Math.pow(2, fan) : state.base * fan;
   }
 
   function totalFan(fanIds, rootCount, mode) {
     let fan = 0;
-    for (const id of fanIds) {
-      const t = ALL_FANS.find((x) => x.id === id);
+    fanIds.forEach((id) => {
+      const t = ALL_FANS.filter((x) => x.id === id)[0];
       if (t) fan += t.fan;
-    }
+    });
+    // 清一色 + 碰碰胡 可叠加，但若同时选了清对/清七对则以复合型为准（exclusive 已处理）
     fan += clampInt(rootCount, 0, 6);
-    if (mode === "gang" && !fanIds.includes("gangshanghua")) fan += 1;
+    if (mode === "gang" && fanIds.indexOf("gangshanghua") < 0) fan += 1;
     return fan;
   }
 
@@ -1394,22 +1710,26 @@ button:disabled {
     el.textContent = msg;
     el.classList.remove("hidden");
     clearTimeout(toast._t);
-    toast._t = setTimeout(() => el.classList.add("hidden"), 2200);
+    toast._t = setTimeout(() => el.classList.add("hidden"), 2400);
   }
 
-  /** 仍在场上（未胡离场）的座位 */
   function activeSeats() {
-    const won = new Set(state.hand.winners);
-    return [0, 1, 2, 3].filter((i) => !won.has(i));
+    const won = {};
+    state.hand.winners.forEach((i) => (won[i] = true));
+    return [0, 1, 2, 3].filter((i) => !won[i]);
   }
 
   function handComplete() {
     return state.hand.active && state.hand.winners.length >= 3;
   }
 
-  function remainingSeat() {
-    if (!handComplete()) return null;
-    return activeSeats()[0];
+  function pname(i) {
+    return state.players[i] ? state.players[i].name : "玩家" + (i + 1);
+  }
+
+  function queOf(i) {
+    const q = state.hand.que && state.hand.que[i];
+    return q ? QUE_MAP[q] : "";
   }
 
   /* ---------- persist ---------- */
@@ -1418,15 +1738,17 @@ button:disabled {
       localStorage.setItem(
         STORAGE_KEY,
         JSON.stringify({
+          v: 2,
           players: state.players,
           base: state.base,
           rule: state.rule,
           defaultCap: state.defaultCap,
+          checkFan: state.checkFan,
           hand: state.hand,
           rounds: state.rounds,
         })
       );
-    } catch (_) {}
+    } catch (e) {}
   }
 
   function load() {
@@ -1434,42 +1756,67 @@ button:disabled {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return false;
       const data = JSON.parse(raw);
-      if (!data || !Array.isArray(data.players) || data.players.length !== 4) return false;
+      if (!data || !data.players || data.players.length !== 4) return false;
       state.players = data.players;
       state.base = data.base || 2;
       state.rule = data.rule || "pow";
       state.defaultCap = data.defaultCap || 0;
-      state.rounds = Array.isArray(data.rounds) ? data.rounds : [];
-      if (data.hand && Array.isArray(data.hand.winners)) {
-        state.hand = {
-          no: data.hand.no || 1,
-          active: !!data.hand.active,
-          winners: data.hand.winners.slice(),
-          cap: data.hand.cap != null ? data.hand.cap : data.defaultCap || 0,
-        };
+      state.checkFan = data.checkFan || 1;
+      state.rounds = data.rounds || [];
+      if (data.hand && data.hand.winners) {
+        const h = emptyHand(data.hand.no || 1);
+        h.active = !!data.hand.active;
+        h.winners = (data.hand.winners || []).slice();
+        h.cap = data.hand.cap != null ? data.hand.cap : state.defaultCap;
+        h.huan = !!data.hand.huan;
+        h.que = data.hand.que || [null, null, null, null];
+        state.hand = h;
       } else {
         state.hand = emptyHand(1);
-        state.hand.cap = state.defaultCap || 0;
+        state.hand.cap = state.defaultCap;
       }
       return true;
-    } catch (_) {
+    } catch (e) {
       return false;
     }
   }
 
   function totals() {
     const t = [0, 0, 0, 0];
-    for (const r of state.rounds) {
-      r.deltas.forEach((d, i) => {
+    state.rounds.forEach((r) => {
+      (r.deltas || []).forEach((d, i) => {
         t[i] += d;
       });
-    }
+    });
     return t;
   }
 
   function lastDeltas() {
     if (!state.rounds.length) return [0, 0, 0, 0];
-    return state.rounds[state.rounds.length - 1].deltas;
+    return state.rounds[state.rounds.length - 1].deltas || [0, 0, 0, 0];
+  }
+
+  function snapshotHand() {
+    return {
+      no: state.hand.no,
+      active: state.hand.active,
+      winners: state.hand.winners.slice(),
+      cap: state.hand.cap,
+      huan: state.hand.huan,
+      que: (state.hand.que || []).slice(),
+    };
+  }
+
+  function restoreHand(snap) {
+    if (!snap) return;
+    state.hand = {
+      no: snap.no || 1,
+      active: !!snap.active,
+      winners: (snap.winners || []).slice(),
+      cap: snap.cap != null ? snap.cap : state.defaultCap,
+      huan: !!snap.huan,
+      que: snap.que || [null, null, null, null],
+    };
   }
 
   /* ---------- setup ---------- */
@@ -1481,26 +1828,28 @@ button:disabled {
         state.base = parseInt(btn.dataset.base, 10);
       });
     });
-
     $$("#rule-control .seg").forEach((btn) => {
       btn.addEventListener("click", () => {
         $$("#rule-control .seg").forEach((b) => b.classList.remove("active"));
         btn.classList.add("active");
         state.rule = btn.dataset.rule;
         $("#rule-hint").textContent =
-          state.rule === "pow"
-            ? "1番=底分×2，2番=底分×4，番越高涨得越快"
-            : "分数 = 底分 × 番数，节奏更平缓";
+          state.rule === "pow" ? "1番=底分×2，2番=底分×4" : "分数 = 底分 × 番数";
       });
     });
-
     $$("#cap-control .seg").forEach((btn) => {
       btn.addEventListener("click", () => {
         $$("#cap-control .seg").forEach((b) => b.classList.remove("active"));
         btn.classList.add("active");
         state.defaultCap = parseInt(btn.dataset.cap, 10) || 0;
-        // 未开局时，新局预设同步
         if (!state.hand.active) state.hand.cap = state.defaultCap;
+      });
+    });
+    $$("#check-fan-control .seg").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        $$("#check-fan-control .seg").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        state.checkFan = parseInt(btn.dataset.fan, 10) || 1;
       });
     });
 
@@ -1509,12 +1858,12 @@ button:disabled {
         const input = $("#name-" + i);
         return (input.value || "").trim() || input.placeholder || "玩家" + (i + 1);
       });
-      const seen = new Set();
+      const seen = {};
       state.players = names.map((n, i) => {
         let name = n;
-        if (seen.has(name)) name = n + "·" + SEATS[i];
-        seen.add(name);
-        return { name, seat: SEATS[i] };
+        if (seen[name]) name = n + "·" + SEATS[i];
+        seen[name] = 1;
+        return { name: name, seat: SEATS[i] };
       });
       save();
       showBoard();
@@ -1526,7 +1875,6 @@ button:disabled {
     });
   }
 
-  /* ---------- board ---------- */
   function showSetup(hasSaved) {
     $("#screen-setup").classList.add("active");
     $("#screen-board").classList.remove("active");
@@ -1539,11 +1887,14 @@ button:disabled {
     renderBoard();
   }
 
-  function renderBoard(justWonSeats = []) {
+  /* ---------- board ---------- */
+  function renderBoard(justWon) {
+    justWon = justWon || [];
     const t = totals();
     const last = lastDeltas();
-    const max = Math.max(...t);
-    const won = new Set(state.hand.winners);
+    const max = Math.max.apply(null, t);
+    const won = {};
+    state.hand.winners.forEach((i) => (won[i] = true));
 
     $("#round-label").textContent = "第 " + state.hand.no + " 局";
     renderHandBanner();
@@ -1554,20 +1905,24 @@ button:disabled {
       const card = document.createElement("article");
       card.className = "score-card";
       if (t[i] === max && max !== 0) card.classList.add("is-top");
-      if (justWonSeats.includes(i)) card.classList.add("just-won");
-      if (won.has(i)) card.classList.add("already-won");
+      if (justWon.indexOf(i) >= 0) card.classList.add("just-won");
+      if (won[i]) card.classList.add("already-won");
 
       let sub;
-      if (won.has(i)) sub = "已胡 · 离场";
+      if (won[i]) sub = "已胡 · 离场";
       else if (t[i] === max && max !== 0) sub = "目前领先";
       else if (t[i] < 0) sub = "暂时落后";
       else sub = "在打";
+
+      const q = queOf(i);
+      const qTag = q ? '<span class="que-badge">缺' + q + "</span>" : "";
 
       card.innerHTML =
         '<div class="score-bar"></div>' +
         '<div class="score-meta">' +
         '<div class="score-name">' +
-        (won.has(i) ? '<span class="won-badge">胡</span>' : "") +
+        (won[i] ? '<span class="won-badge">胡</span>' : "") +
+        qTag +
         '<span class="score-seat">' +
         p.seat +
         "</span>" +
@@ -1590,55 +1945,52 @@ button:disabled {
       board.appendChild(card);
     });
 
-    $("#btn-undo").disabled = state.rounds.length === 0;
+    $("#btn-undo").disabled = !state.rounds.length;
     updateActionButtons();
     renderRecent();
   }
 
   function renderHandBanner() {
-    let banner = $("#hand-banner");
-    if (!banner) {
-      banner = document.createElement("div");
-      banner.id = "hand-banner";
-      banner.className = "hand-banner";
-      $("#score-board").parentNode.insertBefore(banner, $("#score-board"));
-    }
-
     const capTxt = capLabel(handCap());
+    const bits = [];
+    if (state.hand.huan) bits.push("换三张");
+    const ques = state.hand.que
+      .map((q, i) => (q ? pname(i) + "缺" + QUE_MAP[q] : null))
+      .filter(Boolean);
+    if (ques.length) bits.push(ques.join(" "));
 
     if (!state.hand.active) {
-      banner.innerHTML =
-        '<span class="hand-dot"></span><span>准备开新一局 · 血战打到底 · ' +
+      $("#hand-banner").innerHTML =
+        '<span class="hand-dot"></span><span>准备开新一局 · 血战到底 · ' +
         capTxt +
-        "（可在记第一笔时改）</span>";
-      banner.classList.remove("warn", "done");
+        (bits.length ? " · " + escapeHtml(bits.join(" · ")) : " · 可在开局设置里定缺") +
+        "</span>";
+      $("#hand-banner").classList.remove("done");
       return;
     }
-
     if (handComplete()) {
-      const lastP = state.players[remainingSeat()];
-      banner.innerHTML =
-        '<span class="hand-dot"></span><span>本局三家已胡，剩 <strong>' +
-        escapeHtml(lastP.name) +
+      const lasts = activeSeats().map(pname).join("、");
+      $("#hand-banner").innerHTML =
+        '<span class="hand-dot"></span><span>三家已胡，剩 <strong>' +
+        escapeHtml(lasts) +
         "</strong> · " +
         capTxt +
-        " · 可查大叫后结束</span>";
-      banner.classList.add("done");
-      banner.classList.remove("warn");
+        " · 可查大叫结束</span>";
+      $("#hand-banner").classList.add("done");
       return;
     }
-
-    const wonNames = state.hand.winners.map((i) => state.players[i].name).join("、");
-    banner.innerHTML =
+    const wonNames = state.hand.winners.map(pname).join("、");
+    $("#hand-banner").innerHTML =
       '<span class="hand-dot"></span><span>本局进行中 · 已胡 ' +
       state.hand.winners.length +
       "/3 · " +
-      escapeHtml(activeSeats().map((i) => state.players[i].name).join("、")) +
-      " 还在打 · " +
+      escapeHtml(activeSeats().map(pname).join("、")) +
+      " 在打 · " +
       capTxt +
       (wonNames ? "（已离场：" + escapeHtml(wonNames) + "）" : "") +
+      (bits.length ? " · " + escapeHtml(bits.join(" · ")) : "") +
       "</span>";
-    banner.classList.remove("warn", "done");
+    $("#hand-banner").classList.remove("done");
   }
 
   function updateActionButtons() {
@@ -1653,7 +2005,6 @@ button:disabled {
       if (row) row.classList.remove("is-split");
       return;
     }
-    // 本局进行中：两个大按钮并排
     rec.classList.remove("hidden");
     end.classList.remove("hidden");
     if (row) row.classList.add("is-split");
@@ -1672,35 +2023,80 @@ button:disabled {
 
   function renderRecent() {
     const el = $("#recent-text");
+    const more = $("#recent-more");
     if (!state.rounds.length) {
       el.textContent = "还没记分，点下面开始";
+      if (more) more.hidden = true;
       return;
     }
-    el.textContent = state.rounds[state.rounds.length - 1].summary;
+    const s = state.rounds[state.rounds.length - 1].summary || "";
+    el.textContent = s;
+    if (more) more.hidden = false;
   }
 
-  /* ---------- record sheet ---------- */
+  /* ---------- sheets ---------- */
+  function openSheet(sheetId, overlayId) {
+    const ov = $("#" + overlayId);
+    const sh = $("#" + sheetId);
+    if (ov) {
+      ov.hidden = false;
+      ov.classList.remove("hidden");
+    }
+    if (sh) {
+      sh.hidden = false;
+      sh.classList.remove("hidden");
+    }
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeSheets() {
+    ["sheet-record", "sheet-history", "sheet-rules", "sheet-end", "sheet-meta", "sheet-gang", "sheet-confirm"].forEach(
+      (id) => {
+        const el = $("#" + id);
+        if (el) {
+          el.hidden = true;
+          el.classList.add("hidden");
+        }
+      }
+    );
+    ["sheet-overlay", "history-overlay", "rules-overlay", "end-overlay", "meta-overlay", "gang-overlay", "confirm-overlay"].forEach(
+      (id) => {
+        const el = $("#" + id);
+        if (el) {
+          el.hidden = true;
+          el.classList.add("hidden");
+        }
+      }
+    );
+    document.body.style.overflow = "";
+  }
+
+  function confirmDialog(title, text, onOk) {
+    $("#confirm-title").textContent = title;
+    $("#confirm-text").textContent = text;
+    const ok = $("#btn-confirm-ok");
+    const clone = ok.cloneNode(true);
+    ok.parentNode.replaceChild(clone, ok);
+    clone.addEventListener("click", () => {
+      closeSheets();
+      onOk();
+    });
+    openSheet("sheet-confirm", "confirm-overlay");
+  }
+
+  /* ---------- record / quick ---------- */
   function emptyDraft() {
-    return {
-      winners: [],
-      fans: [],
-      root: 0,
-      mode: "self",
-      dealer: null,
-    };
+    return { winners: [], fans: [], root: 0, mode: "self", dealer: null, showDetail: false };
   }
 
-  /** 可被选为本笔胡家的座位：已在场的人；开局第一笔四人都可选 */
-  function eligibleWinnerSeats() {
-    if (!state.hand.active) return [0, 1, 2, 3];
-    return activeSeats();
+  function eligibleWinners() {
+    return state.hand.active ? activeSeats() : [0, 1, 2, 3];
   }
 
-  /** 可放炮的人：仍在场，且不是本笔胡家 */
-  function eligibleDealerSeats() {
-    const active = eligibleWinnerSeats();
-    const w = new Set(state.draft ? state.draft.winners : []);
-    return active.filter((i) => !w.has(i));
+  function eligibleDealers() {
+    const w = {};
+    (state.draft ? state.draft.winners : []).forEach((i) => (w[i] = true));
+    return eligibleWinners().filter((i) => !w[i]);
   }
 
   function openRecord() {
@@ -1710,6 +2106,7 @@ button:disabled {
     }
     if (!state.hand.active) {
       state.hand.cap = state.defaultCap;
+      if (!state.hand.que) state.hand.que = [null, null, null, null];
     }
     state.draft = emptyDraft();
     buildWinnerChips();
@@ -1724,17 +2121,13 @@ button:disabled {
     const box = $("#cap-block");
     const locked = $("#cap-locked");
     const lockText = $("#cap-locked-text");
-    if (!box) return;
-
     if (state.hand.active) {
       box.classList.add("hidden");
-      if (locked) {
-        locked.classList.remove("hidden");
-        lockText.textContent = "本局 " + capLabel(handCap()) + "（开局已锁定，下一局可改）";
-      }
+      locked.classList.remove("hidden");
+      lockText.textContent = "本局 " + capLabel(handCap()) + "（开局已锁定）";
     } else {
       box.classList.remove("hidden");
-      if (locked) locked.classList.add("hidden");
+      locked.classList.add("hidden");
       $$("#hand-cap-control .seg").forEach((b) => {
         b.classList.toggle("active", parseInt(b.dataset.cap, 10) === handCap());
       });
@@ -1744,17 +2137,16 @@ button:disabled {
   function buildWinnerChips() {
     const box = $("#winner-chips");
     box.innerHTML = "";
-    const elig = eligibleWinnerSeats();
-    elig.forEach((i) => {
-      const p = state.players[i];
+    eligibleWinners().forEach((i) => {
       const b = document.createElement("button");
       b.type = "button";
       b.className = "chip";
       b.dataset.seat = String(i);
-      b.textContent = p.name;
+      const q = queOf(i);
+      b.textContent = pname(i) + (q ? "·缺" + q : "");
       b.addEventListener("click", () => {
         const d = state.draft;
-        if (d.winners.includes(i)) {
+        if (d.winners.indexOf(i) >= 0) {
           d.winners = d.winners.filter((x) => x !== i);
           if (d.dealer === i) d.dealer = null;
         } else if (d.mode === "deal") {
@@ -1762,7 +2154,7 @@ button:disabled {
         } else {
           d.winners = [i];
         }
-        if (d.dealer != null && d.winners.includes(d.dealer)) d.dealer = null;
+        if (d.dealer != null && d.winners.indexOf(d.dealer) >= 0) d.dealer = null;
         buildDealerChips();
         syncRecordUI();
       });
@@ -1773,13 +2165,11 @@ button:disabled {
   function buildDealerChips() {
     const box = $("#dealer-chips");
     box.innerHTML = "";
-    if (!state.draft) return;
-    eligibleDealerSeats().forEach((i) => {
-      const p = state.players[i];
+    eligibleDealers().forEach((i) => {
       const b = document.createElement("button");
       b.type = "button";
       b.className = "chip" + (state.draft.dealer === i ? " active" : "");
-      b.textContent = p.name;
+      b.textContent = pname(i);
       b.addEventListener("click", () => {
         state.draft.dealer = state.draft.dealer === i ? null : i;
         buildDealerChips();
@@ -1792,12 +2182,9 @@ button:disabled {
   function buildFanGrid() {
     const grid = $("#fan-grid");
     grid.innerHTML = "";
-    const section = (title, items) => {
+    function section(title, items) {
       const head = document.createElement("div");
-      head.style.gridColumn = "1 / -1";
-      head.style.marginTop = "6px";
-      head.style.fontSize = "12px";
-      head.style.color = "var(--cream-faint)";
+      head.className = "fan-section-title";
       head.textContent = title;
       grid.appendChild(head);
       items.forEach((t) => {
@@ -1805,33 +2192,41 @@ button:disabled {
         b.type = "button";
         b.className = "fan-item";
         b.dataset.id = t.id;
-        b.innerHTML =
-          '<span class="fan-name">' + t.name + '</span><span class="fan-val">' + t.fan + "番</span>";
+        b.innerHTML = '<span class="fan-name">' + t.name + '</span><span class="fan-val">' + t.fan + "番</span>";
         b.addEventListener("click", () => toggleFan(t.id));
         grid.appendChild(b);
       });
-    };
+    }
     section("胡型", FAN_TYPES);
     section("加番", BONUS_TYPES);
   }
 
   function toggleFan(id) {
     const d = state.draft;
-    const t = ALL_FANS.find((x) => x.id === id);
+    const t = ALL_FANS.filter((x) => x.id === id)[0];
     if (!t) return;
-    if (d.fans.includes(id)) {
+    if (d.fans.indexOf(id) >= 0) {
       d.fans = d.fans.filter((x) => x !== id);
     } else {
-      if (t.exclusive) d.fans = d.fans.filter((x) => !t.exclusive.includes(x));
-      for (const curId of [...d.fans]) {
-        const cur = ALL_FANS.find((x) => x.id === curId);
-        if (cur && cur.exclusive && cur.exclusive.includes(id)) {
-          d.fans = d.fans.filter((x) => x !== curId);
-        }
-      }
+      if (t.exclusive) d.fans = d.fans.filter((x) => t.exclusive.indexOf(x) < 0);
+      d.fans = d.fans.filter((curId) => {
+        const cur = ALL_FANS.filter((x) => x.id === curId)[0];
+        return !(cur && cur.exclusive && cur.exclusive.indexOf(id) >= 0);
+      });
       d.fans.push(id);
     }
     syncRecordUI();
+  }
+
+  function fanNamesText(fans, root) {
+    const names = fans
+      .map((id) => {
+        const t = ALL_FANS.filter((x) => x.id === id)[0];
+        return t ? t.name : "";
+      })
+      .filter(Boolean);
+    if (root > 0) names.push("根×" + root);
+    return names.length ? names.join(" + ") : "平胡（默认）";
   }
 
   function syncRecordUI() {
@@ -1840,54 +2235,61 @@ button:disabled {
 
     $$("#winner-chips .chip").forEach((chip) => {
       const seat = parseInt(chip.dataset.seat, 10);
-      chip.classList.toggle("active", d.winners.includes(seat));
+      chip.classList.toggle("active", d.winners.indexOf(seat) >= 0);
     });
-
     $$("#pay-mode .seg").forEach((btn) => {
       btn.classList.toggle("active", btn.dataset.mode === d.mode);
     });
 
-    $("#win-detail").classList.toggle("hidden", d.winners.length === 0);
+    const hasWin = d.winners.length > 0;
+    const showDetail = hasWin && d.showDetail;
+    $("#win-detail").classList.toggle("hidden", !showDetail);
+    $("#quick-bar").classList.toggle("hidden", !hasWin);
+
+    const quick = $("#btn-quick-save");
+    const canQuick =
+      hasWin && d.mode === "self" && !d.fans.length && !d.root && d.winners.length === 1;
+    quick.disabled = !canQuick;
+    quick.textContent = canQuick
+      ? "快捷记 · " + pname(d.winners[0]) + " 平胡自摸"
+      : "快捷记 · 平胡自摸（需自摸且未改番）";
 
     $$("#fan-grid .fan-item").forEach((el) => {
       const id = el.dataset.id;
-      const t = ALL_FANS.find((x) => x.id === id);
-      el.classList.toggle("active", d.fans.includes(id));
+      const t = ALL_FANS.filter((x) => x.id === id)[0];
+      el.classList.toggle("active", d.fans.indexOf(id) >= 0);
       let disabled = false;
-      if (t && t.exclusive) disabled = t.exclusive.some((x) => d.fans.includes(x));
-      for (const fid of d.fans) {
-        const sel = FAN_TYPES.find((x) => x.id === fid);
-        if (sel && sel.exclusive && sel.exclusive.includes(id)) disabled = true;
-      }
-      el.disabled = disabled && !d.fans.includes(id);
+      if (t && t.exclusive) disabled = t.exclusive.some((x) => d.fans.indexOf(x) >= 0);
+      FAN_TYPES.forEach((sel) => {
+        if (sel.exclusive && d.fans.indexOf(sel.id) >= 0 && sel.exclusive.indexOf(id) >= 0) disabled = true;
+      });
+      el.disabled = disabled && d.fans.indexOf(id) < 0;
     });
 
     const rawFan = totalFan(d.fans, d.root, d.mode);
-    const fan = d.winners.length ? Math.max(rawFan, 1) : rawFan;
-    const names = d.fans.map((id) => (ALL_FANS.find((x) => x.id === id) || {}).name).filter(Boolean);
-    if (d.root > 0) names.push("根×" + d.root);
-    $("#fan-summary-text").textContent = names.length ? names.join(" + ") : "平胡（默认）";
+    const fan = hasWin ? Math.max(rawFan, 1) : rawFan;
+    $("#fan-summary-text").textContent = fanNamesText(d.fans, d.root);
     $("#fan-total").textContent = fan + " 番";
     $("#root-count").textContent = String(d.root);
-
     $("#dealer-picker").classList.toggle("hidden", d.mode !== "deal");
 
     const note = $("#winner-note");
     if (note) {
-      if (d.mode === "deal") note.textContent = "可多选（一炮多响）";
+      if (!state.hand.active) note.textContent = "第一笔记下后本局开始";
+      else if (d.mode === "deal") note.textContent = "可多选（一炮多响）";
       else note.textContent = "自摸/杠上花一次只能一家";
     }
 
-    // 本局进度提示
     const prog = $("#hand-progress");
     if (prog) {
       if (state.hand.active && state.hand.winners.length) {
         prog.textContent =
           "本局已胡：" +
-          state.hand.winners.map((i) => state.players[i].name).join("、") +
-          "（不再付分）";
+          state.hand.winners.map(pname).join("、") +
+          "（不再付分）· " +
+          capLabel(handCap());
       } else {
-        prog.textContent = "本局还没有人胡，打到三家胡完为止";
+        prog.textContent = "本局还没有人胡 · " + capLabel(handCap());
       }
     }
 
@@ -1896,22 +2298,14 @@ button:disabled {
     $("#btn-save-hand").disabled = !result.valid;
   }
 
-  /**
-   * 血战到底支付：
-   * - 点炮：只有放炮者（且仍在场）向胡家付
-   * - 自摸/杠上花：仍在场的其他人向胡家付（已胡离场的人不付）
-   */
   function computeHand(d) {
     if (!d.winners.length) return { valid: false, lines: "先选还在打的人胡了", summary: "" };
     if (d.mode === "deal" && d.dealer == null) {
       return { valid: false, lines: "请选放炮的人（须仍在场上）", summary: "" };
     }
-
-    const elig = eligibleWinnerSeats();
-    for (const w of d.winners) {
-      if (!elig.includes(w)) {
-        return { valid: false, lines: "已胡的人不能再胡", summary: "" };
-      }
+    const elig = eligibleWinners();
+    for (let k = 0; k < d.winners.length; k++) {
+      if (elig.indexOf(d.winners[k]) < 0) return { valid: false, lines: "已胡的人不能再胡", summary: "" };
     }
 
     const fan = Math.max(totalFan(d.fans, d.root, d.mode), 1);
@@ -1919,46 +2313,33 @@ button:disabled {
     const deltas = [0, 0, 0, 0];
     const winners = d.winners;
     const alreadyWon = state.hand.winners;
-    // 本笔之后仍可能在场的人（不含本笔赢家）
-    const stillIn = elig.filter((i) => !winners.includes(i));
+    const stillIn = elig.filter((i) => winners.indexOf(i) < 0);
 
     if (d.mode === "deal") {
-      if (!stillIn.includes(d.dealer)) {
+      if (stillIn.indexOf(d.dealer) < 0) {
         return { valid: false, lines: "放炮的人必须还在场上", summary: "" };
       }
-      for (const w of winners) {
+      winners.forEach((w) => {
         deltas[w] += amount;
         deltas[d.dealer] -= amount;
-      }
+      });
     } else {
-      // 自摸：仍在场的其他人付（已胡离场 alreadyWon 不参与）
-      for (const w of winners) {
-        for (const o of stillIn) {
+      winners.forEach((w) => {
+        stillIn.forEach((o) => {
           deltas[w] += amount;
           deltas[o] -= amount;
-        }
-      }
+        });
+      });
     }
 
     const modeName = d.mode === "self" ? "自摸" : d.mode === "gang" ? "杠上花" : "点炮";
-    const fanName = $("#fan-summary-text").textContent;
-    const wNames = winners.map((i) => state.players[i].name).join("、");
+    const fanName = fanNamesText(d.fans, d.root);
+    const wNames = winners.map(pname).join("、");
     let summary;
     if (d.mode === "deal") {
-      summary =
-        wNames +
-        " " +
-        modeName +
-        "（" +
-        state.players[d.dealer].name +
-        "放炮）· " +
-        fanName +
-        " · " +
-        fan +
-        "番 · 付 " +
-        amount;
+      summary = wNames + " " + modeName + "（" + pname(d.dealer) + "放炮）· " + fanName + " · " + fan + "番 · 付 " + amount;
     } else {
-      const payers = stillIn.map((i) => state.players[i].name).join("、");
+      const payers = stillIn.map(pname).join("、");
       summary =
         wNames +
         " " +
@@ -1968,13 +2349,11 @@ button:disabled {
         " · " +
         fan +
         "番 · " +
-        (payers
-          ? payers + (stillIn.length > 1 ? " 各付 " : " 付 ") + amount
-          : "无人付分");
+        (payers ? payers + (stillIn.length > 1 ? " 各付 " : " 付 ") + amount : "无人付分");
     }
 
     const lines = [];
-    const raw = state.rule === "pow" ? state.base * Math.pow(2, fan) : state.base * fan;
+    const raw = rawScore(fan);
     const capped = handCap() > 0 && raw > handCap();
     lines.push(
       '<span class="hl">' +
@@ -1984,72 +2363,248 @@ button:disabled {
         ' · 单份 <span class="hl">' +
         amount +
         "</span>" +
-        (capped ? ' <em>(已封顶，原 ' + raw + ")</em>" : "") +
-        (handCap() ? " · " + capLabel(handCap()) : "")
+        (capped ? " <em>(已封顶，原 " + raw + ")</em>" : "") +
+        " · " +
+        capLabel(handCap())
     );
     winners.forEach((w) => {
-      lines.push(escapeHtml(state.players[w].name) + ' <span class="hl">' + formatNum(deltas[w]) + "</span> <em>离场</em>");
+      lines.push(escapeHtml(pname(w)) + ' <span class="hl">' + formatNum(deltas[w]) + "</span> <em>离场</em>");
     });
     for (let i = 0; i < 4; i++) {
-      if (deltas[i] < 0) lines.push(escapeHtml(state.players[i].name) + " " + formatNum(deltas[i]));
+      if (deltas[i] < 0) lines.push(escapeHtml(pname(i)) + " " + formatNum(deltas[i]));
     }
     if (alreadyWon.length) {
-      lines.push(
-        '<span style="opacity:.7">已胡 ' +
-          alreadyWon.map((i) => escapeHtml(state.players[i].name)).join("、") +
-          " 不参与本笔</span>"
-      );
+      lines.push('<span style="opacity:.7">已胡 ' + alreadyWon.map(pname).map(escapeHtml).join("、") + " 不参与本笔</span>");
     }
-
-    return { valid: true, lines: lines.join("<br>"), summary, deltas, amount, fan };
+    return { valid: true, lines: lines.join("<br>"), summary: summary, deltas: deltas, amount: amount, fan: fan };
   }
 
-  function saveHand() {
+  function saveHand(opts) {
+    opts = opts || {};
     const d = state.draft;
     const result = computeHand(d);
     if (!result.valid) return;
 
-    if (!state.hand.active) {
-      state.hand.active = true;
-      // 封顶在本局第一笔落定时锁定
-      if (state.hand.cap == null) state.hand.cap = state.defaultCap;
-    }
+    const handBefore = snapshotHand();
+    if (!state.hand.active) state.hand.active = true;
 
     const round = {
       id: Date.now(),
       handNo: state.hand.no,
       type: "win",
-      winners: [...d.winners],
+      winners: d.winners.slice(),
       dealer: d.dealer,
       mode: d.mode,
-      fans: [...d.fans],
+      fans: d.fans.slice(),
       root: d.root,
       fan: result.fan,
       amount: result.amount,
       deltas: result.deltas,
       summary: result.summary,
-      handWinnersBefore: [...state.hand.winners],
+      handBefore: handBefore,
     };
 
-    // 血战：胡家离场
-    for (const w of d.winners) {
-      if (!state.hand.winners.includes(w)) state.hand.winners.push(w);
-    }
+    d.winners.forEach((w) => {
+      if (state.hand.winners.indexOf(w) < 0) state.hand.winners.push(w);
+    });
 
     state.rounds.push(round);
     save();
     closeSheets();
     renderBoard(round.winners);
-
     if (handComplete()) {
-      const lastP = state.players[remainingSeat()];
-      toast("三家已胡，剩 " + lastP.name + "，可查大叫结束");
+      toast("三家已胡，剩 " + activeSeats().map(pname).join("、") + "，可查大叫结束");
     } else {
-      toast("已记入，继续打（剩 " + activeSeats().length + " 家）");
+      toast((opts.quick ? "已快捷记入" : "已记入") + "，继续打（剩 " + activeSeats().length + " 家）");
     }
   }
 
-  /* ---------- 查大叫 / 结束本局（可中途结束，剩 1～3 家） ---------- */
+  /* ---------- 开局设置 ---------- */
+  function openMeta() {
+    const list = $("#que-list");
+    list.innerHTML = "";
+    $$("#huan-mode .seg").forEach((b) => {
+      b.classList.toggle("active", (b.dataset.huan === "1") === !!state.hand.huan);
+    });
+    [0, 1, 2, 3].forEach((i) => {
+      const row = document.createElement("div");
+      row.className = "que-row";
+      const label = document.createElement("span");
+      label.className = "root-label";
+      label.textContent = SEATS[i] + " " + pname(i);
+      const chips = document.createElement("div");
+      chips.className = "chip-row";
+      ["wan", "tong", "tiao", ""].forEach((q) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "chip" + ((state.hand.que[i] || "") === q ? " active" : "");
+        b.textContent = q ? QUE_MAP[q] : "无";
+        b.addEventListener("click", () => {
+          state.hand.que[i] = q || null;
+          openMeta();
+        });
+        chips.appendChild(b);
+      });
+      row.appendChild(label);
+      row.appendChild(chips);
+      list.appendChild(row);
+    });
+    openSheet("sheet-meta", "meta-overlay");
+  }
+
+  /* ---------- 杠 ---------- */
+  function openGang() {
+    if (!state.hand.active) {
+      toast("请先开一局（记一笔胡或先保存开局设置）");
+      // allow starting hand via meta
+      openMeta();
+      return;
+    }
+    state.gangDraft = { who: null, type: "ming", dealer: null };
+    buildGangChips();
+    syncGangUI();
+    openSheet("sheet-gang", "gang-overlay");
+  }
+
+  function buildGangChips() {
+    const who = $("#gang-who");
+    const deal = $("#gang-dealer");
+    who.innerHTML = "";
+    deal.innerHTML = "";
+    const acts = activeSeats();
+    acts.forEach((i) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "chip" + (state.gangDraft.who === i ? " active" : "");
+      b.textContent = pname(i);
+      b.addEventListener("click", () => {
+        state.gangDraft.who = i;
+        if (state.gangDraft.dealer === i) state.gangDraft.dealer = null;
+        buildGangChips();
+        syncGangUI();
+      });
+      who.appendChild(b);
+    });
+    if (state.gangDraft.type === "ming") {
+      acts.forEach((i) => {
+        if (i === state.gangDraft.who) return;
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "chip" + (state.gangDraft.dealer === i ? " active" : "");
+        b.textContent = pname(i);
+        b.addEventListener("click", () => {
+          state.gangDraft.dealer = state.gangDraft.dealer === i ? null : i;
+          buildGangChips();
+          syncGangUI();
+        });
+        deal.appendChild(b);
+      });
+    }
+  }
+
+  function computeGang(g) {
+    const amount1 = applyCap(state.base); // 明/巴 1份
+    const amount2 = applyCap(state.base * 2); // 暗 2份
+    const deltas = [0, 0, 0, 0];
+    const acts = activeSeats().filter((i) => i !== g.who);
+    if (g.type === "ming") {
+      if (g.dealer == null || g.dealer === g.who || acts.indexOf(g.dealer) < 0) {
+        return { valid: false, lines: "点杠需选仍在场的点杠者", summary: "", deltas: deltas };
+      }
+      deltas[g.who] += amount1;
+      deltas[g.dealer] -= amount1;
+      return {
+        valid: true,
+        amount: amount1,
+        deltas: deltas,
+        lines:
+          escapeHtml(pname(g.who)) +
+          ' 明杠 <span class="hl">+' +
+          amount1 +
+          "</span>，" +
+          escapeHtml(pname(g.dealer)) +
+          " " +
+          formatNum(-amount1),
+        summary: pname(g.who) + " 明杠（" + pname(g.dealer) + "点）· 付 " + amount1,
+      };
+    }
+    if (g.type === "an") {
+      acts.forEach((o) => {
+        deltas[g.who] += amount2;
+        deltas[o] -= amount2;
+      });
+      return {
+        valid: true,
+        amount: amount2,
+        deltas: deltas,
+        lines:
+          escapeHtml(pname(g.who)) +
+          ' 暗杠 <span class="hl">+' +
+          amount2 * acts.length +
+          "</span> · " +
+          acts.map(pname).join("、") +
+          " 各付 " +
+          amount2,
+        summary: pname(g.who) + " 暗杠 · " + acts.map(pname).join("、") + " 各付 " + amount2,
+      };
+    }
+    // ba
+    acts.forEach((o) => {
+      deltas[g.who] += amount1;
+      deltas[o] -= amount1;
+    });
+    return {
+      valid: true,
+      amount: amount1,
+      deltas: deltas,
+      lines:
+        escapeHtml(pname(g.who)) +
+        ' 巴杠 <span class="hl">+' +
+        amount1 * acts.length +
+        "</span> · " +
+        acts.map(pname).join("、") +
+        " 各付 " +
+        amount1,
+      summary: pname(g.who) + " 巴杠 · " + acts.map(pname).join("、") + " 各付 " + amount1,
+    };
+  }
+
+  function syncGangUI() {
+    const g = state.gangDraft;
+    $$("#gang-type .seg").forEach((b) => b.classList.toggle("active", b.dataset.gtype === g.type));
+    $("#gang-dealer-block").classList.toggle("hidden", g.type !== "ming");
+    $("#gang-progress").textContent =
+      "在场：" + activeSeats().map(pname).join("、") + " · 已胡离场：" +
+      (state.hand.winners.length ? state.hand.winners.map(pname).join("、") : "无");
+    const r = g.who == null ? { valid: false, lines: "先选谁杠的" } : computeGang(g);
+    $("#gang-preview").innerHTML = r.lines;
+    $("#btn-gang-save").disabled = !r.valid;
+  }
+
+  function saveGang() {
+    const g = state.gangDraft;
+    const r = computeGang(g);
+    if (!r.valid) return;
+    const round = {
+      id: Date.now(),
+      handNo: state.hand.no,
+      type: "gang",
+      who: g.who,
+      gtype: g.type,
+      dealer: g.dealer,
+      amount: r.amount,
+      deltas: r.deltas,
+      summary: r.summary,
+      handBefore: snapshotHand(),
+    };
+    state.rounds.push(round);
+    save();
+    closeSheets();
+    renderBoard([g.who]);
+    toast("已记杠");
+  }
+
+  /* ---------- 查大叫 / 结束 ---------- */
   function openEndHand() {
     if (!state.hand.active) {
       toast("还没开这一局");
@@ -2057,165 +2612,149 @@ button:disabled {
     }
     const lasts = activeSeats();
     const winners = state.hand.winners;
-    const title = $("#end-sheet-title");
-    if (title) {
-      title.textContent = handComplete()
-        ? "本局三家已胡"
-        : "结束本局（还可继续打）";
-    }
-    $("#end-winner-names").textContent = winners.length
-      ? winners.map((i) => state.players[i].name).join("、")
-      : "（还没有人胡）";
-    $("#end-last-name").textContent = lasts.map((i) => state.players[i].name).join("、");
+    $("#end-sheet-title").textContent = handComplete() ? "本局三家已胡" : "结束本局（还可继续打）";
+    $("#end-winner-names").textContent = winners.length ? winners.map(pname).join("、") : "（还没有人胡）";
+    $("#end-last-name").textContent = lasts.map(pname).join("、");
 
-    // 无人胡或已无已胡家时，查大叫无意义
-    const canCheck = winners.length > 0 && lasts.length > 0;
-    $$("#check-mode .seg").forEach((b) => {
-      b.classList.toggle("hidden", !canCheck && b.dataset.check !== "skip");
-      b.disabled = !canCheck && b.dataset.check !== "skip";
+    state.endDraft = {
+      checkFan: state.checkFan || 1,
+      mode: {},
+    };
+    lasts.forEach((i) => {
+      state.endDraft.mode[i] = "skip";
     });
-    const checkLabel = $("#end-check-label");
-    if (checkLabel) {
-      checkLabel.textContent = canCheck
-        ? "查大叫（未胡的 " + lasts.length + " 家一并结算）"
-        : "查大叫（本局暂无可查）";
-    }
-
-    $$("#check-mode .seg").forEach((b) => b.classList.remove("active"));
-    const skipBtn = $('#check-mode .seg[data-check="skip"]')[0];
-    if (skipBtn) skipBtn.classList.add("active");
-
+    $$("#check-fan-val").forEach((el) => {
+      el.textContent = String(state.endDraft.checkFan);
+    });
+    buildCheckPersons();
     updateEndPreview();
     openSheet("sheet-end", "end-overlay");
   }
 
-  function updateEndPreview() {
+  function buildCheckPersons() {
+    const box = $("#check-persons");
+    box.innerHTML = "";
     const lasts = activeSeats();
-    const winners = state.hand.winners;
-    const modeEl = $("#check-mode .seg.active");
-    const mode = modeEl ? modeEl.dataset.check : "skip";
-    const amount = calcScore(1);
-    const lines = [];
-    const canCheck = winners.length > 0 && lasts.length > 0 && mode !== "skip";
-
-    if (!canCheck) {
-      lines.push(
-        lasts.length
-          ? "不查叫，直接结束。未胡：" +
-              escapeHtml(lasts.map((i) => state.players[i].name).join("、"))
-          : "结束本局，开下一局"
-      );
-    } else if (mode === "ting") {
-      lines.push(
-        "未胡家听牌：每位已胡家向每位未胡家付 <span class=\"hl\">" + amount + "</span>"
-      );
-      lasts.forEach((L) => {
-        lines.push(
-          escapeHtml(state.players[L].name) +
-            ' <span class="hl">' +
-            formatNum(amount * winners.length) +
-            "</span>"
-        );
-      });
-      winners.forEach((w) => {
-        lines.push(
-          escapeHtml(state.players[w].name) + " " + formatNum(-amount * lasts.length)
-        );
-      });
-    } else {
-      lines.push(
-        "未胡家花猪/未听：向每位已胡家付 <span class=\"hl\">" + amount + "</span>"
-      );
-      lasts.forEach((L) => {
-        lines.push(
-          escapeHtml(state.players[L].name) + " " + formatNum(-amount * winners.length)
-        );
-      });
-      winners.forEach((w) => {
-        lines.push(
-          escapeHtml(state.players[w].name) +
-            ' <span class="hl">' +
-            formatNum(amount * lasts.length) +
-            "</span>"
-        );
-      });
+    if (!state.hand.winners.length) {
+      box.innerHTML = '<p class="field-hint">本局还没有人胡，查大叫不可用，直接结束即可。</p>';
+      return;
     }
-    $("#end-preview").innerHTML = lines.join("<br>");
+    lasts.forEach((i) => {
+      const row = document.createElement("div");
+      row.className = "check-person";
+      const name = document.createElement("div");
+      name.className = "check-person-name";
+      name.textContent = pname(i) + (queOf(i) ? " · 缺" + queOf(i) : "");
+      const segs = document.createElement("div");
+      segs.className = "seg-control full";
+      [
+        ["skip", "不查"],
+        ["ting", "听牌"],
+        ["huazhu", "花猪"],
+      ].forEach((pair) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "seg" + (state.endDraft.mode[i] === pair[0] ? " active" : "");
+        b.textContent = pair[1];
+        b.addEventListener("click", () => {
+          state.endDraft.mode[i] = pair[0];
+          buildCheckPersons();
+          updateEndPreview();
+        });
+        segs.appendChild(b);
+      });
+      row.appendChild(name);
+      row.appendChild(segs);
+      box.appendChild(row);
+    });
+  }
+
+  function computeEnd() {
+    const lasts = activeSeats();
+    const winners = state.hand.winners.slice();
+    const fan = state.endDraft.checkFan || 1;
+    const amount = calcScore(fan);
+    const deltas = [0, 0, 0, 0];
+    const parts = [];
+    const modes = state.endDraft.mode;
+
+    if (!winners.length) {
+      return {
+        deltas: deltas,
+        summary: "第 " + state.hand.no + " 局结束 · 无人胡",
+        lines: "不查叫，直接结束本局",
+        amount: 0,
+      };
+    }
+
+    lasts.forEach((L) => {
+      const m = modes[L] || "skip";
+      if (m === "ting") {
+        winners.forEach((w) => {
+          deltas[w] -= amount;
+          deltas[L] += amount;
+        });
+        parts.push(pname(L) + "听牌(+" + amount * winners.length + ")");
+      } else if (m === "huazhu") {
+        winners.forEach((w) => {
+          deltas[w] += amount;
+          deltas[L] -= amount;
+        });
+        parts.push(pname(L) + "花猪(-" + amount * winners.length + ")");
+      }
+    });
+
+    const wonTxt = winners.map(pname).join("、") + " 已胡";
+    const summary =
+      "第 " +
+      state.hand.no +
+      " 局结束 · " +
+      wonTxt +
+      "；" +
+      (parts.length ? parts.join("，") : lasts.map(pname).join("、") + " 未胡不查");
+
+    const lines = [];
+    lines.push("查叫 <span class=\"hl\">" + fan + " 番 · 单份 " + amount + "</span>");
+    lasts.forEach((L) => {
+      const m = modes[L] || "skip";
+      const label = m === "ting" ? "听牌" : m === "huazhu" ? "花猪/未听" : "不查";
+      lines.push(
+        escapeHtml(pname(L)) +
+          " " +
+          label +
+          " " +
+          (deltas[L] !== 0 ? '<span class="hl">' + formatNum(deltas[L]) + "</span>" : "0")
+      );
+    });
+    winners.forEach((w) => {
+      if (deltas[w] !== 0) lines.push(escapeHtml(pname(w)) + " " + formatNum(deltas[w]));
+    });
+    return { deltas: deltas, summary: summary, lines: lines.join("<br>"), amount: amount };
+  }
+
+  function updateEndPreview() {
+    if (!state.endDraft) return;
+    $("#check-fan-val").textContent = String(state.endDraft.checkFan);
+    $("#end-preview").innerHTML = computeEnd().lines;
   }
 
   function endHand() {
     if (!state.hand.active) return;
-    const lasts = activeSeats();
-    const winners = [...state.hand.winners];
-    const modeEl = $("#check-mode .seg.active");
-    const mode = modeEl ? modeEl.dataset.check : "skip";
-    const amount = calcScore(1);
-    const deltas = [0, 0, 0, 0];
-    const canCheck = winners.length > 0 && lasts.length > 0 && mode !== "skip";
-    let summary;
-
-    if (mode === "ting" && canCheck) {
-      for (const w of winners) {
-        for (const L of lasts) {
-          deltas[w] -= amount;
-          deltas[L] += amount;
-        }
-      }
-      summary =
-        "第 " +
-        state.hand.no +
-        " 局结束 · " +
-        lasts.map((i) => state.players[i].name).join("、") +
-        " 查叫听牌，各已胡家付 " +
-        amount;
-    } else if (mode === "huazhu" && canCheck) {
-      for (const w of winners) {
-        for (const L of lasts) {
-          deltas[w] += amount;
-          deltas[L] -= amount;
-        }
-      }
-      summary =
-        "第 " +
-        state.hand.no +
-        " 局结束 · " +
-        lasts.map((i) => state.players[i].name).join("、") +
-        " 花猪/未听，向各已胡家付 " +
-        amount;
-    } else {
-      const wonTxt = winners.length
-        ? winners.map((i) => state.players[i].name).join("、") + " 已胡；"
-        : "";
-      summary =
-        "第 " +
-        state.hand.no +
-        " 局结束 · " +
-        wonTxt +
-        (lasts.length
-          ? lasts.map((i) => state.players[i].name).join("、") + " 未胡"
-          : "三家胡完");
-    }
-
+    const r = computeEnd();
     const round = {
       id: Date.now(),
       handNo: state.hand.no,
       type: "end",
-      winners,
-      lasts,
-      check: canCheck ? mode : "skip",
-      deltas,
-      summary,
-      amount: canCheck ? amount : 0,
-      handBefore: {
-        no: state.hand.no,
-        active: true,
-        winners: [...state.hand.winners],
-        cap: state.hand.cap,
-      },
+      winners: state.hand.winners.slice(),
+      lasts: activeSeats(),
+      checkFan: state.endDraft.checkFan,
+      modes: JSON.parse(JSON.stringify(state.endDraft.mode)),
+      deltas: r.deltas,
+      summary: r.summary,
+      amount: r.amount,
+      handBefore: snapshotHand(),
     };
     state.rounds.push(round);
-
-    // 开下一局（沿用默认封顶，可在第一笔前改）
     const next = emptyHand(state.hand.no + 1);
     next.cap = state.defaultCap;
     state.hand = next;
@@ -2225,7 +2764,7 @@ button:disabled {
     toast("本局结束，可以开下一局了");
   }
 
-  /* ---------- history ---------- */
+  /* ---------- history / export ---------- */
   function renderHistory() {
     const list = $("#history-list");
     const empty = $("#history-empty");
@@ -2235,50 +2774,48 @@ button:disabled {
       return;
     }
     empty.classList.add("hidden");
-
-    [...state.rounds].reverse().forEach((r) => {
-      const item = document.createElement("div");
-      item.className = "history-item" + (r.type === "end" ? " is-end" : "");
-      const badge = r.type === "end" ? "结" : "胡";
-      const parts = [escapeHtml(r.summary)];
-      r.deltas.forEach((d, i) => {
-        if (d !== 0) parts.push(escapeHtml(state.players[i].name) + " " + formatNum(d));
+    state.rounds
+      .slice()
+      .reverse()
+      .forEach((r) => {
+        const item = document.createElement("div");
+        item.className = "history-item" + (r.type === "end" ? " is-end" : "");
+        const badge = r.type === "end" ? "结" : r.type === "gang" ? "杠" : "胡";
+        const parts = [escapeHtml(r.summary || "")];
+        (r.deltas || []).forEach((d, i) => {
+          if (d !== 0) parts.push(escapeHtml(pname(i)) + " " + formatNum(d));
+        });
+        let right = "";
+        if (r.type === "end") right = "结束";
+        else if (r.type === "gang") right = "杠 " + r.amount;
+        else right = r.fan + " 番 · " + r.amount;
+        item.innerHTML =
+          '<div class="history-item-head">' +
+          '<span class="history-round"><span class="hist-badge">' +
+          badge +
+          "</span> 第 " +
+          (r.handNo || 1) +
+          " 局</span>" +
+          '<span class="history-fan">' +
+          right +
+          "</span></div>" +
+          '<div class="history-line">' +
+          parts.join("　") +
+          "</div>";
+        list.appendChild(item);
       });
-      item.innerHTML =
-        '<div class="history-item-head">' +
-        '<span class="history-round"><span class="hist-badge">' +
-        badge +
-        "</span> 第 " +
-        (r.handNo || 1) +
-        " 局</span>" +
-        '<span class="history-fan">' +
-        (r.type === "end"
-          ? r.amount
-            ? "查叫"
-            : "结束"
-          : r.fan + " 番 · " + r.amount) +
-        "</span></div>" +
-        '<div class="history-line">' +
-        parts.join("　") +
-        "</div>";
-      list.appendChild(item);
-    });
   }
 
-  function exportReport() {
-    if (!state.rounds.length) {
-      toast("还没有可复制的战报");
-      return;
-    }
+  function reportText() {
     const t = totals();
     const lines = [];
     lines.push(
-      "【川麻血战到底 · 记分战报】底分 " +
+      "【川麻血战到底 v2.0】底分 " +
         state.base +
         " · " +
         (state.rule === "pow" ? "倍番制" : "线性") +
         " · " +
-        (state.defaultCap ? "默认封顶 " + state.defaultCap : "不封顶")
+        (state.defaultCap ? "封顶" + state.defaultCap : "不封顶")
     );
     lines.push("");
     state.players.forEach((p, i) => {
@@ -2287,17 +2824,23 @@ button:disabled {
     lines.push("");
     lines.push("—— 明细 ——");
     state.rounds.forEach((r) => {
-      lines.push("第" + (r.handNo || 1) + "局 · " + r.summary);
+      lines.push("第" + (r.handNo || 1) + "局 · " + (r.summary || ""));
     });
-    const text = lines.join("\n");
+    return lines.join("\n");
+  }
+
+  function exportReport() {
+    if (!state.rounds.length) {
+      toast("还没有可复制的战报");
+      return;
+    }
+    const text = reportText();
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(
         () => toast("战报已复制"),
         () => fallbackCopy(text)
       );
-    } else {
-      fallbackCopy(text);
-    }
+    } else fallbackCopy(text);
   }
 
   function fallbackCopy(text) {
@@ -2310,71 +2853,120 @@ button:disabled {
     try {
       document.execCommand("copy");
       toast("战报已复制");
-    } catch (_) {
-      toast("复制失败，请手动截图");
+    } catch (e) {
+      toast("复制失败");
     }
     document.body.removeChild(ta);
   }
 
-  /* ---------- sheets ---------- */
-  function openSheet(sheetId, overlayId) {
-    $("#" + overlayId).hidden = false;
-    $("#" + overlayId).classList.remove("hidden");
-    $("#" + sheetId).hidden = false;
-    $("#" + sheetId).classList.remove("hidden");
-    document.body.style.overflow = "hidden";
+  function exportJson() {
+    const data = {
+      v: 2,
+      exportedAt: new Date().toISOString(),
+      players: state.players,
+      base: state.base,
+      rule: state.rule,
+      defaultCap: state.defaultCap,
+      checkFan: state.checkFan,
+      hand: state.hand,
+      rounds: state.rounds,
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "川麻记分备份-" + new Date().toISOString().slice(0, 10) + ".json";
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    toast("已导出备份文件");
   }
 
-  function closeSheets() {
-    ["sheet-record", "sheet-history", "sheet-rules", "sheet-end"].forEach((id) => {
-      const el = $("#" + id);
-      if (el) {
-        el.hidden = true;
-        el.classList.add("hidden");
+  function importJsonFile(file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(String(reader.result));
+        if (!data || !data.players || data.players.length !== 4) throw new Error("bad");
+        state.players = data.players;
+        state.base = data.base || 2;
+        state.rule = data.rule || "pow";
+        state.defaultCap = data.defaultCap || 0;
+        state.checkFan = data.checkFan || 1;
+        state.rounds = data.rounds || [];
+        if (data.hand) restoreHand(data.hand);
+        save();
+        closeSheets();
+        showBoard();
+        toast("导入成功");
+      } catch (e) {
+        toast("导入失败：文件格式不对");
       }
-    });
-    ["sheet-overlay", "history-overlay", "rules-overlay", "end-overlay"].forEach((id) => {
-      const el = $("#" + id);
-      if (el) {
-        el.hidden = true;
-        el.classList.add("hidden");
-      }
-    });
-    document.body.style.overflow = "";
+    };
+    reader.readAsText(file);
   }
 
+  function exportPng() {
+    if (!state.rounds.length) {
+      toast("还没有记录");
+      return;
+    }
+    const text = reportText().split("\n");
+    const w = 750;
+    const lineH = 36;
+    const h = 80 + text.length * lineH;
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#0c3a2c";
+    ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = "#f3ead8";
+    ctx.font = "600 28px PingFang SC, sans-serif";
+    ctx.fillText("川麻记分 · 战报 v2.0", 32, 48);
+    ctx.font = "24px PingFang SC, sans-serif";
+    text.forEach((line, i) => {
+      ctx.fillStyle = i < 6 ? "#f0c75e" : "#d9cfba";
+      ctx.fillText(line, 32, 96 + i * lineH);
+    });
+    const a = document.createElement("a");
+    a.href = canvas.toDataURL("image/png");
+    a.download = "川麻战报.png";
+    a.click();
+    toast("战报图片已生成");
+  }
+
+  /* ---------- rules ---------- */
   function renderRules() {
-    const el = $("#rules-content");
     const fanRows = FAN_TYPES.map(
-      (t) =>
-        '<div class="rule-row"><span>' + t.name + "</span><span>" + t.fan + "番</span></div>"
+      (t) => '<div class="rule-row"><span>' + t.name + "</span><span>" + t.fan + "番</span></div>"
     ).join("");
     const bonusRows = BONUS_TYPES.map(
-      (t) =>
-        '<div class="rule-row"><span>' + t.name + "</span><span>" + t.fan + "番</span></div>"
+      (t) => '<div class="rule-row"><span>' + t.name + "</span><span>" + t.fan + "番</span></div>"
     ).join("");
-    el.innerHTML =
+    $("#rules-content").innerHTML =
       "<h4>血战到底</h4>" +
-      "<p>一局打到三家胡完为止。有人胡了就离场，剩下的人继续；已胡的人<strong>不再付分</strong>，也不能再胡。一炮多响可同时多家胡。</p>" +
+      "<p>有人胡了就离场继续打；已胡的人<strong>不再付分</strong>。可随时点「结束本局」（剩 1～3 家没胡都行），三家胡完会提示收尾。</p>" +
+      "<h4>快捷记</h4>" +
+      "<p>选人后可一键「平胡·自摸」。要改番型/点炮/杠上花，点「改番型」展开。</p>" +
       "<h4>封顶</h4>" +
-      "<p>每局开始前可设单份封顶。计算结果超过封顶时按封顶付；本局第一笔记下后锁定，结束后下一局可再改。</p>" +
-      "<h4>结算公式</h4>" +
-      "<p>倍番制：单份 = 底分 × 2^番数（1番=底分×2）。线性：单份 = 底分 × 番数。根每张 +1 番。</p>" +
+      "<p>单份最高分。本局第一笔记下后锁定。杠结算同样受封顶限制。</p>" +
       "<h4>支付</h4>" +
-      "<p><strong>自摸 / 杠上花</strong>：仍在场的每位玩家向胡家付单份。<br><strong>点炮</strong>：仅放炮者（须仍在场）向每位胡家付单份。</p>" +
+      "<p><strong>自摸/杠上花</strong>：在场每人付单份。<br><strong>点炮</strong>：仅放炮者付给每位胡家。<br><strong>明杠</strong>：点杠者付 1 份；<strong>暗杠</strong>：在场每人付 2 份；<strong>巴杠</strong>：在场每人付 1 份。</p>" +
       "<h4>查大叫</h4>" +
-      "<p>三家胡完后结束本局。剩家听牌则各胡家向其付 1 番；花猪/未听则其向各胡家付 1 番；也可跳过直接开下一局。</p>" +
+      "<p>结束时对每个未胡家单独设：听牌（各已胡家付他）/ 花猪（他付各已胡家）/ 不查。番数可调。</p>" +
+      "<h4>定缺 / 换三张</h4>" +
+      "<p>开局设置可标记换三张与四人缺门，便于对账；不单独加番。</p>" +
       "<h4>胡型</h4>" +
       fanRows +
       "<h4>加番</h4>" +
       bonusRows;
   }
 
-  /* ---------- board bindings ---------- */
+  /* ---------- bindings ---------- */
   function bindBoard() {
     $("#btn-record").addEventListener("click", openRecord);
     $("#btn-end-hand").addEventListener("click", openEndHand);
-
+    $("#btn-gang").addEventListener("click", openGang);
+    $("#btn-open-meta").addEventListener("click", openMeta);
     $("#btn-history").addEventListener("click", () => {
       renderHistory();
       openSheet("sheet-history", "history-overlay");
@@ -2384,42 +2976,43 @@ button:disabled {
       openSheet("sheet-rules", "rules-overlay");
     });
     $("#btn-export").addEventListener("click", exportReport);
+    $("#btn-export-json").addEventListener("click", exportJson);
+    $("#btn-export-png").addEventListener("click", exportPng);
+    $("#btn-import-json").addEventListener("click", () => $("#import-file").click());
+    $("#import-file").addEventListener("change", (e) => {
+      const f = e.target.files && e.target.files[0];
+      if (f) importJsonFile(f);
+      e.target.value = "";
+    });
+
+    $("#recent-strip").addEventListener("click", () => {
+      if (state.rounds.length) {
+        renderHistory();
+        openSheet("sheet-history", "history-overlay");
+      }
+    });
 
     $("#btn-undo").addEventListener("click", () => {
       if (!state.rounds.length) return;
       const r = state.rounds.pop();
-      if (r && r.type === "end" && r.handBefore) {
-        state.hand = {
-          no: r.handBefore.no,
-          active: true,
-          winners: r.handBefore.winners.slice(),
-          cap: r.handBefore.cap != null ? r.handBefore.cap : state.defaultCap,
-        };
-      } else if (r && r.type === "win") {
-        if (r.handNo === state.hand.no || state.hand.no === r.handNo + 1) {
-          // 撤销的是当前局（或刚结束又撤销后回到该局）
-          if (state.hand.no === r.handNo + 1) {
-            // 当时 end 已把局号推进；这里只 pop 了 win，一般不会走到
-          }
-          state.hand.no = r.handNo;
-          state.hand.winners = (r.handWinnersBefore || []).slice();
-          state.hand.active = state.hand.winners.length > 0 || state.rounds.some((x) => x.handNo === r.handNo);
-        }
-      }
+      if (r && r.handBefore) restoreHand(r.handBefore);
       save();
       renderBoard();
-      toast("已撤销上一笔");
+      toast("已撤销：" + (r && r.summary ? r.summary.slice(0, 28) : "上一笔"));
     });
 
     $("#btn-reset").addEventListener("click", () => {
-      if (!confirm("清空所有分数和历史？玩家名单会保留。")) return;
-      state.rounds = [];
-      state.hand = emptyHand(1);
-      state.hand.cap = state.defaultCap;
-      save();
-      renderBoard();
-      toast("已重置");
+      confirmDialog("重置全部分数？", "将清空所有分数、杠和历史。玩家名字与默认规则会保留。", () => {
+        state.rounds = [];
+        state.hand = emptyHand(1);
+        state.hand.cap = state.defaultCap;
+        save();
+        renderBoard();
+        toast("已重置");
+      });
     });
+
+    $("#btn-confirm-cancel").addEventListener("click", closeSheets);
 
     $$("#hand-cap-control .seg").forEach((btn) => {
       btn.addEventListener("click", () => {
@@ -2428,7 +3021,6 @@ button:disabled {
         btn.classList.add("active");
         state.hand.cap = parseInt(btn.dataset.cap, 10) || 0;
         state.defaultCap = state.hand.cap;
-        // 同步设置页默认
         $$("#cap-control .seg").forEach((b) => {
           b.classList.toggle("active", parseInt(b.dataset.cap, 10) === state.defaultCap);
         });
@@ -2442,6 +3034,7 @@ button:disabled {
       btn.addEventListener("click", () => {
         const d = state.draft;
         d.mode = btn.dataset.mode;
+        d.showDetail = true;
         if (d.mode !== "deal") {
           d.dealer = null;
           if (d.winners.length > 1) d.winners = [d.winners[0]];
@@ -2453,31 +3046,71 @@ button:disabled {
 
     $("#root-minus").addEventListener("click", () => {
       state.draft.root = Math.max(0, state.draft.root - 1);
+      state.draft.showDetail = true;
       syncRecordUI();
     });
     $("#root-plus").addEventListener("click", () => {
       state.draft.root = Math.min(6, state.draft.root + 1);
+      state.draft.showDetail = true;
       syncRecordUI();
     });
 
-    $("#btn-save-hand").addEventListener("click", saveHand);
-    $("#btn-end-confirm").addEventListener("click", endHand);
+    $("#btn-quick-save").addEventListener("click", () => {
+      state.draft.mode = "self";
+      state.draft.fans = [];
+      state.draft.root = 0;
+      state.draft.showDetail = false;
+      saveHand({ quick: true });
+    });
+    $("#btn-show-detail").addEventListener("click", () => {
+      state.draft.showDetail = !state.draft.showDetail;
+      syncRecordUI();
+    });
+    $("#btn-save-hand").addEventListener("click", () => saveHand());
 
-    $$("#check-mode .seg").forEach((btn) => {
+    $("#btn-meta-save").addEventListener("click", () => {
+      save();
+      closeSheets();
+      renderBoard();
+      toast("开局设置已保存");
+    });
+    $$("#huan-mode .seg").forEach((btn) => {
       btn.addEventListener("click", () => {
-        $$("#check-mode .seg").forEach((b) => b.classList.remove("active"));
+        state.hand.huan = btn.dataset.huan === "1";
+        $$("#huan-mode .seg").forEach((b) => b.classList.remove("active"));
         btn.classList.add("active");
-        updateEndPreview();
+        save();
+        renderHandBanner();
       });
     });
 
-    $$("[data-close-sheet],[data-close-history],[data-close-rules],[data-close-end]").forEach((b) =>
-      b.addEventListener("click", closeSheets)
-    );
-    $("#sheet-overlay").addEventListener("click", closeSheets);
-    $("#history-overlay").addEventListener("click", closeSheets);
-    $("#rules-overlay").addEventListener("click", closeSheets);
-    $("#end-overlay").addEventListener("click", closeSheets);
+    $$("#gang-type .seg").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        state.gangDraft.type = btn.dataset.gtype;
+        if (state.gangDraft.type !== "ming") state.gangDraft.dealer = null;
+        buildGangChips();
+        syncGangUI();
+      });
+    });
+    $("#btn-gang-save").addEventListener("click", saveGang);
+
+    $("#check-fan-minus").addEventListener("click", () => {
+      state.endDraft.checkFan = Math.max(1, state.endDraft.checkFan - 1);
+      updateEndPreview();
+    });
+    $("#check-fan-plus").addEventListener("click", () => {
+      state.endDraft.checkFan = Math.min(8, state.endDraft.checkFan + 1);
+      updateEndPreview();
+    });
+    $("#btn-end-confirm").addEventListener("click", endHand);
+
+    $$(
+      "[data-close-sheet],[data-close-history],[data-close-rules],[data-close-end],[data-close-meta],[data-close-gang]"
+    ).forEach((b) => b.addEventListener("click", closeSheets));
+    ["sheet-overlay", "history-overlay", "rules-overlay", "end-overlay", "meta-overlay", "gang-overlay"].forEach((id) => {
+      const el = $("#" + id);
+      if (el) el.addEventListener("click", closeSheets);
+    });
   }
 
   /* ---------- init ---------- */
@@ -2495,23 +3128,24 @@ button:disabled {
       $$("#base-control .seg").forEach((b) => {
         b.classList.toggle("active", parseInt(b.dataset.base, 10) === state.base);
       });
-      $$("#rule-control .seg").forEach((b) => {
-        b.classList.toggle("active", b.dataset.rule === state.rule);
-      });
+      $$("#rule-control .seg").forEach((b) => b.classList.toggle("active", b.dataset.rule === state.rule));
       $$("#cap-control .seg").forEach((b) => {
         b.classList.toggle("active", parseInt(b.dataset.cap, 10) === state.defaultCap);
+      });
+      $$("#check-fan-control .seg").forEach((b) => {
+        b.classList.toggle("active", parseInt(b.dataset.fan, 10) === state.checkFan);
       });
       $("#btn-restore").classList.remove("hidden");
     }
 
     showSetup(hasSaved);
+    if (hasSaved && state.rounds.length) {
+      toast("发现上次牌局：第 " + state.hand.no + " 局，可点「恢复上次牌局」");
+    }
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
 })();
 
 </script>
