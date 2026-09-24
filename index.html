@@ -1,3 +1,4 @@
+<!-- AI生成 -->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -1461,9 +1462,20 @@ button:disabled {
   color: var(--gold-bright);
 }
 
+.hand-banner.warn {
+  border-color: rgba(196, 92, 74, 0.45);
+  background: rgba(196, 92, 74, 0.12);
+}
+.hand-banner.warn .hand-dot {
+  background: var(--red);
+  box-shadow: 0 0 0 3px rgba(196, 92, 74, 0.2);
+}
+
 </style>
 </head>
 <body>
+<p data-aigc-mark="1" style="margin:0 0 8px;font-size:10px;line-height:1.3;color:#6b6560;font-weight:400;">AI生成</p>
+
   <div id="app">
     <!-- ========== 设置 ========== -->
     <section id="screen-setup" class="screen active">
@@ -1697,9 +1709,8 @@ button:disabled {
           </div>
         </div>
         <div class="step-block">
-          <div class="step-label">定缺（缺一门）</div>
+          <div class="step-label">定缺（缺一门）<span class="step-note">开局前必选</span></div>
           <div id="que-list" class="que-list"></div>
-          <p class="field-hint">只做标记，方便对账；花猪在结束时按查叫处理。</p>
         </div>
         <div class="step-block">
           <div class="step-label">本局封顶</div>
@@ -1713,6 +1724,24 @@ button:disabled {
       </div>
       <footer class="sheet-footer">
         <button type="button" id="btn-meta-save" class="btn-primary">保存开局设置</button>
+      </footer>
+    </section>
+
+    <!-- ========== 强制定缺（每局开始前） ========== -->
+    <div id="que-overlay" class="overlay hidden" hidden></div>
+    <section id="sheet-que" class="sheet sheet-tall hidden" hidden aria-modal="true" role="dialog" aria-label="本局定缺">
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <header class="sheet-header">
+        <h3>本局先定缺</h3>
+        <button type="button" class="icon-btn" data-close-que aria-label="稍后">✕</button>
+      </header>
+      <div class="sheet-body">
+        <p class="setup-lead">四位都要选缺门（万 / 筒 / 条），选完才能开始记这一局。</p>
+        <div id="que-force-list" class="que-list"></div>
+        <p class="field-hint" id="que-force-hint">还差 4 人未选</p>
+      </div>
+      <footer class="sheet-footer">
+        <button type="button" id="btn-que-confirm" class="btn-primary" disabled>先选完四人定缺</button>
       </footer>
     </section>
 
@@ -1896,6 +1925,7 @@ button:disabled {
     draft: null,
     gangDraft: null,
     endDraft: null,
+    quePending: null,
   };
 
   const $ = (s, r) => (r || document).querySelector(s);
@@ -1987,6 +2017,16 @@ button:disabled {
   function queOf(i) {
     const q = state.hand.que && state.hand.que[i];
     return q ? QUE_MAP[q] : "";
+  }
+
+  function queReady() {
+    const arr = state.hand.que || [null, null, null, null];
+    return arr.every((q) => q === "wan" || q === "tong" || q === "tiao");
+  }
+
+  function quePendingCount() {
+    const arr = state.hand.que || [null, null, null, null];
+    return arr.filter((q) => !(q === "wan" || q === "tong" || q === "tiao")).length;
   }
 
   /* ---------- persist ---------- */
@@ -2148,7 +2188,7 @@ button:disabled {
       collectNames();
       save();
       showBoard();
-      toast("牌桌已就绪，点「记一笔胡牌」");
+      toast(queReady() ? "牌桌已就绪，点「记一笔胡牌」" : "牌桌已就绪，请先四人定缺");
     });
 
     $("#btn-restore").addEventListener("click", () => {
@@ -2230,7 +2270,8 @@ button:disabled {
       board.appendChild(card);
     });
 
-    $("#btn-undo").disabled = !state.rounds.length;
+    const undoBtn = $("#btn-undo");
+    if (undoBtn) undoBtn.disabled = !state.rounds.length;
     updateActionButtons();
     renderRecent();
   }
@@ -2246,10 +2287,13 @@ button:disabled {
 
     if (!state.hand.active) {
       $("#hand-banner").innerHTML =
-        '<span class="hand-dot"></span><span>准备开新一局 · 血战到底 · ' +
-        capTxt +
-        (bits.length ? " · " + escapeHtml(bits.join(" · ")) : " · 可在开局设置里定缺") +
+        '<span class="hand-dot"></span><span>' +
+        (queReady()
+          ? "已定缺 · 可开始记第一笔 · " + capTxt
+          : "新一局：请先四人定缺，再点「记一笔胡牌」") +
+        (bits.length ? " · " + escapeHtml(bits.join(" · ")) : "") +
         "</span>";
+      $("#hand-banner").classList.toggle("warn", !queReady());
       $("#hand-banner").classList.remove("done");
       return;
     }
@@ -2282,12 +2326,18 @@ button:disabled {
     const rec = $("#btn-record");
     const end = $("#btn-end-hand");
     const row = $("#primary-row");
+    const hint = $("#action-hint");
     if (!state.hand.active) {
       rec.classList.remove("hidden");
       end.classList.add("hidden");
-      rec.textContent = "记一笔胡牌";
+      rec.textContent = queReady() ? "记一笔胡牌" : "先定缺 · 再记胡";
       rec.disabled = false;
       if (row) row.classList.remove("is-split");
+      if (hint) {
+        hint.textContent = queReady()
+          ? "四人已定缺，点上面开始记第一笔"
+          : "每局开始前必须四人定缺（万/筒/条）";
+      }
       return;
     }
     rec.classList.remove("hidden");
@@ -2343,7 +2393,7 @@ button:disabled {
   }
 
   function closeSheets() {
-    ["sheet-record", "sheet-history", "sheet-rules", "sheet-end", "sheet-meta", "sheet-gang", "sheet-confirm", "sheet-more"].forEach(
+    ["sheet-record", "sheet-history", "sheet-rules", "sheet-end", "sheet-meta", "sheet-gang", "sheet-confirm", "sheet-more", "sheet-que"].forEach(
       (id) => {
         const el = $("#" + id);
         if (el) {
@@ -2352,7 +2402,7 @@ button:disabled {
         }
       }
     );
-    ["sheet-overlay", "history-overlay", "rules-overlay", "end-overlay", "meta-overlay", "gang-overlay", "confirm-overlay", "more-overlay"].forEach(
+    ["sheet-overlay", "history-overlay", "rules-overlay", "end-overlay", "meta-overlay", "gang-overlay", "confirm-overlay", "more-overlay", "que-overlay"].forEach(
       (id) => {
         const el = $("#" + id);
         if (el) {
@@ -2392,22 +2442,111 @@ button:disabled {
     return eligibleWinners().filter((i) => !w[i]);
   }
 
+  function buildQueRows(containerId, interactive) {
+    const list = $("#" + containerId);
+    if (!list) return;
+    list.innerHTML = "";
+    if (!state.hand.que) state.hand.que = [null, null, null, null];
+    [0, 1, 2, 3].forEach((i) => {
+      const row = document.createElement("div");
+      row.className = "que-row";
+      row.dataset.seat = String(i);
+      const label = document.createElement("span");
+      label.className = "root-label";
+      label.textContent = SEATS[i] + " " + pname(i);
+      const chips = document.createElement("div");
+      chips.className = "chip-row";
+      ["wan", "tong", "tiao"].forEach((q) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "chip" + (state.hand.que[i] === q ? " active" : "");
+        b.textContent = QUE_MAP[q];
+        b.dataset.q = q;
+        if (!interactive) b.disabled = true;
+        b.addEventListener("click", () => {
+          if (!interactive) return;
+          state.hand.que[i] = q;
+          // 就地更新本容器高亮，避免整表重建打断连点
+          $$("[data-seat='" + i + "'] .chip", list).forEach((c) => {
+            c.classList.toggle("active", c.dataset.q === q);
+          });
+          syncQueControls();
+        });
+        chips.appendChild(b);
+      });
+      row.appendChild(label);
+      row.appendChild(chips);
+      list.appendChild(row);
+    });
+  }
+
+  function syncQueControls() {
+    const left = quePendingCount();
+    const hint = $("#que-force-hint");
+    const btn = $("#btn-que-confirm");
+    if (hint) {
+      hint.textContent = left ? "还差 " + left + " 人未选" : "四人已选齐，可开始记这一局";
+    }
+    if (btn) {
+      btn.disabled = left > 0;
+      btn.textContent = left > 0 ? "先选完四人定缺" : "确认定缺，继续";
+    }
+    const metaSave = $("#btn-meta-save");
+    if (metaSave) {
+      metaSave.disabled = !state.hand.active && left > 0;
+      metaSave.textContent = !state.hand.active && left > 0 ? "还差 " + left + " 人定缺" : "保存开局设置";
+    }
+    renderHandBanner();
+    updateActionButtons();
+    save();
+  }
+
+  function refreshQueUI() {
+    buildQueRows("que-force-list", true);
+    buildQueRows("que-list", true);
+    syncQueControls();
+  }
+
+  function ensureQue(thenFn) {
+    if (!state.hand.que) state.hand.que = [null, null, null, null];
+    if (queReady()) {
+      if (thenFn) thenFn();
+      return;
+    }
+    state.quePending = thenFn || null;
+    refreshQueUI();
+    openSheet("sheet-que", "que-overlay");
+  }
+
+  function confirmQue() {
+    if (!queReady()) return;
+    save();
+    closeSheets();
+    toast("定缺完成，开始本局");
+    renderBoard();
+    const cb = state.quePending;
+    state.quePending = null;
+    if (cb) setTimeout(() => cb(), 80);
+  }
+
   function openRecord() {
     if (state.hand.active && handComplete()) {
       toast("本局已三家胡，请点「结束本局」");
       return;
     }
-    if (!state.hand.active) {
-      state.hand.cap = state.defaultCap;
-      if (!state.hand.que) state.hand.que = [null, null, null, null];
-    }
-    state.draft = emptyDraft();
-    buildWinnerChips();
-    buildFanGrid();
-    buildDealerChips();
-    syncCapUI();
-    syncRecordUI();
-    openSheet("sheet-record", "sheet-overlay");
+    ensureQue(() => {
+      if (!state.hand.active) {
+        state.hand.cap = state.defaultCap;
+        if (!state.hand.que) state.hand.que = [null, null, null, null];
+      }
+      state.draft = emptyDraft();
+      buildWinnerChips();
+      buildFanGrid();
+      buildDealerChips();
+      syncCapUI();
+      syncRecordUI();
+      openSheet("sheet-record", "sheet-overlay");
+    });
   }
 
   function syncCapUI() {
@@ -2692,6 +2831,11 @@ button:disabled {
 
   function saveHand(opts) {
     opts = opts || {};
+    if (!queReady()) {
+      closeSheets();
+      ensureQue(() => openRecord());
+      return;
+    }
     const d = state.draft;
     const result = computeHand(d);
     if (!result.valid) return;
@@ -2732,52 +2876,38 @@ button:disabled {
 
   /* ---------- 开局设置 ---------- */
   function openMeta() {
-    const list = $("#que-list");
-    list.innerHTML = "";
     $$("#huan-mode .seg").forEach((b) => {
       b.classList.toggle("active", (b.dataset.huan === "1") === !!state.hand.huan);
     });
     $$("#meta-cap-control .seg").forEach((b) => {
       b.classList.toggle("active", parseInt(b.dataset.cap, 10) === (state.hand.cap || state.defaultCap));
     });
-    [0, 1, 2, 3].forEach((i) => {
-      const row = document.createElement("div");
-      row.className = "que-row";
-      const label = document.createElement("span");
-      label.className = "root-label";
-      label.textContent = SEATS[i] + " " + pname(i);
-      const chips = document.createElement("div");
-      chips.className = "chip-row";
-      ["wan", "tong", "tiao", ""].forEach((q) => {
-        const b = document.createElement("button");
-        b.type = "button";
-        b.className = "chip" + ((state.hand.que[i] || "") === q ? " active" : "");
-        b.textContent = q ? QUE_MAP[q] : "无";
-        b.addEventListener("click", () => {
-          state.hand.que[i] = q || null;
-          openMeta();
-        });
-        chips.appendChild(b);
-      });
-      row.appendChild(label);
-      row.appendChild(chips);
-      list.appendChild(row);
-    });
+    refreshQueUI();
     openSheet("sheet-meta", "meta-overlay");
+  }
+
+  /* ---------- 强制定缺 ---------- */
+  function openQueSheet(thenFn) {
+    state.quePending = thenFn || null;
+    refreshQueUI();
+    openSheet("sheet-que", "que-overlay");
   }
 
   /* ---------- 杠 ---------- */
   function openGang() {
-    if (!state.hand.active) {
-      toast("请先开一局（记一笔胡或先保存开局设置）");
-      // allow starting hand via meta
-      openMeta();
-      return;
-    }
-    state.gangDraft = { who: null, type: "ming", dealer: null };
-    buildGangChips();
-    syncGangUI();
-    openSheet("sheet-gang", "gang-overlay");
+    ensureQue(() => {
+      if (!state.hand.active) {
+        // 定缺完成后即可开局记杠
+        state.hand.active = true;
+        state.hand.cap = state.hand.cap || state.defaultCap;
+        save();
+        renderBoard();
+      }
+      state.gangDraft = { who: null, type: "ming", dealer: null };
+      buildGangChips();
+      syncGangUI();
+      openSheet("sheet-gang", "gang-overlay");
+    });
   }
 
   function buildGangChips() {
@@ -2896,9 +3026,14 @@ button:disabled {
   }
 
   function saveGang() {
+    if (!queReady()) {
+      ensureQue(() => openGang());
+      return;
+    }
     const g = state.gangDraft;
     const r = computeGang(g);
     if (!r.valid) return;
+    if (!state.hand.active) state.hand.active = true;
     const round = {
       id: Date.now(),
       handNo: state.hand.no,
@@ -3075,7 +3210,7 @@ button:disabled {
     save();
     closeSheets();
     renderBoard();
-    toast("本局结束，可以开下一局了");
+    toast("本局结束 · 下一局请先四人定缺");
   }
 
   /* ---------- history / export ---------- */
@@ -3267,8 +3402,10 @@ button:disabled {
       "<p><strong>自摸/杠上花</strong>：在场每人付单份。<br><strong>点炮</strong>：仅放炮者付给每位胡家。<br><strong>明杠</strong>：点杠者付 1 份；<strong>暗杠</strong>：在场每人付 2 份；<strong>巴杠</strong>：在场每人付 1 份。</p>" +
       "<h4>查大叫</h4>" +
       "<p>结束时对每个未胡家单独设：听牌（各已胡家付他）/ 花猪（他付各已胡家）/ 不查。番数可调。</p>" +
+      "<h4>定缺（每局必选）</h4>" +
+      "<p>每一局开始前，四位都要选定缺门（万/筒/条）。点「记一笔胡牌」若还没定缺，会先弹出定缺；选齐后才能记分。结束后下一局需重新定缺。</p>" +
       "<h4>定缺 / 换三张</h4>" +
-      "<p>开局设置可标记换三张与四人缺门，便于对账；不单独加番。</p>" +
+      "<p>开局设置也可改换三张与缺门（未开始记分前）；花猪在结束时按查叫处理。</p>" +
       "<h4>胡型</h4>" +
       fanRows +
       "<h4>加番</h4>" +
@@ -3397,11 +3534,17 @@ button:disabled {
     $("#btn-save-hand").addEventListener("click", () => saveHand());
 
     $("#btn-meta-save").addEventListener("click", () => {
+      if (!state.hand.active && !queReady()) {
+        toast("请先为四人选定缺门");
+        refreshQueUI();
+        return;
+      }
       save();
       closeSheets();
       renderBoard();
-      toast("开局设置已保存");
+      toast(state.hand.active ? "开局设置已保存" : "定缺与设置已保存，可开始记分");
     });
+    $("#btn-que-confirm").addEventListener("click", confirmQue);
     $$("#huan-mode .seg").forEach((btn) => {
       btn.addEventListener("click", () => {
         state.hand.huan = btn.dataset.huan === "1";
@@ -3432,12 +3575,21 @@ button:disabled {
     });
     $("#btn-end-confirm").addEventListener("click", endHand);
 
-    $$("[data-close-sheet],[data-close-history],[data-close-rules],[data-close-end],[data-close-meta],[data-close-gang],[data-close-more]").forEach(
-      (b) => b.addEventListener("click", closeSheets)
+    $$("[data-close-sheet],[data-close-history],[data-close-rules],[data-close-end],[data-close-meta],[data-close-gang],[data-close-more],[data-close-que]").forEach(
+      (b) =>
+        b.addEventListener("click", () => {
+          state.quePending = null;
+          closeSheets();
+          if (!queReady()) toast("本局还需先定缺，才能记分");
+        })
     );
-    ["sheet-overlay", "history-overlay", "rules-overlay", "end-overlay", "meta-overlay", "gang-overlay", "more-overlay"].forEach((id) => {
+    ["sheet-overlay", "history-overlay", "rules-overlay", "end-overlay", "meta-overlay", "gang-overlay", "more-overlay", "que-overlay"].forEach((id) => {
       const el = $("#" + id);
-      if (el) el.addEventListener("click", closeSheets);
+      if (el)
+        el.addEventListener("click", () => {
+          state.quePending = null;
+          closeSheets();
+        });
     });
   }
 
