@@ -2188,7 +2188,7 @@ button:disabled {
       collectNames();
       save();
       showBoard();
-      toast(queReady() ? "牌桌已就绪，点「记一笔胡牌」" : "牌桌已就绪，请先四人定缺");
+      toast(queReady() ? "牌桌已就绪" : "第 " + (state.hand.no) + " 局开始，请先定缺");
     });
 
     $("#btn-restore").addEventListener("click", () => {
@@ -2210,6 +2210,20 @@ button:disabled {
     $("#screen-setup").classList.remove("active");
     $("#screen-board").classList.add("active");
     renderBoard();
+    // 进入牌桌即弹定缺（每局开始前）
+    setTimeout(maybeAutoQue, 150);
+  }
+
+  /** 开局自动弹定缺；已选齐或面板已开则跳过 */
+  function maybeAutoQue() {
+    if (queReady()) return;
+    if (!state.hand.que) state.hand.que = [null, null, null, null];
+    const sheet = $("#sheet-que");
+    if (sheet && !sheet.hidden) return;
+    // 已接近收尾（三家已胡）不必再逼定缺，交给结束本局
+    if (handComplete()) return;
+    refreshQueUI();
+    openSheet("sheet-que", "que-overlay");
   }
 
   /* ---------- board ---------- */
@@ -3210,7 +3224,8 @@ button:disabled {
     save();
     closeSheets();
     renderBoard();
-    toast("本局结束 · 下一局请先四人定缺");
+    toast("第 " + next.no + " 局开始 · 请先定缺");
+    setTimeout(maybeAutoQue, 250);
   }
 
   /* ---------- history / export ---------- */
