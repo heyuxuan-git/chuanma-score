@@ -1245,6 +1245,222 @@ button:disabled {
   overflow: hidden;
 }
 
+/* ========== v2.1 product UI ========== */
+.setup-lead {
+  margin: 0 0 14px;
+  color: var(--cream-dim);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.step-dots {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.step-dot {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 6px;
+  border-radius: 999px;
+  background: rgba(7, 31, 24, 0.45);
+  border: 1px solid var(--line);
+  color: var(--cream-faint);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.step-dot i {
+  font-style: normal;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(243, 234, 216, 0.12);
+  font-size: 11px;
+}
+
+.step-dot.active {
+  color: var(--gold-bright);
+  border-color: rgba(212, 168, 75, 0.4);
+  background: rgba(212, 168, 75, 0.12);
+}
+
+.step-dot.active i {
+  background: var(--gold);
+  color: #1a1206;
+  font-weight: 800;
+}
+
+.setup-step .btn-primary {
+  margin-top: 22px;
+}
+
+.setup-step #btn-restore {
+  margin-top: 10px;
+}
+
+.board-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  gap: 4px 12px;
+  align-items: start;
+}
+
+.brand {
+  grid-column: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-name {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--cream-faint);
+}
+
+.ver-badge.tiny {
+  font-size: 10px;
+  padding: 1px 6px;
+  transform: none;
+}
+
+.header-meta {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.header-actions {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  align-self: center;
+}
+
+.btn-secondary {
+  width: 100%;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(243, 234, 216, 0.22);
+  background: rgba(7, 31, 24, 0.55);
+  color: var(--cream);
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.btn-secondary.is-emphasis,
+.primary-row .btn-end.is-emphasis {
+  border-color: rgba(212, 168, 75, 0.5);
+  color: var(--gold-bright);
+  background: rgba(212, 168, 75, 0.1);
+}
+
+.action-hint {
+  text-align: center;
+  font-size: 12px;
+  color: var(--cream-faint);
+  line-height: 1.45;
+  padding-top: 4px;
+}
+
+.text-toggle {
+  width: 100%;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  border: 1px dashed rgba(243, 234, 216, 0.2);
+  color: var(--cream-dim);
+  font-size: 14px;
+  background: transparent;
+}
+
+.text-toggle.open {
+  border-style: solid;
+  border-color: rgba(212, 168, 75, 0.35);
+  color: var(--gold);
+}
+
+.detail-toggle-row {
+  margin-bottom: 8px;
+}
+
+.menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  width: 100%;
+  text-align: left;
+  padding: 14px 14px;
+  border-radius: var(--radius-sm);
+  background: rgba(7, 31, 24, 0.5);
+  border: 1px solid var(--line);
+  min-height: 56px;
+}
+
+.menu-item span {
+  font-size: 15px;
+  font-weight: 650;
+  color: var(--cream);
+}
+
+.menu-item em {
+  font-style: normal;
+  font-size: 12px;
+  color: var(--cream-faint);
+}
+
+.menu-item:disabled {
+  opacity: 0.45;
+}
+
+.menu-item.danger span {
+  color: #e8a090;
+}
+
+.menu-section-label {
+  font-size: 12px;
+  color: var(--cream-faint);
+  letter-spacing: 0.12em;
+  margin: 8px 0 10px;
+  font-weight: 650;
+}
+
+.sheet-more {
+  max-height: min(70dvh, 520px);
+}
+
+/* toast higher so it does not cover CTA */
+.toast {
+  bottom: calc(96px + var(--safe-b));
+}
+
+@keyframes score-pop {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+.score-card.just-won {
+  animation: score-pop 0.45s ease;
+}
+
+.score-card.just-won .score-val {
+  color: var(--gold-bright);
+}
+
 </style>
 </head>
 <body>
@@ -1258,80 +1474,96 @@ button:disabled {
           <span class="tile">一</span>
           <span class="tile">筒</span>
         </div>
-        <h1>川麻记分 <span class="ver-badge" title="版本 v2.0">v2.0</span></h1>
-        <p class="tagline">血战到底 · 番数结算 · 手机现场记</p>
+        <h1>川麻记分 <span class="ver-badge">v2.1</span></h1>
+        <p class="tagline">和朋友打川麻，现场记分不用翻本子</p>
       </header>
 
       <div class="setup-card">
-        <label class="field-label">四位牌友</label>
-        <div class="name-grid" id="name-grid">
-          <div class="name-cell" data-seat="0">
-            <span class="seat-tag">东</span>
-            <input id="name-0" type="text" maxlength="6" size="4" placeholder="玩家1" autocomplete="off" />
-          </div>
-          <div class="name-cell" data-seat="1">
-            <span class="seat-tag">南</span>
-            <input id="name-1" type="text" maxlength="6" size="4" placeholder="玩家2" autocomplete="off" />
-          </div>
-          <div class="name-cell" data-seat="2">
-            <span class="seat-tag">西</span>
-            <input id="name-2" type="text" maxlength="6" size="4" placeholder="玩家3" autocomplete="off" />
-          </div>
-          <div class="name-cell" data-seat="3">
-            <span class="seat-tag">北</span>
-            <input id="name-3" type="text" maxlength="6" size="4" placeholder="玩家4" autocomplete="off" />
-          </div>
+        <!-- Step indicator -->
+        <div class="step-dots" id="setup-steps" aria-label="设置步骤">
+          <span class="step-dot active" data-step="1"><i>1</i>牌友</span>
+          <span class="step-dot" data-step="2"><i>2</i>规则</span>
         </div>
 
-        <label class="field-label">底分</label>
-        <div class="seg-control" id="base-control" role="radiogroup" aria-label="底分">
-          <button type="button" class="seg" data-base="1">1</button>
-          <button type="button" class="seg active" data-base="2">2</button>
-          <button type="button" class="seg" data-base="5">5</button>
-          <button type="button" class="seg" data-base="10">10</button>
+        <!-- Step 1: names -->
+        <div class="setup-step" id="setup-step-1">
+          <p class="setup-lead">先填四位牌友，打完名字会一直保留</p>
+          <div class="name-grid" id="name-grid">
+            <div class="name-cell">
+              <span class="seat-tag">东</span>
+              <input id="name-0" type="text" maxlength="6" size="4" placeholder="玩家1" autocomplete="nickname" />
+            </div>
+            <div class="name-cell">
+              <span class="seat-tag">南</span>
+              <input id="name-1" type="text" maxlength="6" size="4" placeholder="玩家2" autocomplete="nickname" />
+            </div>
+            <div class="name-cell">
+              <span class="seat-tag">西</span>
+              <input id="name-2" type="text" maxlength="6" size="4" placeholder="玩家3" autocomplete="nickname" />
+            </div>
+            <div class="name-cell">
+              <span class="seat-tag">北</span>
+              <input id="name-3" type="text" maxlength="6" size="4" placeholder="玩家4" autocomplete="nickname" />
+            </div>
+          </div>
+          <button type="button" id="btn-step-next" class="btn-primary">下一步 · 记分规则</button>
+          <button type="button" id="btn-restore" class="btn-ghost hidden">继续上次牌局</button>
         </div>
 
-        <details class="fold" id="fold-advanced" open>
-          <summary>更多规则</summary>
-          <label class="field-label">结算方式</label>
-          <div class="seg-control" id="rule-control" role="radiogroup" aria-label="结算方式">
-            <button type="button" class="seg active" data-rule="pow">倍番制 2ⁿ</button>
-            <button type="button" class="seg" data-rule="mul">线性 n×底分</button>
-          </div>
-          <p class="field-hint" id="rule-hint">1番=底分×2，2番=底分×4</p>
-
-          <label class="field-label">默认封顶（单份最高）</label>
-          <div class="seg-control" id="cap-control" role="radiogroup" aria-label="默认封顶">
-            <button type="button" class="seg active" data-cap="0">不封顶</button>
-            <button type="button" class="seg" data-cap="8">8</button>
-            <button type="button" class="seg" data-cap="16">16</button>
-            <button type="button" class="seg" data-cap="32">32</button>
+        <!-- Step 2: rules -->
+        <div class="setup-step hidden" id="setup-step-2">
+          <label class="field-label">底分</label>
+          <div class="seg-control" id="base-control" role="radiogroup" aria-label="底分">
+            <button type="button" class="seg" data-base="1">1</button>
+            <button type="button" class="seg active" data-base="2">2</button>
+            <button type="button" class="seg" data-base="5">5</button>
+            <button type="button" class="seg" data-base="10">10</button>
           </div>
 
-          <label class="field-label">查叫默认番</label>
-          <div class="seg-control" id="check-fan-control" role="radiogroup" aria-label="查叫番">
-            <button type="button" class="seg active" data-fan="1">1番</button>
-            <button type="button" class="seg" data-fan="2">2番</button>
-            <button type="button" class="seg" data-fan="4">4番</button>
+          <label class="field-label">涨分方式</label>
+          <div class="seg-control" id="rule-control" role="radiogroup" aria-label="涨分方式">
+            <button type="button" class="seg active" data-rule="pow">快速涨分</button>
+            <button type="button" class="seg" data-rule="mul">平缓扣分</button>
           </div>
-          <p class="field-hint">定缺 / 换三张 / 杠 可在开局后记录</p>
-        </details>
+          <p class="field-hint" id="rule-hint">1 番 = 底分×2，2 番 = 底分×4，越爽越快</p>
 
-        <button type="button" id="btn-start" class="btn-primary">开始记分</button>
-        <button type="button" id="btn-restore" class="btn-ghost hidden">恢复上次牌局</button>
+          <details class="fold" id="fold-advanced">
+            <summary>高级规则</summary>
+            <label class="field-label">封顶（单次最高付多少）</label>
+            <div class="seg-control" id="cap-control" role="radiogroup" aria-label="默认封顶">
+              <button type="button" class="seg active" data-cap="0">不封顶</button>
+              <button type="button" class="seg" data-cap="8">8</button>
+              <button type="button" class="seg" data-cap="16">16</button>
+              <button type="button" class="seg" data-cap="32">32</button>
+            </div>
+
+            <label class="field-label">查叫默认番</label>
+            <div class="seg-control" id="check-fan-control" role="radiogroup" aria-label="查叫番">
+              <button type="button" class="seg active" data-fan="1">1番</button>
+              <button type="button" class="seg" data-fan="2">2番</button>
+              <button type="button" class="seg" data-fan="4">4番</button>
+            </div>
+          </details>
+
+          <button type="button" id="btn-start" class="btn-primary">进入牌桌</button>
+          <button type="button" id="btn-step-back" class="btn-ghost">返回改名字</button>
+        </div>
       </div>
     </section>
 
     <!-- ========== 主牌桌 ========== -->
     <section id="screen-board" class="screen">
       <header class="board-header">
-        <div>
-          <p class="board-kicker">血战到底</p>
+        <div class="brand">
+          <span class="brand-name">川麻记分</span>
+          <span class="ver-badge tiny">v2.1</span>
+        </div>
+        <div class="header-meta">
+          <span class="board-kicker">血战到底</span>
           <h2 class="board-title" id="round-label">第 1 局</h2>
         </div>
         <div class="header-actions">
-          <button type="button" id="btn-settings" class="icon-btn" aria-label="规则">?</button>
-          <button type="button" id="btn-history" class="icon-btn" aria-label="历史">☰</button>
+          <button type="button" id="btn-more" class="icon-btn" aria-label="更多" aria-haspopup="dialog">⋯</button>
         </div>
       </header>
 
@@ -1340,29 +1572,42 @@ button:disabled {
 
       <div class="recent-strip" id="recent-strip" role="button" tabindex="0">
         <span class="recent-label">最近</span>
-        <span class="recent-text" id="recent-text">还没记分，点下面开始</span>
-        <span class="recent-more" id="recent-more" hidden>完整 ›</span>
+        <span class="recent-text" id="recent-text">打完第一笔胡牌后，这里会显示结算</span>
+        <span class="recent-more" id="recent-more" hidden>历史 ›</span>
       </div>
 
       <div class="board-actions">
         <div class="primary-row" id="primary-row">
-          <button type="button" id="btn-record" class="btn-primary btn-xl">开一局 · 有人胡了</button>
-          <button type="button" id="btn-end-hand" class="btn-ghost btn-xl btn-end hidden">结束本局</button>
+          <button type="button" id="btn-record" class="btn-primary btn-xl">记一笔胡牌</button>
+          <button type="button" id="btn-end-hand" class="btn-secondary btn-xl btn-end hidden">结束本局</button>
         </div>
-        <div class="secondary-row">
-          <button type="button" id="btn-gang" class="btn-ghost">记杠</button>
-          <button type="button" id="btn-open-meta" class="btn-ghost">开局设置</button>
-        </div>
-        <div class="secondary-row">
-          <button type="button" id="btn-undo" class="btn-ghost" disabled>撤销</button>
-          <button type="button" id="btn-reset" class="btn-ghost danger">重置</button>
+        <div class="action-hint" id="action-hint">选人记胡；杠、定缺、历史都在右上角 ⋯</div>
+      </div>
+    </section>
+
+    <!-- ========== 更多菜单 ========== -->
+    <div id="more-overlay" class="overlay hidden" hidden></div>
+    <section id="sheet-more" class="sheet sheet-more hidden" hidden aria-modal="true" role="dialog" aria-label="更多">
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <header class="sheet-header">
+        <h3>更多</h3>
+        <button type="button" class="icon-btn" data-close-more aria-label="关闭">✕</button>
+      </header>
+      <div class="sheet-body">
+        <div class="menu-list" id="more-menu">
+          <button type="button" class="menu-item" id="mi-gang"><span>记杠</span><em>明杠 / 暗杠 / 巴杠</em></button>
+          <button type="button" class="menu-item" id="mi-meta"><span>开局设置</span><em>定缺 · 换三张 · 封顶</em></button>
+          <button type="button" class="menu-item" id="mi-undo"><span>撤销上一笔</span><em id="mi-undo-desc">还没有记录</em></button>
+          <button type="button" class="menu-item" id="mi-history"><span>历史与战报</span><em>导出 · 图片 · 复制</em></button>
+          <button type="button" class="menu-item" id="mi-rules"><span>规则说明</span><em>番种 · 查叫 · 支付</em></button>
+          <button type="button" class="menu-item danger" id="mi-reset"><span>重置比分</span><em>保留名字与规则</em></button>
         </div>
       </div>
     </section>
 
     <!-- ========== 记一笔胡牌 ========== -->
     <div id="sheet-overlay" class="overlay hidden" hidden></div>
-    <section id="sheet-record" class="sheet hidden" hidden aria-modal="true" role="dialog" aria-label="记一笔胡牌">
+    <section id="sheet-record" class="sheet sheet-tall hidden" hidden aria-modal="true" role="dialog" aria-label="记一笔胡牌">
       <div class="sheet-handle" aria-hidden="true"></div>
       <header class="sheet-header">
         <h3>记一笔胡牌</h3>
@@ -1372,7 +1617,7 @@ button:disabled {
         <div class="hand-progress" id="hand-progress"></div>
 
         <div class="step-block" id="cap-block">
-          <div class="step-label">本局封顶 <span class="step-note">第一笔记下后锁定</span></div>
+          <div class="step-label">本局封顶 <span class="step-note">第一笔后锁定</span></div>
           <div class="seg-control" id="hand-cap-control" role="radiogroup" aria-label="本局封顶">
             <button type="button" class="seg active" data-cap="0">不封顶</button>
             <button type="button" class="seg" data-cap="8">8</button>
@@ -1383,18 +1628,19 @@ button:disabled {
         <div class="cap-locked hidden" id="cap-locked"><span id="cap-locked-text"></span></div>
 
         <div class="step-block">
-          <div class="step-label">1 · 谁胡了？<span class="step-note" id="winner-note">默认平胡·自摸，点人可直接记</span></div>
+          <div class="step-label">谁胡了？<span class="step-note" id="winner-note">点人即默认平胡自摸</span></div>
           <div class="chip-row" id="winner-chips"></div>
         </div>
 
-        <div id="quick-bar" class="quick-bar hidden">
-          <button type="button" id="btn-quick-save" class="btn-primary">快捷记 · 平胡自摸</button>
-          <button type="button" id="btn-show-detail" class="btn-ghost">改番型 / 点炮…</button>
+        <div class="step-block detail-toggle-row">
+          <button type="button" id="btn-show-detail" class="text-toggle" aria-expanded="false">
+            改番型 / 点炮 / 杠上花
+          </button>
         </div>
 
         <div id="win-detail" class="win-detail hidden">
           <div class="step-block">
-            <div class="step-label">2 · 胡型与番数</div>
+            <div class="step-label">胡型与番数</div>
             <div class="fan-summary">
               <span id="fan-summary-text">平胡（默认）</span>
               <strong id="fan-total">1 番</strong>
@@ -1411,7 +1657,7 @@ button:disabled {
           </div>
 
           <div class="step-block">
-            <div class="step-label">3 · 出法</div>
+            <div class="step-label">出法</div>
             <div class="seg-control full" id="pay-mode" role="radiogroup">
               <button type="button" class="seg active" data-mode="self">自摸</button>
               <button type="button" class="seg" data-mode="deal">点炮</button>
@@ -1426,15 +1672,15 @@ button:disabled {
 
         <div class="preview-box" id="preview-box">
           <div class="preview-title">本笔预估</div>
-          <div class="preview-lines" id="preview-lines">先选还在打的人胡了</div>
+          <div class="preview-lines" id="preview-lines">选人后可直接确认</div>
         </div>
       </div>
       <footer class="sheet-footer">
-        <button type="button" id="btn-save-hand" class="btn-primary" disabled>记下这一笔</button>
+        <button type="button" id="btn-save-hand" class="btn-primary" disabled>先选谁胡了</button>
       </footer>
     </section>
 
-    <!-- ========== 开局设置：定缺 / 换三张 ========== -->
+    <!-- ========== 开局设置 ========== -->
     <div id="meta-overlay" class="overlay hidden" hidden></div>
     <section id="sheet-meta" class="sheet hidden" hidden aria-modal="true" role="dialog" aria-label="开局设置">
       <div class="sheet-handle" aria-hidden="true"></div>
@@ -1444,7 +1690,7 @@ button:disabled {
       </header>
       <div class="sheet-body">
         <div class="step-block">
-          <div class="step-label">换三张 <span class="step-note">仅标记，不影响算分</span></div>
+          <div class="step-label">换三张 <span class="step-note">仅标记</span></div>
           <div class="seg-control full" id="huan-mode">
             <button type="button" class="seg active" data-huan="0">无</button>
             <button type="button" class="seg" data-huan="1">换三张</button>
@@ -1453,7 +1699,16 @@ button:disabled {
         <div class="step-block">
           <div class="step-label">定缺（缺一门）</div>
           <div id="que-list" class="que-list"></div>
-          <p class="field-hint">花猪在结束时按「花猪/未听」查叫处理；这里只做标记方便对账。</p>
+          <p class="field-hint">只做标记，方便对账；花猪在结束时按查叫处理。</p>
+        </div>
+        <div class="step-block">
+          <div class="step-label">本局封顶</div>
+          <div class="seg-control" id="meta-cap-control" role="radiogroup">
+            <button type="button" class="seg" data-cap="0">不封顶</button>
+            <button type="button" class="seg" data-cap="8">8</button>
+            <button type="button" class="seg" data-cap="16">16</button>
+            <button type="button" class="seg" data-cap="32">32</button>
+          </div>
         </div>
       </div>
       <footer class="sheet-footer">
@@ -1491,14 +1746,14 @@ button:disabled {
           <div class="preview-title">杠结算预估</div>
           <div class="preview-lines" id="gang-preview">先选人</div>
         </div>
-        <p class="field-hint">明杠：点杠者付 1 份；暗杠：在场每人付 2 份；巴杠：在场每人付 1 份。份 = 底分（不受番数封顶影响，可按封顶限制单份）。</p>
+        <p class="field-hint">明杠：点杠者付 1 份；暗杠：在场每人付 2 份；巴杠：在场每人付 1 份。</p>
       </div>
       <footer class="sheet-footer">
         <button type="button" id="btn-gang-save" class="btn-primary" disabled>记下这杠</button>
       </footer>
     </section>
 
-    <!-- ========== 结束本局 / 查大叫 ========== -->
+    <!-- ========== 结束本局 ========== -->
     <div id="end-overlay" class="overlay hidden" hidden></div>
     <section id="sheet-end" class="sheet sheet-tall hidden" hidden aria-modal="true" role="dialog" aria-label="结束本局">
       <div class="sheet-handle" aria-hidden="true"></div>
@@ -1511,7 +1766,7 @@ button:disabled {
           <p>已胡离场：<strong id="end-winner-names"></strong></p>
           <p>未胡仍在场：<strong id="end-last-name"></strong></p>
         </div>
-        <div class="step-label">查大叫 · 可按人设置</div>
+        <div class="step-label">查大叫 · 按人设置</div>
         <div class="stepper-row">
           <span class="root-label">查叫番数</span>
           <div class="stepper">
@@ -1536,21 +1791,23 @@ button:disabled {
     <section id="sheet-history" class="sheet sheet-tall hidden" hidden aria-modal="true" role="dialog" aria-label="历史">
       <div class="sheet-handle" aria-hidden="true"></div>
       <header class="sheet-header">
-        <h3>牌局历史</h3>
-        <div class="header-actions">
-          <button type="button" id="btn-export" class="text-btn">复制战报</button>
-          <button type="button" class="icon-btn" data-close-history aria-label="关闭">✕</button>
-        </div>
+        <h3>历史与战报</h3>
+        <button type="button" class="icon-btn" data-close-history aria-label="关闭">✕</button>
       </header>
       <div class="sheet-body">
+        <div class="menu-section-label">数据</div>
+        <div class="data-row">
+          <button type="button" id="btn-export" class="btn-ghost">复制战报</button>
+          <button type="button" id="btn-export-png" class="btn-ghost">战报图片</button>
+        </div>
         <div class="data-row">
           <button type="button" id="btn-export-json" class="btn-ghost">导出备份</button>
           <button type="button" id="btn-import-json" class="btn-ghost">导入备份</button>
-          <button type="button" id="btn-export-png" class="btn-ghost">战报图片</button>
         </div>
         <input type="file" id="import-file" accept="application/json,.json" class="hidden" />
+        <div class="menu-section-label">记录</div>
         <div id="history-list" class="history-list"></div>
-        <p class="history-empty" id="history-empty">还没有记录</p>
+        <p class="history-empty" id="history-empty">还没有记录。第一笔胡牌或杠会出现在这里。</p>
       </div>
     </section>
 
@@ -1567,9 +1824,9 @@ button:disabled {
       </div>
     </section>
 
-    <!-- ========== 确认重置 ========== -->
+    <!-- ========== 确认 ========== -->
     <div id="confirm-overlay" class="overlay hidden" hidden></div>
-    <section id="sheet-confirm" class="sheet hidden" hidden aria-modal="true" role="dialog" aria-label="确认重置">
+    <section id="sheet-confirm" class="sheet hidden" hidden aria-modal="true" role="dialog" aria-label="确认">
       <div class="sheet-handle" aria-hidden="true"></div>
       <header class="sheet-header">
         <h3 id="confirm-title">确认操作</h3>
@@ -1820,6 +2077,33 @@ button:disabled {
   }
 
   /* ---------- setup ---------- */
+  function goSetupStep(n) {
+    const s = n === 2 ? 2 : 1;
+    $("#setup-step-1").classList.toggle("hidden", s !== 1);
+    $("#setup-step-2").classList.toggle("hidden", s !== 2);
+    $$("#setup-steps .step-dot").forEach((el) => {
+      el.classList.toggle("active", parseInt(el.dataset.step, 10) <= s);
+    });
+    if (s === 1) {
+      const first = $("#name-0");
+      if (first) setTimeout(() => first.focus(), 50);
+    }
+  }
+
+  function collectNames() {
+    const names = [0, 1, 2, 3].map((i) => {
+      const input = $("#name-" + i);
+      return (input.value || "").trim() || input.placeholder || "玩家" + (i + 1);
+    });
+    const seen = {};
+    state.players = names.map((n, i) => {
+      let name = n;
+      if (seen[name]) name = n + "·" + SEATS[i];
+      seen[name] = 1;
+      return { name: name, seat: SEATS[i] };
+    });
+  }
+
   function bindSetup() {
     $$("#base-control .seg").forEach((btn) => {
       btn.addEventListener("click", () => {
@@ -1834,7 +2118,9 @@ button:disabled {
         btn.classList.add("active");
         state.rule = btn.dataset.rule;
         $("#rule-hint").textContent =
-          state.rule === "pow" ? "1番=底分×2，2番=底分×4" : "分数 = 底分 × 番数";
+          state.rule === "pow"
+            ? "1 番 = 底分×2，2 番 = 底分×4，越爽越快"
+            : "分数 = 底分 × 番数，节奏更平缓";
       });
     });
     $$("#cap-control .seg").forEach((btn) => {
@@ -1853,32 +2139,31 @@ button:disabled {
       });
     });
 
+    $("#btn-step-next").addEventListener("click", () => {
+      collectNames();
+      goSetupStep(2);
+    });
+    $("#btn-step-back").addEventListener("click", () => goSetupStep(1));
     $("#btn-start").addEventListener("click", () => {
-      const names = [0, 1, 2, 3].map((i) => {
-        const input = $("#name-" + i);
-        return (input.value || "").trim() || input.placeholder || "玩家" + (i + 1);
-      });
-      const seen = {};
-      state.players = names.map((n, i) => {
-        let name = n;
-        if (seen[name]) name = n + "·" + SEATS[i];
-        seen[name] = 1;
-        return { name: name, seat: SEATS[i] };
-      });
+      collectNames();
       save();
       showBoard();
+      toast("牌桌已就绪，点「记一笔胡牌」");
     });
 
     $("#btn-restore").addEventListener("click", () => {
       showBoard();
       toast("已恢复上次牌局");
     });
+
+    goSetupStep(1);
   }
 
   function showSetup(hasSaved) {
     $("#screen-setup").classList.add("active");
     $("#screen-board").classList.remove("active");
     $("#btn-restore").classList.toggle("hidden", !hasSaved);
+    goSetupStep(1);
   }
 
   function showBoard() {
@@ -2000,7 +2285,7 @@ button:disabled {
     if (!state.hand.active) {
       rec.classList.remove("hidden");
       end.classList.add("hidden");
-      rec.textContent = "开一局 · 有人胡了";
+      rec.textContent = "记一笔胡牌";
       rec.disabled = false;
       if (row) row.classList.remove("is-split");
       return;
@@ -2014,10 +2299,18 @@ button:disabled {
       end.textContent = "结束本局";
       end.classList.add("is-emphasis");
     } else {
-      rec.textContent = "有人胡了";
+      rec.textContent = "记一笔胡牌";
       rec.disabled = false;
       end.textContent = "结束本局";
       end.classList.remove("is-emphasis");
+    }
+    const undo = $("#mi-undo");
+    const undoDesc = $("#mi-undo-desc");
+    if (undo) undo.disabled = !state.rounds.length;
+    if (undoDesc) {
+      undoDesc.textContent = state.rounds.length
+        ? (state.rounds[state.rounds.length - 1].summary || "").slice(0, 28)
+        : "还没有记录";
     }
   }
 
@@ -2025,7 +2318,7 @@ button:disabled {
     const el = $("#recent-text");
     const more = $("#recent-more");
     if (!state.rounds.length) {
-      el.textContent = "还没记分，点下面开始";
+      el.textContent = "打完第一笔胡牌后，这里会显示结算";
       if (more) more.hidden = true;
       return;
     }
@@ -2050,7 +2343,7 @@ button:disabled {
   }
 
   function closeSheets() {
-    ["sheet-record", "sheet-history", "sheet-rules", "sheet-end", "sheet-meta", "sheet-gang", "sheet-confirm"].forEach(
+    ["sheet-record", "sheet-history", "sheet-rules", "sheet-end", "sheet-meta", "sheet-gang", "sheet-confirm", "sheet-more"].forEach(
       (id) => {
         const el = $("#" + id);
         if (el) {
@@ -2059,7 +2352,7 @@ button:disabled {
         }
       }
     );
-    ["sheet-overlay", "history-overlay", "rules-overlay", "end-overlay", "meta-overlay", "gang-overlay", "confirm-overlay"].forEach(
+    ["sheet-overlay", "history-overlay", "rules-overlay", "end-overlay", "meta-overlay", "gang-overlay", "confirm-overlay", "more-overlay"].forEach(
       (id) => {
         const el = $("#" + id);
         if (el) {
@@ -2244,15 +2537,13 @@ button:disabled {
     const hasWin = d.winners.length > 0;
     const showDetail = hasWin && d.showDetail;
     $("#win-detail").classList.toggle("hidden", !showDetail);
-    $("#quick-bar").classList.toggle("hidden", !hasWin);
 
-    const quick = $("#btn-quick-save");
-    const canQuick =
-      hasWin && d.mode === "self" && !d.fans.length && !d.root && d.winners.length === 1;
-    quick.disabled = !canQuick;
-    quick.textContent = canQuick
-      ? "快捷记 · " + pname(d.winners[0]) + " 平胡自摸"
-      : "快捷记 · 平胡自摸（需自摸且未改番）";
+    const detailBtn = $("#btn-show-detail");
+    if (detailBtn) {
+      detailBtn.setAttribute("aria-expanded", showDetail ? "true" : "false");
+      detailBtn.textContent = showDetail ? "收起详细设置 ▲" : "改番型 / 点炮 / 杠上花 ▾";
+      detailBtn.classList.toggle("open", showDetail);
+    }
 
     $$("#fan-grid .fan-item").forEach((el) => {
       const id = el.dataset.id;
@@ -2277,7 +2568,7 @@ button:disabled {
     if (note) {
       if (!state.hand.active) note.textContent = "第一笔记下后本局开始";
       else if (d.mode === "deal") note.textContent = "可多选（一炮多响）";
-      else note.textContent = "自摸/杠上花一次只能一家";
+      else note.textContent = "点人即默认平胡自摸";
     }
 
     const prog = $("#hand-progress");
@@ -2295,7 +2586,27 @@ button:disabled {
 
     const result = computeHand(d);
     $("#preview-lines").innerHTML = result.lines;
-    $("#btn-save-hand").disabled = !result.valid;
+
+    // 单一 CTA：底部按钮随状态变成完整确认
+    const saveBtn = $("#btn-save-hand");
+    if (!hasWin) {
+      saveBtn.disabled = true;
+      saveBtn.textContent = "先选谁胡了";
+    } else if (!result.valid) {
+      saveBtn.disabled = true;
+      saveBtn.textContent = result.lines.indexOf("放炮") >= 0 ? "选放炮的人" : "无法确认";
+    } else {
+      const modeName = d.mode === "self" ? "自摸" : d.mode === "gang" ? "杠上花" : "点炮";
+      const wName = d.winners.map(pname).join("、");
+      if (d.mode === "deal") {
+        saveBtn.disabled = false;
+        saveBtn.textContent = "记下：" + wName + " 点炮 " + fan + "番 · 付 " + result.amount;
+      } else {
+        saveBtn.disabled = false;
+        saveBtn.textContent =
+          "记下：" + wName + " " + modeName + " · 每家 " + result.amount;
+      }
+    }
   }
 
   function computeHand(d) {
@@ -2425,6 +2736,9 @@ button:disabled {
     list.innerHTML = "";
     $$("#huan-mode .seg").forEach((b) => {
       b.classList.toggle("active", (b.dataset.huan === "1") === !!state.hand.huan);
+    });
+    $$("#meta-cap-control .seg").forEach((b) => {
+      b.classList.toggle("active", parseInt(b.dataset.cap, 10) === (state.hand.cap || state.defaultCap));
     });
     [0, 1, 2, 3].forEach((i) => {
       const row = document.createElement("div");
@@ -2945,8 +3259,8 @@ button:disabled {
     $("#rules-content").innerHTML =
       "<h4>血战到底</h4>" +
       "<p>有人胡了就离场继续打；已胡的人<strong>不再付分</strong>。可随时点「结束本局」（剩 1～3 家没胡都行），三家胡完会提示收尾。</p>" +
-      "<h4>快捷记</h4>" +
-      "<p>选人后可一键「平胡·自摸」。要改番型/点炮/杠上花，点「改番型」展开。</p>" +
+      "<h4>快速记一笔</h4>" +
+      "<p>打开记牌后点人，底部按钮会变成「记下：某某 自摸 · 每家 x」，一键确认。要改番型或点炮，点「改番型」展开。</p>" +
       "<h4>封顶</h4>" +
       "<p>单份最高分。本局第一笔记下后锁定。杠结算同样受封顶限制。</p>" +
       "<h4>支付</h4>" +
@@ -2965,16 +3279,50 @@ button:disabled {
   function bindBoard() {
     $("#btn-record").addEventListener("click", openRecord);
     $("#btn-end-hand").addEventListener("click", openEndHand);
-    $("#btn-gang").addEventListener("click", openGang);
-    $("#btn-open-meta").addEventListener("click", openMeta);
-    $("#btn-history").addEventListener("click", () => {
+
+    $("#btn-more").addEventListener("click", () => {
+      updateActionButtons();
+      openSheet("sheet-more", "more-overlay");
+    });
+    $("#mi-gang").addEventListener("click", () => {
+      closeSheets();
+      openGang();
+    });
+    $("#mi-meta").addEventListener("click", () => {
+      closeSheets();
+      openMeta();
+    });
+    $("#mi-history").addEventListener("click", () => {
+      closeSheets();
       renderHistory();
       openSheet("sheet-history", "history-overlay");
     });
-    $("#btn-settings").addEventListener("click", () => {
+    $("#mi-rules").addEventListener("click", () => {
+      closeSheets();
       renderRules();
       openSheet("sheet-rules", "rules-overlay");
     });
+    $("#mi-undo").addEventListener("click", () => {
+      if (!state.rounds.length) return;
+      closeSheets();
+      const r = state.rounds.pop();
+      if (r && r.handBefore) restoreHand(r.handBefore);
+      save();
+      renderBoard();
+      toast("已撤销：" + (r && r.summary ? r.summary.slice(0, 28) : "上一笔"));
+    });
+    $("#mi-reset").addEventListener("click", () => {
+      closeSheets();
+      confirmDialog("重置全部分数？", "将清空所有分数、杠和历史。玩家名字与默认规则会保留。", () => {
+        state.rounds = [];
+        state.hand = emptyHand(1);
+        state.hand.cap = state.defaultCap;
+        save();
+        renderBoard();
+        toast("已重置");
+      });
+    });
+
     $("#btn-export").addEventListener("click", exportReport);
     $("#btn-export-json").addEventListener("click", exportJson);
     $("#btn-export-png").addEventListener("click", exportPng);
@@ -2992,38 +3340,21 @@ button:disabled {
       }
     });
 
-    $("#btn-undo").addEventListener("click", () => {
-      if (!state.rounds.length) return;
-      const r = state.rounds.pop();
-      if (r && r.handBefore) restoreHand(r.handBefore);
-      save();
-      renderBoard();
-      toast("已撤销：" + (r && r.summary ? r.summary.slice(0, 28) : "上一笔"));
-    });
-
-    $("#btn-reset").addEventListener("click", () => {
-      confirmDialog("重置全部分数？", "将清空所有分数、杠和历史。玩家名字与默认规则会保留。", () => {
-        state.rounds = [];
-        state.hand = emptyHand(1);
-        state.hand.cap = state.defaultCap;
-        save();
-        renderBoard();
-        toast("已重置");
-      });
-    });
-
     $("#btn-confirm-cancel").addEventListener("click", closeSheets);
 
-    $$("#hand-cap-control .seg").forEach((btn) => {
+    $$("#hand-cap-control .seg, #meta-cap-control .seg").forEach((btn) => {
       btn.addEventListener("click", () => {
-        if (state.hand.active) return;
-        $$("#hand-cap-control .seg").forEach((b) => b.classList.remove("active"));
+        const group = btn.closest(".seg-control");
+        $$(".seg", group).forEach((b) => b.classList.remove("active"));
         btn.classList.add("active");
         state.hand.cap = parseInt(btn.dataset.cap, 10) || 0;
-        state.defaultCap = state.hand.cap;
-        $$("#cap-control .seg").forEach((b) => {
-          b.classList.toggle("active", parseInt(b.dataset.cap, 10) === state.defaultCap);
-        });
+        if (group.id === "hand-cap-control") {
+          state.defaultCap = state.hand.cap;
+          $$("#cap-control .seg").forEach((b) => {
+            b.classList.toggle("active", parseInt(b.dataset.cap, 10) === state.defaultCap);
+          });
+        }
+        syncCapUI();
         syncRecordUI();
         renderHandBanner();
         save();
@@ -3055,14 +3386,11 @@ button:disabled {
       syncRecordUI();
     });
 
-    $("#btn-quick-save").addEventListener("click", () => {
-      state.draft.mode = "self";
-      state.draft.fans = [];
-      state.draft.root = 0;
-      state.draft.showDetail = false;
-      saveHand({ quick: true });
-    });
     $("#btn-show-detail").addEventListener("click", () => {
+      if (!state.draft || !state.draft.winners.length) {
+        toast("先选谁胡了");
+        return;
+      }
       state.draft.showDetail = !state.draft.showDetail;
       syncRecordUI();
     });
@@ -3104,10 +3432,10 @@ button:disabled {
     });
     $("#btn-end-confirm").addEventListener("click", endHand);
 
-    $$(
-      "[data-close-sheet],[data-close-history],[data-close-rules],[data-close-end],[data-close-meta],[data-close-gang]"
-    ).forEach((b) => b.addEventListener("click", closeSheets));
-    ["sheet-overlay", "history-overlay", "rules-overlay", "end-overlay", "meta-overlay", "gang-overlay"].forEach((id) => {
+    $$("[data-close-sheet],[data-close-history],[data-close-rules],[data-close-end],[data-close-meta],[data-close-gang],[data-close-more]").forEach(
+      (b) => b.addEventListener("click", closeSheets)
+    );
+    ["sheet-overlay", "history-overlay", "rules-overlay", "end-overlay", "meta-overlay", "gang-overlay", "more-overlay"].forEach((id) => {
       const el = $("#" + id);
       if (el) el.addEventListener("click", closeSheets);
     });
@@ -3136,11 +3464,12 @@ button:disabled {
         b.classList.toggle("active", parseInt(b.dataset.fan, 10) === state.checkFan);
       });
       $("#btn-restore").classList.remove("hidden");
+      goSetupStep(1);
     }
 
     showSetup(hasSaved);
     if (hasSaved && state.rounds.length) {
-      toast("发现上次牌局：第 " + state.hand.no + " 局，可点「恢复上次牌局」");
+      toast("发现上次牌局：第 " + state.hand.no + " 局，可点「继续上次牌局」");
     }
   }
 
